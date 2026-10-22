@@ -421,6 +421,21 @@ html[dir="ltr"] .foot-col a:hover{transform:translateX(4px)}
 
 /* ---------- immersive layer ---------- */
 
+
+/* background music toggle */
+.music{position:fixed;z-index:65;bottom:calc(18px + env(safe-area-inset-bottom,0px));inset-inline-end:max(18px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 14px;border-radius:999px;border:1px solid color-mix(in srgb,var(--g1) 45%,var(--line));background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--text);cursor:pointer;font-size:.85rem;font-weight:600;box-shadow:0 14px 34px -14px color-mix(in srgb,var(--g1) 60%,transparent);transition:transform .25s,border-color .25s,opacity .3s}
+.music:hover{transform:translateY(-2px);border-color:var(--g1)}
+.music .eq{display:flex;align-items:flex-end;gap:3px;height:18px;width:22px}
+.music .eq i{display:block;width:4px;border-radius:2px;background:linear-gradient(var(--g1),var(--g2));height:4px;transition:height .2s}
+.music.on .eq i{animation:eq 1s ease-in-out infinite}
+.music.on .eq i:nth-child(2){animation-delay:-.35s}.music.on .eq i:nth-child(3){animation-delay:-.7s}.music.on .eq i:nth-child(4){animation-delay:-.2s}
+@keyframes eq{0%,100%{height:4px}50%{height:18px}}
+.music .off{display:none;width:20px;height:20px}
+.music.muted .eq{display:none}.music.muted .off{display:block}
+.music .lbl{white-space:nowrap}
+.music.hint{animation:mhint 2.2s ease-in-out infinite}
+@keyframes mhint{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--g1) 55%,transparent)}50%{box-shadow:0 0 0 10px transparent}}
+@media(max-width:600px){.music .lbl{display:none}.music{width:48px;padding:0;justify-content:center}}
 /* hero background photo */
 .hero-bg{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .hero.has-bg .hero-bg{display:block}
@@ -719,6 +734,11 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
 </div>
 <div class="toast" id="toast" hidden></div>
 <div class="progress" id="progress" aria-hidden="true"></div>
+<button class="music muted" id="musicBtn" type="button" hidden aria-label="تشغيل الموسيقى" aria-pressed="false">
+  <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+  <svg class="off" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M11 5L6 9H3v6h3l5 4z"/><path d="M22 9l-6 6M16 9l6 6"/></svg>
+  <span class="lbl">تشغيل الموسيقى</span>
+</button>
 <div class="cursor-glow" aria-hidden="true"></div><div class="cursor-ring" aria-hidden="true"></div>
 
 <script>
@@ -793,6 +813,34 @@ const catName=id=>{const c=CATS.find(c=>c.id===id);return T(c.ar,c.en)};
 const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
 
 
+
+/* ---------- background music (autoplays when the browser allows, else on first tap) ---------- */
+(function(){
+  const mu=Object.assign({src:'a/theme.mp3',enabled:true,volume:.5},CONTENT.music||{});
+  const btn=$('#musicBtn'); if(!mu.enabled||!mu.src){btn.remove();return;}
+  const au=new Audio(); au.src=mu.src; au.loop=true; au.preload='auto'; au.volume=0;
+  let want=true; try{ if(localStorage.getItem('abc-music')==='off') want=false; }catch(e){}
+  let playing=false, pausedFor=null;
+  const L=()=>({on:T('كتم الموسيقى','Mute music'),off:T('تشغيل الموسيقى','Play music')});
+  const ui=()=>{btn.classList.toggle('on',playing);btn.classList.toggle('muted',!playing);btn.setAttribute('aria-pressed',playing);const l=playing?L().on:L().off;btn.querySelector('.lbl').textContent=l;btn.setAttribute('aria-label',l);};
+  const fade=(to,ms=900)=>{const from=au.volume,t0=performance.now();const st=n=>{const k=Math.min(1,(n-t0)/ms);au.volume=Math.max(0,Math.min(1,from+(to-from)*k));if(k<1)requestAnimationFrame(st);else if(to===0)au.pause();};requestAnimationFrame(st);};
+  const start=()=>au.play().then(()=>{playing=true;btn.classList.remove('hint');fade(+mu.volume||.5);ui();return true;}).catch(()=>false);
+  const stop=()=>{playing=false;fade(0,400);ui();};
+  btn.hidden=false; ui();
+  btn.addEventListener('click',e=>{e.stopPropagation(); if(playing){stop();want=false;try{localStorage.setItem('abc-music','off')}catch(_){}} else {want=true;try{localStorage.removeItem('abc-music')}catch(_){};start();}});
+  if(want){
+    start().then(ok=>{ if(ok) return; btn.classList.add('hint');
+      const first=e=>{ if(e.target.closest&&e.target.closest('#musicBtn')) return; ['pointerdown','keydown','touchend'].forEach(t=>removeEventListener(t,first,true)); if(want&&!playing) start(); };
+      ['pointerdown','keydown','touchend'].forEach(t=>addEventListener(t,first,true));
+    });
+  }
+  // pause the song while a video with sound plays, then bring it back
+  document.addEventListener('play',e=>{const v=e.target; if(v.tagName==='VIDEO'&&!v.muted&&playing){pausedFor=v;stop();}},true);
+  const resume=e=>{ if(pausedFor&&e.target===pausedFor){pausedFor=null; if(want) start();} };
+  document.addEventListener('pause',resume,true); document.addEventListener('ended',resume,true);
+  document.addEventListener('visibilitychange',()=>{ if(document.hidden&&playing){au.pause();} else if(!document.hidden&&playing){au.play().catch(()=>{});} });
+  window.__musicUi=ui;
+})();
 /* ---------- hero background photo ---------- */
 (function(){
   const hb=CONTENT.heroBg||{src:'m/hero-bg.jpg',showReels:false}, wrap=$('#heroWrap'), img=$('#heroBg img');
@@ -933,6 +981,7 @@ function applyLang(){
   renderSvcs();
   keep.forEach(v=>{const el=document.getElementById('s'+v);if(el)el.checked=true;});
   renderGrid();buildWa();
+  if(window.__musicUi) window.__musicUi();
   document.querySelectorAll('.reel').forEach(r=>{const t=r.querySelector('.rtag');if(t)t.textContent=catName(M[+r.dataset.i].cat);});
 }
 $('#langBtn').addEventListener('click',()=>{LANG=LANG==='en'?'ar':'en';try{localStorage.setItem('abc-lang',LANG);}catch(e){}applyLang();});

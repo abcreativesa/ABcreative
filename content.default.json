@@ -799,5 +799,10 @@
  "heroBg": {
   "src": "m/hero-bg.jpg",
   "showReels": false
+ },
+ "music": {
+  "src": "a/theme.mp3",
+  "enabled": true,
+  "volume": 0.5
  }
 }

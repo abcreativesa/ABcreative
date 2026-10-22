@@ -221,6 +221,14 @@ html[dir=ltr] .sw-t input:checked+span::after{transform:translateX(20px)}
     <!-- LOOK -->
     <section data-panel="look" hidden>
       <div class="sec-h"><div><h2>الألوان والحركة</h2><p>اختر ثيم جاهز أو ألوانك الخاصة، وتحكّم في الحركة والأنيميشن. اضغط "حفظ ونشر" عشان تطلع في الموقع.</p></div><a class="btn sm" href="/" target="_blank" rel="noopener">معاينة الموقع ↗</a></div>
+      <h3 style="margin:0 0 6px">موسيقى الموقع</h3>
+      <p style="color:var(--muted);margin:0 0 12px;font-size:.88rem">تشتغل أول ما يفتح الزائر الموقع (أو مع أول ضغطة لو المتصفح منع التشغيل التلقائي)، ويقدر يكتمها من الزر اللي تحت.</p>
+      <div class="card" style="margin-bottom:26px">
+        <div class="mrow" style="padding-top:0"><div><b>تشغيل الموسيقى</b><small id="muName">—</small></div><label class="sw-t"><input type="checkbox" id="muOn" aria-label="تشغيل الموسيقى"><span></span></label></div>
+        <div class="mrow"><div><b>مستوى الصوت: <span class="ltr" id="muVolV" style="display:inline-block">50%</span></b><small>مستوى الصوت الافتراضي للزوار</small></div><input type="range" id="muVol" min="0.05" max="1" step="0.05" aria-label="مستوى الصوت"></div>
+        <div class="mrow"><div><b>تغيير الأغنية</b><small>MP3 بحد أقصى ٢٥ ميجا</small></div><span style="display:flex;gap:8px;align-items:center"><button class="btn sm" type="button" id="muPlay">▶ استماع</button><label class="btn sm primary" for="muFile" style="cursor:pointer">رفع أغنية</label><input type="file" id="muFile" accept="audio/*" hidden></span></div>
+        <div id="muProg" class="status" hidden></div>
+      </div>
       <h3 style="margin:0 0 6px">صورة خلفية البداية</h3>
       <p style="color:var(--muted);margin:0 0 12px;font-size:.88rem">اختر صورة من أعمالك تطلع خلف العنوان في أول الموقع. لصورة جديدة: ارفعها من تبويب "الأعمال" وبعدين اخترها هنا.</p>
       <div class="card" style="margin-bottom:26px">
@@ -312,7 +320,7 @@ function toast(t,bad){const el=$('#toast');el.textContent=t;el.className='toast'
 const dirty=()=>JSON.stringify(C)!==saved;
 function mark(){const d=dirty();$('#savebar').classList.toggle('show',d);const st=$('#status');st.classList.toggle('dirty',d);st.textContent=d?'تعديلات غير محفوظة':'محفوظ';}
 addEventListener('beforeunload',e=>{if(C&&dirty()){e.preventDefault();e.returnValue='';}});
-const mediaIds=c=>new Set((c.works||[]).flatMap(w=>[w.src,w.poster]).filter(u=>u&&u.startsWith('/media/')).map(u=>u.slice(7)));
+const mediaIds=c=>new Set([...(c.works||[]).flatMap(w=>[w.src,w.poster]),c.music&&c.music.src,c.heroBg&&c.heroBg.src].filter(u=>u&&u.startsWith('/media/')).map(u=>u.slice(7)));
 
 /* ---------- auth ---------- */
 async function boot(){
@@ -567,6 +575,8 @@ const PRESETS=[
 const CL=[['g1','اللون الأول (الأساسي)'],['g2','اللون الثاني'],['g3','اللون الثالث'],['g4','اللون الرابع'],['accent','لون الأزرار'],['bg','الخلفية'],['bg2','خلفية ثانوية'],['panel','خلفية الكروت'],['secAlt','خلفية الأقسام البديلة'],['line','الخطوط والحدود']];
 const theme=()=>Object.assign({},PRESETS[0].t,C.theme||{});
 function renderLook(){
+  const mu=Object.assign({src:'a/theme.mp3',enabled:true,volume:.5,name:'الأغنية الحالية'},C.music||{});
+  $('#muOn').checked=!!mu.enabled; $('#muVol').value=mu.volume; $('#muVolV').textContent=Math.round(mu.volume*100)+'%'; $('#muName').textContent=mu.name||mu.src;
   const hb=C.heroBg||{}; $('#hbReels').checked=hb.showReels!==false&&!!hb.src?true:hb.showReels!==false;
   if(hb.src) $('#hbReels').checked=hb.showReels!==false;
   const imgs=C.works.filter(w=>w.type==='image'&&w.src);
@@ -586,6 +596,16 @@ function renderLook(){
     tog('tilt','ميلان الكروت','كروت الخدمات والقطاعات تميل مع الماوس')+
     tog('cursor','دائرة المؤشر','دائرة وإضاءة تلحق الماوس');
 }
+const muSet=o=>{C.music=Object.assign({src:'a/theme.mp3',enabled:true,volume:.5},C.music||{},o);mark();};
+$('#muOn').addEventListener('change',e=>muSet({enabled:e.target.checked}));
+$('#muVol').addEventListener('input',e=>{muSet({volume:+e.target.value});$('#muVolV').textContent=Math.round(e.target.value*100)+'%';if(window.__pv)window.__pv.volume=+e.target.value;});
+$('#muPlay').addEventListener('click',e=>{const mu=Object.assign({src:'a/theme.mp3',volume:.5},C.music||{});if(window.__pv&&!window.__pv.paused){window.__pv.pause();e.target.textContent='▶ استماع';return;}
+  window.__pv=new Audio(abs(mu.src));window.__pv.volume=mu.volume;window.__pv.play().then(()=>e.target.textContent='■ إيقاف').catch(()=>toast('ما قدرت أشغّل الملف',true));});
+$('#muFile').addEventListener('change',async e=>{const f=e.target.files[0];e.target.value='';if(!f)return;
+  if(f.size>MAX){toast('الملف أكبر من ٢٥ ميجا',true);return;}
+  const pr=$('#muProg');pr.hidden=false;pr.textContent='جاري الرفع… 0%';
+  try{const r=await put(f,f.name,p=>pr.textContent='جاري الرفع… '+Math.round(p*100)+'%');muSet({src:r.url,name:f.name,enabled:true});renderLook();pr.textContent='تم الرفع ✓ اضغط "حفظ ونشر"';}
+  catch(err){pr.textContent='فشل الرفع';}});
 $('#hbGrid').addEventListener('click',e=>{const b=e.target.closest('.hb');if(!b)return;C.heroBg=Object.assign({},C.heroBg,{src:b.dataset.src});$$('#hbGrid .hb').forEach(x=>x.setAttribute('aria-pressed',x===b));mark();});
 $('#hbReels').addEventListener('change',e=>{C.heroBg=Object.assign({},C.heroBg,{showReels:e.target.checked});mark();});
 $('#presets').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;C.theme=Object.assign({},PRESETS[+b.dataset.p].t);renderLook();mark();});

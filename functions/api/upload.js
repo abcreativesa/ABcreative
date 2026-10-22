@@ -1,7 +1,7 @@
 import { json, isAdmin, sameOrigin } from '../_lib/auth.js';
 // Admin uploads one file (image or video, max 25 MB — the KV value limit). Stored in KV under media:<id>.
 const MAX = 25 * 1024 * 1024;
-const OK = /^(image\/(jpeg|png|webp|gif|avif|svg\+xml)|video\/(mp4|webm|quicktime))$/;
+const OK = /^(image\/(jpeg|png|webp|gif|avif|svg\+xml)|video\/(mp4|webm|quicktime)|audio\/(mpeg|mp3|mp4|aac|wav|x-wav|ogg|x-m4a))$/;
 export async function onRequestPost({ request, env }) {
   if (!(await isAdmin(request, env)) || !sameOrigin(request)) return json({ error: 'unauthorized' }, 401);
   if (!env.CONTENT) return json({ error: 'storage_missing' }, 503);
