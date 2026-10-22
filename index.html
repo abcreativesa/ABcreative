@@ -432,6 +432,18 @@ html[dir="ltr"] .foot-col a:hover{transform:translateX(4px)}
 
 
 /* background music toggle */
+.gate{position:fixed;inset:0;z-index:300;display:grid;place-items:center;background:radial-gradient(900px 600px at 50% 40%,#10224a,#070c18 70%);transition:opacity .7s,visibility .7s}
+.gate.out{opacity:0;visibility:hidden}
+html.gated,html.gated body{overflow:hidden}
+.gate-in{display:flex;flex-direction:column;align-items:center;gap:22px;padding:24px;text-align:center}
+.gate-in img{width:120px;height:auto;animation:gpulse 2.4s ease-in-out infinite}
+@keyframes gpulse{50%{transform:scale(1.06);filter:drop-shadow(0 0 24px #3b9bff)}}
+.gate-btn{display:inline-flex;align-items:center;gap:12px;height:56px;padding:0 30px;border-radius:999px;border:0;cursor:pointer;font-weight:600;font-size:1.05rem;color:#fff;background:linear-gradient(100deg,#0071b5,#3b9bff 50%,#a78bfa);box-shadow:0 18px 40px -16px #3b9bff}
+.gate-btn .eq{display:inline-flex;align-items:flex-end;gap:3px;height:16px}
+.gate-btn .eq i{width:3px;background:#fff;border-radius:2px;animation:eq 1s ease-in-out infinite}
+.gate-btn .eq i:nth-child(2){animation-delay:.2s}.gate-btn .eq i:nth-child(3){animation-delay:.4s}
+@keyframes eq{0%,100%{height:4px}50%{height:16px}}
+.gate-skip{background:none;border:0;color:#8e9bb4;font-size:.85rem;cursor:pointer;text-decoration:underline;text-underline-offset:4px}
 .music{position:fixed;z-index:65;bottom:calc(18px + env(safe-area-inset-bottom,0px));inset-inline-end:max(18px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:10px;height:48px;padding:0 16px 0 14px;border-radius:999px;border:1px solid color-mix(in srgb,var(--g1) 45%,var(--line));background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:var(--text);cursor:pointer;font-size:.85rem;font-weight:600;box-shadow:0 14px 34px -14px color-mix(in srgb,var(--g1) 60%,transparent);transition:transform .25s,border-color .25s,opacity .3s}
 .music:hover{transform:translateY(-2px);border-color:var(--g1)}
 .music .eq{display:flex;align-items:flex-end;gap:3px;height:18px;width:22px}
@@ -840,6 +852,13 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
   btn.addEventListener('click',e=>{e.stopPropagation(); if(playing){stop();want=false;try{localStorage.setItem('abc-music','off')}catch(_){}} else {want=true;try{localStorage.removeItem('abc-music')}catch(_){};start();}});
   if(want){
     start().then(ok=>{ if(ok) return; btn.classList.add('hint');
+      // browser blocked sound: show a one-tap welcome screen so the song starts the moment they enter
+      const g=document.createElement('div'); g.className='gate'; g.setAttribute('role','dialog'); g.setAttribute('aria-label','AB Creative');
+      g.innerHTML=`<div class="gate-in"><img class="logo-img" src="m/mark.png" alt="AB Creative" width="120" height="84"><button type="button" class="gate-btn"><span class="eq"><i></i><i></i><i></i></span>${T('ادخل الموقع','Enter site')}</button><button type="button" class="gate-skip">${T('دخول بدون صوت','Enter without sound')}</button></div>`;
+      document.body.appendChild(g); document.documentElement.classList.add('gated');
+      const close=()=>{g.classList.add('out');document.documentElement.classList.remove('gated');setTimeout(()=>g.remove(),700);};
+      g.querySelector('.gate-btn').addEventListener('click',e=>{e.stopPropagation();start();close();});
+      g.querySelector('.gate-skip').addEventListener('click',e=>{e.stopPropagation();close();});
       const first=e=>{ if(e.target.closest&&e.target.closest('#musicBtn')) return; ['pointerdown','keydown','touchend'].forEach(t=>removeEventListener(t,first,true)); if(want&&!playing) start(); };
       ['pointerdown','keydown','touchend'].forEach(t=>addEventListener(t,first,true));
     });
