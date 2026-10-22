@@ -420,6 +420,23 @@ html[dir="ltr"] .foot-col a:hover{transform:translateX(4px)}
 
 
 /* ---------- immersive layer ---------- */
+
+/* hero background photo */
+.hero-bg{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.hero.has-bg .hero-bg{display:block}
+.hero-bg img{position:absolute;top:0;bottom:0;height:100%;width:64%;inset-inline-end:0;object-fit:cover;object-position:50% 22%;max-width:none}
+.hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,transparent 0,transparent 22%,color-mix(in srgb,var(--bg) 55%,transparent) 44%,var(--bg) 64%),linear-gradient(to top,var(--bg),transparent 28%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 60%,transparent),transparent 18%)}
+html[dir="ltr"] .hero-bg::after{background:linear-gradient(to left,transparent 0,transparent 22%,color-mix(in srgb,var(--bg) 55%,transparent) 44%,var(--bg) 64%),linear-gradient(to top,var(--bg),transparent 28%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 60%,transparent),transparent 18%)}
+.hero.has-bg #hero3d{opacity:.35}
+.hero.has-bg .hero-mark,.hero.has-bg .aurora i:nth-child(1){opacity:.0}
+.hero.has-bg.no-reels .reels{display:none}
+.hero.has-bg.no-reels .hero-grid{min-height:min(780px,88vh)}
+.hero.has-bg.no-reels .hero-grid > div:first-child{max-width:600px}
+@media(max-width:900px){
+  .hero-bg img{width:100%;height:68%;object-position:50% 15%}
+  .hero-bg::after,html[dir="ltr"] .hero-bg::after{background:linear-gradient(to top,var(--bg) 34%,color-mix(in srgb,var(--bg) 70%,transparent) 52%,transparent 72%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 55%,transparent),transparent 16%)}
+  .hero.has-bg .hero-grid{padding-top:44vh;min-height:0}
+}
 #hero3d{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;opacity:.95}
 :root[data-theme="light"] #hero3d{opacity:.7}
 .hero h1 .w{display:inline-block;will-change:transform}
@@ -473,7 +490,8 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
 
 <main id="top">
 <!-- ================= HERO ================= -->
-<div class="hero">
+<div class="hero" id="heroWrap">
+  <div class="hero-bg" id="heroBg" aria-hidden="true"><img alt="" decoding="async" fetchpriority="high"></div>
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
   <canvas id="hero3d" aria-hidden="true"></canvas>
   <img class="hero-mark logo-img" src="m/mark.png" alt="" aria-hidden="true">
@@ -774,6 +792,13 @@ $('#factWorks').textContent=M.length+'';
 const catName=id=>{const c=CATS.find(c=>c.id===id);return T(c.ar,c.en)};
 const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
 
+
+/* ---------- hero background photo ---------- */
+(function(){
+  const hb=CONTENT.heroBg||{src:'m/hero-bg.jpg',showReels:false}, wrap=$('#heroWrap'), img=$('#heroBg img');
+  if(hb.src){ img.src=hb.src; wrap.classList.add('has-bg'); if(hb.showReels===false) wrap.classList.add('no-reels');
+    if(hb.position) img.style.objectPosition=hb.position; }
+})();
 /* ---------- hero reel wall ---------- */
 (function(){
   let heroList=(CONTENT.hero||[]).map(byId).filter(Boolean);

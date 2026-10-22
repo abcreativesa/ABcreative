@@ -795,5 +795,9 @@
    "color": "#f07bd8"
   }
  ],
- "texts": {}
+ "texts": {},
+ "heroBg": {
+  "src": "m/hero-bg.jpg",
+  "showReels": false
+ }
 }

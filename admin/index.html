@@ -157,6 +157,11 @@ input[type=color].in{padding:4px;height:44px}
 html[dir=ltr] .sw-t input:checked+span::after{transform:translateX(20px)}
 .sw-t input:focus-visible+span{outline:2px solid var(--blue);outline-offset:2px}
 .mrow input[type=range]{width:180px;accent-color:var(--blue)}
+.hbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:14px;max-height:420px;overflow:auto}
+.hb{position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;border:2px solid var(--line);cursor:pointer;background:var(--bg2);padding:0;display:grid;place-items:center;color:var(--muted);font-size:.85rem}
+.hb img{width:100%;height:100%;object-fit:cover}
+.hb[aria-pressed="true"]{border-color:var(--blue);box-shadow:0 0 0 3px color-mix(in srgb,var(--blue) 30%,transparent)}
+.hb[aria-pressed="true"]::after{content:"✓";position:absolute;top:6px;inset-inline-end:6px;width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700}
 /* save bar */
 .savebar{position:fixed;inset:auto 0 0 0;z-index:30;background:color-mix(in srgb,var(--panel) 92%,transparent);backdrop-filter:blur(12px);border-top:1px solid var(--line);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap;transform:translateY(110%);transition:transform .3s}
 .savebar.show{transform:none}
@@ -216,6 +221,12 @@ html[dir=ltr] .sw-t input:checked+span::after{transform:translateX(20px)}
     <!-- LOOK -->
     <section data-panel="look" hidden>
       <div class="sec-h"><div><h2>الألوان والحركة</h2><p>اختر ثيم جاهز أو ألوانك الخاصة، وتحكّم في الحركة والأنيميشن. اضغط "حفظ ونشر" عشان تطلع في الموقع.</p></div><a class="btn sm" href="/" target="_blank" rel="noopener">معاينة الموقع ↗</a></div>
+      <h3 style="margin:0 0 6px">صورة خلفية البداية</h3>
+      <p style="color:var(--muted);margin:0 0 12px;font-size:.88rem">اختر صورة من أعمالك تطلع خلف العنوان في أول الموقع. لصورة جديدة: ارفعها من تبويب "الأعمال" وبعدين اخترها هنا.</p>
+      <div class="card" style="margin-bottom:26px">
+        <div class="mrow" style="padding-top:0"><div><b>إظهار جدار الأعمال المتحرك مع الصورة</b><small>لو مقفول، الصورة تاخذ مساحة أكبر</small></div><label class="sw-t"><input type="checkbox" id="hbReels" aria-label="إظهار جدار الأعمال"><span></span></label></div>
+        <div class="hbgrid" id="hbGrid"></div>
+      </div>
       <h3 style="margin:0 0 12px">ثيمات جاهزة</h3>
       <div class="presets" id="presets"></div>
       <h3 style="margin:26px 0 12px">ألوان مخصصة</h3>
@@ -326,6 +337,7 @@ $('#logoutBtn').addEventListener('click',async()=>{ if(dirty()&&!window.__leaveO
 
 async function loadContent(){
   C=await (await fetch('/api/content',{cache:'no-store'})).json();
+  if(!C.heroBg) C.heroBg={src:'m/hero-bg.jpg',showReels:false};
   C.works=C.works||[];C.services=C.services||[];C.texts=C.texts||{};C.contact=C.contact||{};C.hero=C.hero||[];C.lab=C.lab||[];
   saved=JSON.stringify(C); mediaAtLoad=mediaIds(C);
   $('#lastSaved').textContent=C.updatedAt?new Date(C.updatedAt).toLocaleString('ar-SA'):'النسخة الأصلية';
@@ -555,6 +567,10 @@ const PRESETS=[
 const CL=[['g1','اللون الأول (الأساسي)'],['g2','اللون الثاني'],['g3','اللون الثالث'],['g4','اللون الرابع'],['accent','لون الأزرار'],['bg','الخلفية'],['bg2','خلفية ثانوية'],['panel','خلفية الكروت'],['secAlt','خلفية الأقسام البديلة'],['line','الخطوط والحدود']];
 const theme=()=>Object.assign({},PRESETS[0].t,C.theme||{});
 function renderLook(){
+  const hb=C.heroBg||{}; $('#hbReels').checked=hb.showReels!==false&&!!hb.src?true:hb.showReels!==false;
+  if(hb.src) $('#hbReels').checked=hb.showReels!==false;
+  const imgs=C.works.filter(w=>w.type==='image'&&w.src);
+  $('#hbGrid').innerHTML=`<button class="hb" type="button" data-src="" aria-pressed="${!hb.src}">بدون صورة</button>`+imgs.map(w=>`<button class="hb" type="button" data-src="${esc(w.src)}" aria-pressed="${hb.src===w.src}"><img src="${esc(abs(w.src))}" alt="" loading="lazy"></button>`).join('')+(hb.src&&!imgs.some(w=>w.src===hb.src)?`<button class="hb" type="button" data-src="${esc(hb.src)}" aria-pressed="true"><img src="${esc(abs(hb.src))}" alt=""></button>`:'');
   const t=theme(), cur=JSON.stringify(t);
   $('#presets').innerHTML=PRESETS.map((p,i)=>`<button class="preset" type="button" data-p="${i}" aria-pressed="${JSON.stringify(Object.assign({},PRESETS[0].t,p.t))===cur}"><span class="sw" style="background:radial-gradient(circle at 80% 20%,${p.t.g1}55,transparent 60%),${p.t.bg}">${['g1','g2','g3','g4'].map((k,j)=>`<i style="background:${p.t[k]};inset-inline-start:${10+j*22}px"></i>`).join('')}</span><b>${p.n}</b></button>`).join('');
   $('#colors').innerHTML=CL.map(([k,l])=>`<div class="c"><label class="l" for="col_${k}">${l}</label><input type="color" id="col_${k}" data-col="${k}" value="${t[k]}"></div>`).join('');
@@ -570,6 +586,8 @@ function renderLook(){
     tog('tilt','ميلان الكروت','كروت الخدمات والقطاعات تميل مع الماوس')+
     tog('cursor','دائرة المؤشر','دائرة وإضاءة تلحق الماوس');
 }
+$('#hbGrid').addEventListener('click',e=>{const b=e.target.closest('.hb');if(!b)return;C.heroBg=Object.assign({},C.heroBg,{src:b.dataset.src});$$('#hbGrid .hb').forEach(x=>x.setAttribute('aria-pressed',x===b));mark();});
+$('#hbReels').addEventListener('change',e=>{C.heroBg=Object.assign({},C.heroBg,{showReels:e.target.checked});mark();});
 $('#presets').addEventListener('click',e=>{const b=e.target.closest('[data-p]');if(!b)return;C.theme=Object.assign({},PRESETS[+b.dataset.p].t);renderLook();mark();});
 $('#colors').addEventListener('input',e=>{const k=e.target.dataset.col;if(!k)return;C.theme=Object.assign(theme(),{[k]:e.target.value});$$('#presets .preset').forEach(p=>p.setAttribute('aria-pressed','false'));mark();});
 $('#motion').addEventListener('change',e=>{const k=e.target.dataset.m;if(!k)return;C.motion=Object.assign({},C.motion,{[k]:e.target.checked});mark();});
