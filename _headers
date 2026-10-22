@@ -9,3 +9,9 @@
   Cache-Control: public, max-age=604800
 /v/*
   Cache-Control: public, max-age=604800
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/content.default.json
+  Cache-Control: no-cache
