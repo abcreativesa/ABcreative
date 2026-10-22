@@ -1,0 +1,799 @@
+{
+ "version": 1,
+ "contact": {
+  "whatsapp": "966592451829",
+  "phoneDisplay": "+966 59 245 1829",
+  "tiktok": "https://www.tiktok.com/@ab.creativesa",
+  "instagramSa": "https://www.instagram.com/abcreativesa",
+  "instagramSd": "https://www.instagram.com/ab_creative.sd",
+  "facebook": "https://www.facebook.com/share/1csv1guR4A/"
+ },
+ "works": [
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv01.mp4",
+   "poster": "v/mv01.jpg",
+   "id": "w1"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv02.mp4",
+   "poster": "v/mv02.jpg",
+   "id": "w2"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv03.mp4",
+   "poster": "v/mv03.jpg",
+   "id": "w3"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv04.mp4",
+   "poster": "v/mv04.jpg",
+   "id": "w4"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv06.mp4",
+   "poster": "v/mv06.jpg",
+   "id": "w5"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv07.mp4",
+   "poster": "v/mv07.jpg",
+   "id": "w6"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv08.mp4",
+   "poster": "v/mv08.jpg",
+   "id": "w7"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv11.mp4",
+   "poster": "v/mv11.jpg",
+   "id": "w8"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/mv12.mp4",
+   "poster": "v/mv12.jpg",
+   "id": "w9"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/blob/ce7e80f9e3c4961f8817fc98d0c2543b.mp4",
+   "id": "w10"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/072ba567fd17e96a626daa9f3e3f28a1.mp4",
+   "id": "w11"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/4ba30930429e7696b1dfc44f0b1eedc5.mp4",
+   "id": "w12"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/b75f2f5f29503e475d169cb57144918f.mp4",
+   "id": "w13"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/3706cbb2b1bfe04694cf23f9545159b7.mp4",
+   "id": "w14"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/028b8475914e84ddf1baf8784233fc99.mp4",
+   "id": "w15"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/f01582e2aa4aaf7277be803869d8a6f9.mp4",
+   "id": "w16"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/a8bb023faecb754b05c5dc8f4bf73db9.mp4",
+   "id": "w17"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/6c6b2c1f132cc9af219ad4772457745b.mp4",
+   "id": "w18"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/8253291125e87773562f9fcaf8420b79.mp4",
+   "id": "w19"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/blob/de742402fd697b1b521ca8001791f626.mp4",
+   "id": "w20"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img03.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w21"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img04.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w22"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img05.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w23"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img06.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w24"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img07.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w25"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img08.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w26"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img09.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w27"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img10.jpeg",
+   "w": 600,
+   "h": 900,
+   "id": "w28"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img11.jpeg",
+   "w": 722,
+   "h": 900,
+   "id": "w29"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img12.jpeg",
+   "w": 900,
+   "h": 874,
+   "id": "w30"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img13.jpeg",
+   "w": 781,
+   "h": 900,
+   "id": "w31"
+  },
+  {
+   "type": "image",
+   "cat": "fashion",
+   "src": "m/img14.jpeg",
+   "w": 900,
+   "h": 887,
+   "id": "w32"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img15.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w33"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img16.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w34"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img17.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w35"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img18.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w36"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img19.jpeg",
+   "w": 900,
+   "h": 600,
+   "id": "w37"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img20.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w38"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img21.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w39"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img22.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w40"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img23.jpeg",
+   "w": 720,
+   "h": 900,
+   "id": "w41"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img24.jpeg",
+   "w": 675,
+   "h": 900,
+   "id": "w42"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img25.jpeg",
+   "w": 506,
+   "h": 900,
+   "id": "w43"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img26.jpeg",
+   "w": 880,
+   "h": 900,
+   "id": "w44"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img27.jpeg",
+   "w": 675,
+   "h": 900,
+   "id": "w45"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img28.jpeg",
+   "w": 502,
+   "h": 900,
+   "id": "w46"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img29.jpeg",
+   "w": 676,
+   "h": 900,
+   "id": "w47"
+  },
+  {
+   "type": "image",
+   "cat": "food",
+   "src": "m/img30.jpeg",
+   "w": 721,
+   "h": 900,
+   "id": "w48"
+  },
+  {
+   "type": "video",
+   "cat": "food",
+   "src": "v/blob/357c7fed7601a4d671fd070d9236497c.mp4",
+   "id": "w49"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/img42.jpeg",
+   "w": 800,
+   "h": 900,
+   "id": "w50"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/img43.jpeg",
+   "w": 569,
+   "h": 900,
+   "id": "w51"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n01.mp4",
+   "poster": "v/n01.jpg",
+   "isNew": true,
+   "id": "w52"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n02.mp4",
+   "poster": "v/n02.jpg",
+   "isNew": true,
+   "id": "w53"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n03.mp4",
+   "poster": "v/n03.jpg",
+   "isNew": true,
+   "id": "w54"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n04.mp4",
+   "poster": "v/n04.jpg",
+   "isNew": true,
+   "id": "w55"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n05.mp4",
+   "poster": "v/n05.jpg",
+   "isNew": true,
+   "id": "w56"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n06.mp4",
+   "poster": "v/n06.jpg",
+   "isNew": true,
+   "id": "w57"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n07.mp4",
+   "poster": "v/n07.jpg",
+   "isNew": true,
+   "id": "w58"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
+   "src": "v/n08.mp4",
+   "poster": "v/n08.jpg",
+   "isNew": true,
+   "id": "w59"
+  },
+  {
+   "type": "video",
+   "cat": "food",
+   "src": "v/n09.mp4",
+   "poster": "v/n09.jpg",
+   "isNew": true,
+   "id": "w60"
+  },
+  {
+   "type": "video",
+   "cat": "motion",
+   "src": "v/n10.mp4",
+   "poster": "v/n10.jpg",
+   "isNew": true,
+   "id": "w61"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/g01.jpeg",
+   "w": 828,
+   "h": 1100,
+   "isNew": true,
+   "id": "w62"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/g02.jpeg",
+   "w": 1100,
+   "h": 1100,
+   "isNew": true,
+   "id": "w63"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/g03.jpeg",
+   "w": 880,
+   "h": 1100,
+   "isNew": true,
+   "id": "w64"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/g04.jpeg",
+   "w": 921,
+   "h": 1100,
+   "isNew": true,
+   "id": "w65"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/g05.jpeg",
+   "w": 886,
+   "h": 1100,
+   "isNew": true,
+   "id": "w66"
+  },
+  {
+   "type": "image",
+   "cat": "ai",
+   "src": "m/g06.jpeg",
+   "w": 880,
+   "h": 1100,
+   "isNew": true,
+   "id": "w67"
+  },
+  {
+   "type": "logo",
+   "cat": "logo",
+   "logo": "layan",
+   "isNew": true,
+   "id": "w68"
+  },
+  {
+   "type": "logo",
+   "cat": "logo",
+   "logo": "jamra",
+   "isNew": true,
+   "id": "w69"
+  },
+  {
+   "type": "logo",
+   "cat": "logo",
+   "logo": "sanad",
+   "isNew": true,
+   "id": "w70"
+  },
+  {
+   "type": "logo",
+   "cat": "logo",
+   "logo": "sahar",
+   "isNew": true,
+   "id": "w71"
+  },
+  {
+   "type": "logo",
+   "cat": "logo",
+   "logo": "bunn",
+   "isNew": true,
+   "id": "w72"
+  },
+  {
+   "type": "logo",
+   "cat": "logo",
+   "logo": "oudia",
+   "isNew": true,
+   "id": "w73"
+  }
+ ],
+ "hero": [
+  "w1",
+  "w56",
+  "w5",
+  "w42",
+  "w73",
+  "w3",
+  "w30",
+  "w6",
+  "w62",
+  "w68",
+  "w2",
+  "w53",
+  "w7",
+  "w60",
+  "w61"
+ ],
+ "lab": [
+  "w62",
+  "w6",
+  "w67"
+ ],
+ "services": [
+  {
+   "ar": "التسويق الرقمي والحملات",
+   "en": "Digital marketing & ads",
+   "label": "Performance",
+   "descAr": "حملات ممولة على ميتا وتيك توك وسناب وقوقل، باستهداف دقيق وتتبع للمبيعات وتحسين أسبوعي للعائد.",
+   "descEn": "Paid campaigns on Meta, TikTok, Snapchat and Google with precise targeting, sales tracking and weekly ROAS optimisation.",
+   "tags": [
+    [
+     "Meta",
+     "Meta"
+    ],
+    [
+     "TikTok",
+     "TikTok"
+    ],
+    [
+     "Snap",
+     "Snap"
+    ],
+    [
+     "ROAS",
+     "ROAS"
+    ]
+   ],
+   "icon": "chart",
+   "color": "#3b9bff"
+  },
+  {
+   "ar": "إدارة الصفحات",
+   "en": "Social media management",
+   "label": "Community",
+   "descAr": "خطة محتوى شهرية، جدولة ونشر، ردود على الجمهور، وتقرير أداء واضح كل شهر.",
+   "descEn": "A monthly content plan, scheduling and publishing, community replies and a clear monthly report.",
+   "tags": [
+    [
+     "خطة شهرية",
+     "Monthly plan"
+    ],
+    [
+     "تقارير",
+     "Reports"
+    ]
+   ],
+   "icon": "chat",
+   "color": "#2ed3a0"
+  },
+  {
+   "ar": "الترندات وصناعة المحتوى",
+   "en": "Trends & content creation",
+   "label": "Trends",
+   "descAr": "نرصد الترند يومياً ونحوّله لمحتوى يخدم علامتك قبل ما يبرد.",
+   "descEn": "We track trends daily and turn them into on-brand content before they cool down.",
+   "tags": [
+    [
+     "ريلز",
+     "Reels"
+    ],
+    [
+     "تيك توك",
+     "TikTok"
+    ]
+   ],
+   "icon": "fire",
+   "color": "#ff6a3d"
+  },
+  {
+   "ar": "إنتاج الفيديو والإعلانات",
+   "en": "Video & ad production",
+   "label": "Video",
+   "descAr": "إعلانات منتجات، ريلز، وفيديوهات إطلاق مونتاج وتلوين وصوت بمعايير المنصات.",
+   "descEn": "Product ads, reels and launch films: edit, colour and sound to each platform's spec.",
+   "tags": [
+    [
+     "مونتاج",
+     "Editing"
+    ],
+    [
+     "9:16",
+     "9:16"
+    ],
+    [
+     "16:9",
+     "16:9"
+    ]
+   ],
+   "icon": "film",
+   "color": "#e58fb0"
+  },
+  {
+   "ar": "موشن جرافيك",
+   "en": "Motion graphics",
+   "label": "Motion",
+   "descAr": "شعارات متحركة، فيديوهات شرح، وإعلانات موشن تشد العين من أول ثانية.",
+   "descEn": "Logo animations, explainers and motion ads that grab attention in the first second.",
+   "tags": [
+    [
+     "أنيميشن",
+     "Animation"
+    ],
+    [
+     "2D/3D",
+     "2D/3D"
+    ]
+   ],
+   "icon": "motion",
+   "color": "#5aa9ff"
+  },
+  {
+   "ar": "محتوى بالذكاء الاصطناعي",
+   "en": "AI-generated content",
+   "label": "AI",
+   "descAr": "صور منتجات وأفلام إعلانية وشخصيات مولّدة بالذكاء الاصطناعي بإخراج فني احترافي.",
+   "descEn": "AI product photography, ad films and characters, directed by designers.",
+   "tags": [
+    [
+     "صور",
+     "Images"
+    ],
+    [
+     "فيديو",
+     "Video"
+    ]
+   ],
+   "icon": "spark",
+   "color": "#a78bfa"
+  },
+  {
+   "ar": "التصميم الجرافيكي",
+   "en": "Graphic design",
+   "label": "Design",
+   "descAr": "بوسترات السوشال، المنيو، المطبوعات، والتغليف، بتصميم يبيع.",
+   "descEn": "Social posts, menus, print and packaging, designed to sell.",
+   "tags": [
+    [
+     "سوشال",
+     "Social"
+    ],
+    [
+     "تغليف",
+     "Packaging"
+    ]
+   ],
+   "icon": "pen",
+   "color": "#ff9a3d"
+  },
+  {
+   "ar": "تصميم الشعارات",
+   "en": "Logo design",
+   "label": "Logo",
+   "descAr": "شعار بفكرة واضحة يعيش سنوات، مع نسخه الكاملة لكل الاستخدامات.",
+   "descEn": "A logo with a clear idea that lasts for years, delivered in every version you will need.",
+   "tags": [
+    [
+     "AI",
+     "AI"
+    ],
+    [
+     "SVG",
+     "SVG"
+    ],
+    [
+     "PNG",
+     "PNG"
+    ]
+   ],
+   "icon": "logo",
+   "color": "#e2b265"
+  },
+  {
+   "ar": "تصميم المواقع الإلكترونية",
+   "en": "Website design",
+   "label": "Web",
+   "descAr": "مواقع شخصية، متاجر إلكترونية للمحلات، ومواقع شركات. تصميم فاخر، سريع على الجوال، وجاهز يبيع ويستقبل الطلبات.",
+   "descEn": "Personal sites, online stores for shops, and company websites. Premium design, fast on mobile, built to sell and take orders.",
+   "tags": [
+    [
+     "شخصية",
+     "Personal"
+    ],
+    [
+     "متاجر",
+     "Stores"
+    ],
+    [
+     "شركات",
+     "Companies"
+    ]
+   ],
+   "icon": "web",
+   "color": "#45d4c0"
+  },
+  {
+   "ar": "هوية البراند",
+   "en": "Brand identity",
+   "label": "Identity",
+   "descAr": "دليل هوية كامل: الألوان، الخطوط، النبرة، والتطبيقات على كل نقطة تواصل.",
+   "descEn": "A full brand guide: colours, type, tone of voice and applications across every touchpoint.",
+   "tags": [
+    [
+     "دليل الهوية",
+     "Brand book"
+    ],
+    [
+     "نبرة",
+     "Tone"
+    ]
+   ],
+   "icon": "palette",
+   "color": "#f07bd8"
+  }
+ ],
+ "texts": {}
+}
