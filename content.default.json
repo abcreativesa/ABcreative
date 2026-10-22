@@ -411,14 +411,6 @@
   {
    "type": "video",
    "cat": "fashion",
-   "src": "v/n04.mp4",
-   "poster": "v/n04.jpg",
-   "isNew": true,
-   "id": "w55"
-  },
-  {
-   "type": "video",
-   "cat": "fashion",
    "src": "v/n05.mp4",
    "poster": "v/n05.jpg",
    "isNew": true,
