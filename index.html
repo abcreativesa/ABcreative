@@ -249,7 +249,7 @@ html[dir="ltr"] .filter{padding:0 20px 0 8px}
 .tile:hover .cap,.tile:focus-visible .cap{opacity:1;transform:none}
 .play{position:absolute;top:12px;inset-inline-end:12px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.5);backdrop-filter:blur(6px);display:grid;place-items:center;color:#fff;border:1px solid rgba(255,255,255,.25)}
 .play svg{width:12px;height:12px;margin-inline-start:2px}
-.more-row{display:flex;justify-content:center;margin-top:28px}
+.more-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
 @media(max-width:700px){
   .grid{columns:3;column-gap:8px}
   .tile{margin-bottom:8px;border-radius:14px;--c:var(--g1);box-shadow:0 14px 30px -20px var(--c)}
@@ -589,7 +589,7 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
     <div class="pick-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10"/><path d="M12 9.5a1.5 1.5 0 0 1 3 0V11"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a5 5 0 0 1-4-2L4.6 15.6a1.5 1.5 0 0 1 2.2-2L9 15.5"/></svg><span data-en="Pick a category">اختر التصنيف</span></div>
     <div class="filters" id="filters" role="group" aria-label="filters"></div>
     <div class="grid" id="grid"></div>
-    <div class="more-row"><button class="btn btn-line" id="moreBtn" type="button" data-en="Show more work" data-k="t24">عرض المزيد من الأعمال</button></div>
+    <div class="more-row"><button class="btn btn-blue" id="allVidsBtn" type="button" hidden><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="15" height="14" rx="2"/><path d="M17 10l5-3v10l-5-3z"/></svg><span data-en="All videos" data-k="t24v">كل الفيديوهات</span> <b class="mono" style="opacity:.8"></b></button><button class="btn btn-line" id="moreBtn" type="button" data-en="Show more work" data-k="t24">عرض المزيد من الأعمال</button></div>
   </div>
 </section>
 
@@ -847,6 +847,8 @@ const CATS=[
   {id:'ai',ar:'ذكاء اصطناعي',en:'AI content'},
   {id:'logo',ar:'شعارات وهوية',en:'Logos & identity'}
 ];
+let __lg=0;
+const logoSvg=k=>{const s=LOGOS[k]||'';const n=++__lg;return s.replace(/id="(\w+)"/g,(m,id)=>`id="${id}_${n}"`).replace(/url\(#(\w+)\)/g,(m,id)=>`url(#${id}_${n})`).replace(/href="#(\w+)"/g,(m,id)=>`href="#${id}_${n}"`);};
 const M=(CONTENT.works||[]).map((w,i)=>({i,id:w.id,cat:w.cat,type:w.type==='video'?'v':w.type==='logo'?'l':'i',src:w.src||'',poster:w.poster||'',w:w.w,h:w.h,k:w.logo,n:w.isNew?1:0})).filter(m=>m.type!=='l'||LOGOS[m.k]);
 M.forEach((m,i)=>m.i=i);
 const byId=id=>M.find(m=>m.id===id);
@@ -906,7 +908,7 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
   const cols=pick.map(list=>{
     const items=list.map(m=>{
       const tag=`<span class="rtag">${catName(m.cat)}</span>`;
-      if(m.type==='l') return `<div class="reel" data-cat="logo" data-i="${m.i}"><span class="logo-board" style="height:100%;aspect-ratio:auto">${LOGOS[m.k]}</span>${tag}</div>`;
+      if(m.type==='l') return `<div class="reel" data-cat="logo" data-i="${m.i}"><span class="logo-board" style="height:100%;aspect-ratio:auto">${logoSvg(m.k)}</span>${tag}</div>`;
       if(m.type==='v') return `<div class="reel" data-cat="${m.cat}" data-i="${m.i}"><video src="${m.src}" poster="${m.poster||''}" muted loop playsinline autoplay preload="auto"></video>${tag}</div>`;
       return `<div class="reel" data-cat="${m.cat}" data-i="${m.i}"><img src="${m.src}" alt="" loading="eager">${tag}</div>`;
     }).join('');
@@ -928,7 +930,8 @@ function renderSvcs(){
 }
 
 /* ---------- work grid ---------- */
-let filter='all', mtype='all', shown=24, view=[];
+let filter='all', mtype='all', shown=18, view=[], expanded=false;
+const VID_CAP=6;
 const MT=[{id:'all',ar:'كل الأعمال',en:'All work',sar:'الكل',sen:'All',ic:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'},{id:'v',ar:'فيديوهات',en:'Videos',sar:'فيديو',sen:'Video',ic:'<rect x="2" y="5" width="15" height="14" rx="2"/><path d="M17 10l5-3v10l-5-3z"/>'},{id:'i',ar:'صور وتصاميم',en:'Photos & designs',sar:'صور',sen:'Photos',ic:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>'}];
 const inType=m=>mtype==='all'||(mtype==='v'?m.type==='v':m.type!=='v');
 try{ const h=location.hash.replace('#',''); if(CATS.some(c=>c.id===h)) filter=h; if(h==='videos') mtype='v'; if(h==='photos') mtype='i'; }catch(e){}
@@ -941,7 +944,7 @@ function order(list){
 }
 function tile(m){
   const cap=`<span class="cap"><span>${catName(m.cat)}</span><span class="mono">${m.type==='v'?T('فيديو','Video'):m.type==='l'?T('شعار','Logo'):T('تصميم','Design')}</span></span>`;
-  if(m.type==='l') return `<button class="tile" type="button" data-cat="${m.cat}" data-i="${m.i}"><span class="logo-board">${LOGOS[m.k]}</span>${cap}</button>`;
+  if(m.type==='l') return `<button class="tile" type="button" data-cat="${m.cat}" data-i="${m.i}"><span class="logo-board">${logoSvg(m.k)}</span>${cap}</button>`;
   if(m.type==='v') return `<button class="tile" type="button" data-cat="${m.cat}" data-i="${m.i}"><video src="${vsrc(m)}" ${m.poster?`poster="${m.poster}"`:''} muted playsinline loop preload="metadata"></video><span class="play"><svg viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></span>${cap}</button>`;
   return `<button class="tile" type="button" data-cat="${m.cat}" data-i="${m.i}"><img src="${m.src}" alt="${catName(m.cat)}" loading="lazy" ${m.w?`width="${m.w}" height="${m.h}"`:''}>${cap}</button>`;
 }
@@ -949,9 +952,16 @@ function renderGrid(){
   const pool=M.filter(inType);
   if(filter!=='all'&&!pool.some(m=>m.cat===filter)) filter='all';
   view=order(pool.filter(m=>filter==='all'||m.cat===filter).sort((a,b)=>(b.n||0)-(a.n||0)));
+  const capped=!expanded&&mtype==='all'&&filter==='all';
+  let hiddenVids=0;
+  if(capped){ let v=0; view=view.filter(m=>{ if(m.type!=='v') return true; v++; if(v<=VID_CAP) return true; hiddenVids++; return false; }); }
+  const allVids=M.filter(m=>m.type==='v').length;
   $('#mtypes').innerHTML=MT.map(t=>{const n=t.id==='all'?M.length:M.filter(m=>t.id==='v'?m.type==='v':m.type!=='v').length;return `<button class="mtype" type="button" role="tab" data-t="${t.id}" aria-selected="${t.id===mtype}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${t.ic}</svg><span class="lf">${T(t.ar,t.en)}</span><span class="ls">${T(t.sar,t.sen)}</span><b>${n}</b></button>`}).join('');
   $('#grid').innerHTML=view.slice(0,shown).map(tile).join('');
-  $('#moreBtn').hidden=view.length<=shown;
+  const more=view.length>shown||(capped&&hiddenVids>0);
+  $('#moreBtn').hidden=!more;
+  $('#allVidsBtn').hidden=!(capped&&hiddenVids>0);
+  $('#allVidsBtn').querySelector('b').textContent=allVids;
   $('#filters').innerHTML=CATS.map(c=>{const n=c.id==='all'?pool.length:pool.filter(m=>m.cat===c.id).length;if(!n&&c.id!=='all')return '';return `<button class="filter" type="button" data-f="${c.id}" aria-pressed="${c.id===filter}"><span class="nm">${T(c.ar,c.en)}</span><b>${n}</b></button>`}).join('');
   if(matchMedia('(hover:hover)').matches){
     document.querySelectorAll('#grid .tile video').forEach(v=>{
@@ -963,18 +973,19 @@ function renderGrid(){
 }
 (function(){const f=$('#filters');if(!('IntersectionObserver' in window)||!matchMedia('(max-width:620px)').matches)return;
   const io=new IntersectionObserver(es=>{if(es.some(x=>x.isIntersecting)){f.classList.add('nudge');setTimeout(()=>f.classList.remove('nudge'),3400);io.disconnect();}},{threshold:.6});io.observe(f);})();
-$('#mtypes').addEventListener('click',e=>{const b=e.target.closest('.mtype');if(!b)return;mtype=b.dataset.t;shown=24;renderGrid();});
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('.filter');if(!b)return;filter=b.dataset.f;shown=24;renderGrid();});
-document.querySelectorAll('.ind[data-filter]').forEach(a=>a.addEventListener('click',()=>{mtype='all';filter=a.dataset.filter;shown=24;renderGrid();}));
+$('#mtypes').addEventListener('click',e=>{const b=e.target.closest('.mtype');if(!b)return;mtype=b.dataset.t;shown=18;expanded=false;renderGrid();});
+$('#filters').addEventListener('click',e=>{const b=e.target.closest('.filter');if(!b)return;filter=b.dataset.f;shown=18;expanded=false;renderGrid();});
+document.querySelectorAll('.ind[data-filter]').forEach(a=>a.addEventListener('click',()=>{mtype='all';filter=a.dataset.filter;shown=18;expanded=false;renderGrid();}));
 $('#svcList').addEventListener('click',e=>{const a=e.target.closest('.svc');if(!a)return;const el=document.getElementById('s'+a.dataset.svc);if(el&&!el.checked){el.checked=true;buildWa();}});
-$('#moreBtn').addEventListener('click',()=>{shown+=24;renderGrid();});
+$('#moreBtn').addEventListener('click',()=>{expanded=true;shown+=18;renderGrid();});
+$('#allVidsBtn').addEventListener('click',()=>{mtype='v';filter='all';shown=18;expanded=false;renderGrid();document.getElementById('mtypes').scrollIntoView({behavior:'smooth',block:'start'});});
 $('#grid').addEventListener('click',e=>{const t=e.target.closest('.tile');if(t)openLB(+t.dataset.i,view);});
 
 /* ---------- AI stage ---------- */
 const LAB=(CONTENT.lab||[]).map(byId).filter(Boolean).slice(0,3);
 $('#labStage').innerHTML=LAB.map(m=>m.type==='v'
   ?`<div data-i="${m.i}"><video src="${vsrc(m)}" muted loop playsinline autoplay preload="metadata"></video></div>`
-  :m.type==='l'?`<div data-i="${m.i}"><span class="logo-board">${LOGOS[m.k]}</span></div>`
+  :m.type==='l'?`<div data-i="${m.i}"><span class="logo-board">${logoSvg(m.k)}</span></div>`
   :`<div data-i="${m.i}"><img src="${m.src}" alt="AI" loading="lazy"></div>`).join('');
 $('#labStage').addEventListener('click',e=>{const d=e.target.closest('[data-i]');if(d)openLB(+d.dataset.i,LAB);});
 
@@ -983,7 +994,7 @@ let lbList=[],lbPos=0;
 const lb=$('#lb'),stage=$('#lbStage');
 function openLB(i,list){try{track('work')}catch(e){}lbList=list||M;lbPos=Math.max(0,lbList.findIndex(m=>m.i===i));showLB();lb.hidden=false;document.body.style.overflow='hidden';$('#lbClose').focus();}
 function showLB(){const m=lbList[lbPos];
-  stage.innerHTML=m.type==='l'?`<div class="lb-logo">${LOGOS[m.k]}</div>`:m.type==='v'?`<video src="${m.src}" ${m.poster?`poster="${m.poster}"`:''} controls autoplay playsinline></video>`:`<img src="${m.src}" alt="${catName(m.cat)}">`;
+  stage.innerHTML=m.type==='l'?`<div class="lb-logo">${logoSvg(m.k)}</div>`:m.type==='v'?`<video src="${m.src}" ${m.poster?`poster="${m.poster}"`:''} controls autoplay playsinline></video>`:`<img src="${m.src}" alt="${catName(m.cat)}">`;
   $('#lbCount').textContent=(lbPos+1)+' / '+lbList.length+' · '+catName(m.cat);}
 function closeLB(){lb.hidden=true;stage.innerHTML='';document.body.style.overflow='';}
 const step=d=>{lbPos=(lbPos+d+lbList.length)%lbList.length;showLB();};
