@@ -170,6 +170,7 @@ section::before{content:"";position:absolute;z-index:-1;width:min(720px,90vw);as
 .ticker{background:linear-gradient(90deg,#0b1a36,#1a1236,#2a1030)}
 :root[data-theme="light"] .ticker{background:linear-gradient(90deg,#e6effb,#efe9fb,#fbe8f0)}
 .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:clamp(36px,5vw,64px)}
+.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1),var(--g2) 45%,var(--g3) 75%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sec-head h2{font-size:clamp(1.75rem,3.6vw,2.9rem);line-height:1.55;margin-top:12px}
 html[dir="ltr"] .sec-head h2{line-height:1.15}
 .sec-head p{color:var(--muted);max-width:52ch}
@@ -580,9 +581,9 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
     <div class="sec-head">
       <div>
         <div class="label" data-en="Selected work" data-k="t21">أعمال مختارة</div>
-        <h2 data-en="Real campaigns. Real brands. Made to perform." data-k="t22">حملات حقيقية لعلامات حقيقية، مصنوعة لتحقق نتائج.</h2>
+        <h2 data-en="Creative marketing <em>that delivers results.</em>" data-k="t22">تسويق إبداعي <em>يحقق نتائج.</em></h2>
       </div>
-      <p data-en="Fashion and abayas, restaurants, jewellery, watches and beverages. Tap any piece to view it full size." data-k="t23">أزياء وعبايات، مطاعم، مجوهرات وساعات ومشروبات. اضغط على أي عمل لعرضه بالحجم الكامل.</p>
+      <p data-en="A selection of the videos and designs we've made for our clients. Pick a type or category, and tap any piece to watch it full size." data-k="t23">مختارات من الفيديوهات والتصاميم اللي صنعناها لعملائنا. اختر النوع أو التصنيف، واضغط على أي عمل لمشاهدته بالحجم الكامل.</p>
     </div>
     <div class="mtypes" id="mtypes" role="tablist" aria-label="media type"></div>
     <div class="pick-hint" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V10"/><path d="M12 9.5a1.5 1.5 0 0 1 3 0V11"/><path d="M15 10.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a5 5 0 0 1-4-2L4.6 15.6a1.5 1.5 0 0 1 2.2-2L9 15.5"/></svg><span data-en="Pick a category">اختر التصنيف</span></div>
