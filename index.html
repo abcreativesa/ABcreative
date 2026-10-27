@@ -812,7 +812,7 @@ const T=(ar,en)=>LANG==='en'?en:ar;
 })();
 const track=(t,extra)=>{ try{
   let v=''; try{ v=localStorage.getItem('abc-vid')||''; if(!v){ v=Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('abc-vid',v);} }catch(e){}
-  const body=JSON.stringify(Object.assign({t,p:location.pathname,r:document.referrer||'',v,l:LANG,w:innerWidth},extra||{}));
+  const body=JSON.stringify(Object.assign({t,p:location.pathname,r:document.referrer||'',u:(new URLSearchParams(location.search).get('utm_source')||'').slice(0,40),v,l:LANG,w:innerWidth},extra||{}));
   if(navigator.sendBeacon) navigator.sendBeacon('/api/track',new Blob([body],{type:'application/json'}));
   else fetch('/api/track',{method:'POST',body,keepalive:true,headers:{'content-type':'application/json'}});
 }catch(e){} };

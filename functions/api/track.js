@@ -19,6 +19,19 @@ function refName(r, self) {
     return h.slice(0, 60);
   } catch (e) { return ''; }
 }
+// In-app browsers (TikTok, Instagram, Snapchat...) send no referrer, so read the source from utm_source or the user agent.
+function appName(ua, u) {
+  const n = refName('https://' + String(u || '').toLowerCase().replace(/[^a-z0-9.]/g, '') + '.x', '');
+  if (u && n && !/\.x$/.test(n)) return n;
+  if (u) return String(u).slice(0, 40);
+  if (/musical_ly|bytedancewebview|tiktok|trill/i.test(ua)) return 'TikTok';
+  if (/instagram/i.test(ua)) return 'Instagram';
+  if (/fban|fbav|fb_iab|fbios/i.test(ua)) return 'Facebook';
+  if (/snapchat/i.test(ua)) return 'Snapchat';
+  if (/twitter/i.test(ua)) return 'X';
+  if (/linkedinapp/i.test(ua)) return 'LinkedIn';
+  return '';
+}
 export async function onRequestPost({ request, env }) {
   if (!env.DB) return ok();
   const ua = request.headers.get('user-agent') || '';
@@ -35,7 +48,7 @@ export async function onRequestPost({ request, env }) {
     await ensure(env.DB);
     await env.DB.prepare('INSERT INTO hits (ts, day, type, path, country, city, device, ref, vid, lang, extra) VALUES (?,?,?,?,?,?,?,?,?,?,?)')
       .bind(now, day, b.t, String(b.p || '/').slice(0, 100), cf.country || '', String(cf.city || '').slice(0, 60), device,
-        refName(String(b.r || ''), new URL(request.url).hostname.replace(/^www\./, '')), String(b.v || '').slice(0, 40), b.l === 'en' ? 'en' : 'ar', String(b.x || '').slice(0, 40))
+        (refName(String(b.r || ''), new URL(request.url).hostname.replace(/^www\./, '')) || appName(ua, b.u)), String(b.v || '').slice(0, 40), b.l === 'en' ? 'en' : 'ar', String(b.x || '').slice(0, 40))
       .run();
   } catch (e) {}
   return ok();
