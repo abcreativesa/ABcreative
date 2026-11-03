@@ -958,7 +958,7 @@ const MT=[{id:'all',ar:'كل الأعمال',en:'All work',sar:'الكل',sen:'A
 const inType=m=>mtype==='all'||(mtype==='v'?m.type==='v':m.type!=='v');
 try{ const h=location.hash.replace('#',''); if(CATS.some(c=>c.id===h)) filter=h; if(h==='videos') mtype='v'; if(h==='photos') mtype='i'; }catch(e){}
 function order(list){
-  if(filter!=='all') return list;
+  if(filter!=='all'||CONTENT.order==='manual') return list; /* manual = order set in the admin */
   const by={};list.forEach(m=>(by[m.cat]=by[m.cat]||[]).push(m));
   const keys=['motion','fashion','logo','food','ai'],out=[];let k=0;
   while(out.length<list.length){const a=by[keys[k%keys.length]];if(a&&a.length)out.push(a.shift());k++;}
@@ -974,7 +974,7 @@ function renderGrid(){
   const pool=M.filter(inType);
   if(filter!=='all'&&!pool.some(m=>m.cat===filter)) filter='all';
   view=order(pool.filter(m=>filter==='all'||m.cat===filter).sort((a,b)=>(b.n||0)-(a.n||0)));
-  const capped=!expanded&&mtype==='all'&&filter==='all';
+  const capped=!expanded; /* every view: only the first VID_CAP videos until 'show more' */
   let hiddenVids=0;
   if(capped){ let v=0; view=view.filter(m=>{ if(m.type!=='v') return true; v++; if(v<=VID_CAP) return true; hiddenVids++; return false; }); }
   const allVids=M.filter(m=>m.type==='v').length;
@@ -982,7 +982,7 @@ function renderGrid(){
   $('#grid').innerHTML=view.slice(0,shown).map(tile).join('');
   const more=view.length>shown||(capped&&hiddenVids>0);
   $('#moreBtn').hidden=!more;
-  $('#allVidsBtn').hidden=!(capped&&hiddenVids>0);
+  $('#allVidsBtn').hidden=true;
   $('#allVidsBtn').querySelector('b').textContent=allVids;
   $('#filters').innerHTML=CATS.map(c=>{const n=c.id==='all'?pool.length:pool.filter(m=>m.cat===c.id).length;if(!n&&c.id!=='all')return '';return `<button class="filter" type="button" data-f="${c.id}" aria-pressed="${c.id===filter}"><span class="nm">${T(c.ar,c.en)}</span><b>${n}</b></button>`}).join('');
   if(matchMedia('(hover:hover)').matches){

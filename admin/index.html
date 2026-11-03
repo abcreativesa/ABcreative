@@ -366,7 +366,11 @@ $('#logoutBtn').addEventListener('click',async()=>{ if(dirty()&&!window.__leaveO
 async function loadContent(){
   C=await (await fetch('/api/content',{cache:'no-store'})).json();
   if(!C.heroBg) C.heroBg={src:'m/hero-bg.jpg',showReels:false};
-  C.works=C.works||[];C.works=C.works.map((w,i)=>({w,i})).sort((a,b)=>((b.w.isNew?1:0)-(a.w.isNew?1:0))||a.i-b.i).map(x=>x.w);C.works.forEach(w=>delete w.isNew);C.services=C.services||[];C.texts=C.texts||{};C.contact=C.contact||{};C.hero=C.hero||[];C.lab=C.lab||[];
+  C.works=C.works||[];C.works=C.works.map((w,i)=>({w,i})).sort((a,b)=>((b.w.isNew?1:0)-(a.w.isNew?1:0))||a.i-b.i).map(x=>x.w);C.works.forEach(w=>delete w.isNew);
+  if(C.order!=='manual'){ /* one-time: freeze the site's old mixed 'All' order so it can be edited */
+    const by={},keys=['motion','fashion','logo','food','ai'],out=[];C.works.forEach(w=>(by[w.cat]=by[w.cat]||[]).push(w));
+    const n=C.works.length;let k=0,guard=0;while(out.length<n&&guard<n*keys.length+10){const a=by[keys[k%keys.length]];if(a&&a.length)out.push(a.shift());k++;guard++;}
+    C.works.forEach(w=>{if(!out.includes(w))out.push(w);});C.works=out;C.order='manual'; }C.services=C.services||[];C.texts=C.texts||{};C.contact=C.contact||{};C.hero=C.hero||[];C.lab=C.lab||[];
   saved=JSON.stringify(C); mediaAtLoad=mediaIds(C);
   $('#lastSaved').textContent=C.updatedAt?new Date(C.updatedAt).toLocaleString('ar-SA'):'النسخة الأصلية';
   renderAll(); mark();
@@ -401,7 +405,7 @@ function renderWorks(){
   const inCat=C.works.filter(w=>wFilter==='all'||w.cat===wFilter);
   $('#wTypeF').innerHTML=[['all','فيديو وصور',inCat.length],['video','الفيديوهات',inCat.filter(w=>w.type==='video').length],['image','الصور',inCat.filter(w=>w.type!=='video').length]].map(c=>`<button class="chip" type="button" data-t="${c[0]}" aria-pressed="${wType===c[0]}">${c[1]} · ${c[2]}</button>`).join('');
   $('#ordHint').innerHTML=wFilter==='all'
-    ?'⇅ <b>لترتيب الظهور:</b> اختر القسم أول (مثلاً أزياء)، وبعدين اختر الفيديوهات أو الصور، ورتّبها بالأسهم أو بكتابة رقم الترتيب أو بالسحب والإفلات.'
+    ?`⇅ هذا ترتيب ظهور <b>«الكل»</b> في الموقع${wType==='video'?' (الفيديوهات)':wType==='image'?' (الصور)':''}. رقم ١ يطلع أول. ولترتيب قسم معيّن اختر القسم (مثلاً أزياء). رتّب بالأسهم أو برقم الترتيب أو بالسحب، وبعدين اضغط حفظ ونشر. في الموقع يطلع أول ٦ فيديوهات وبعدها زر «عرض المزيد».`
     :`⇅ هذا ترتيب ظهور <b>${(CATS.find(c=>c[0]===wFilter)||[])[1]||''}</b> في الموقع${wType==='video'?' (الفيديوهات)':wType==='image'?' (الصور)':''}. رقم ١ يطلع أول. غيّر الرقم أو اسحب البطاقة، وبعدين اضغط حفظ ونشر.`;
   $('#heroCount').textContent=`في البداية: ${C.hero.length} · في قسم الذكاء الاصطناعي: ${C.lab.length}/3`;
   const list=wList();
