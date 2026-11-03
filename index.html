@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -538,9 +538,6 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
     </nav>
     <div class="nav-tools">
       <button class="chip-btn" id="langBtn" type="button" aria-label="Language">EN</button>
-      <button class="chip-btn" id="themeBtn" type="button" aria-label="Theme">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
-      </button>
       <a class="btn btn-blue btn-sm cta-top" href="#contact" data-en="Start a project" data-k="t6">ابدأ مشروعك</a>
     </div>
   </div>
@@ -807,7 +804,7 @@ const T=(ar,en)=>LANG==='en'?en:ar;
   const map={bg:'--bg',bg2:'--bg-2',panel:'--panel',line:'--line',secAlt:'--sec-alt'};
   const darkCss=dark.map(k=>`${map[k]}:${th[k]};`).join('');
   if(css.length||darkCss){ const st=document.createElement('style'); st.id='themeOverrides';
-    st.textContent=`:root{${css.join('')}${darkCss}}`+(th.bg?`@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#fbfaf7;--bg-2:#fff;--panel:#fff;--line:#e3e1db;--sec-alt:#f1f4fa}}:root[data-theme="light"]{--bg:#fbfaf7;--bg-2:#fff;--panel:#fff;--line:#e3e1db;--sec-alt:#f1f4fa}`:'');
+    st.textContent=`:root{${css.join('')}${darkCss}}`;
     document.body.appendChild(st); }
   const mo=window.__MOTION=Object.assign({hero3d:true,parallax:true,smooth:true,reveal:true,tilt:true,cursor:true,wave:1,reelSpeed:1},CONTENT.motion||{});
   r.style.setProperty('--reel-speed',String(mo.reelSpeed||1));
@@ -1081,10 +1078,7 @@ function applyLang(){
 $('#langBtn').addEventListener('click',()=>{LANG=LANG==='en'?'ar':'en';try{localStorage.setItem('abc-lang',LANG);}catch(e){}applyLang();});
 
 /* ---------- theme ---------- */
-$('#themeBtn').addEventListener('click',()=>{
-  const r=document.documentElement,cur=r.dataset.theme||'dark';
-  r.dataset.theme=cur==='light'?'dark':'light';
-});
+document.documentElement.dataset.theme='dark'; /* dark only: light mode removed */
 
 applyLang();
 if(window.__startFx) window.__startFx();
