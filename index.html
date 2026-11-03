@@ -481,7 +481,7 @@ html.gated,html.gated body{overflow:hidden}
 /* hero background photo */
 .hero-bg{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .hero.has-bg .hero-bg{display:block}
-.hero-bg img{position:absolute;top:0;bottom:0;height:100%;width:64%;inset-inline-end:0;object-fit:cover;object-position:50% 22%;max-width:none}
+.hero-bg img,.hero-bg video{position:absolute;top:0;bottom:0;height:100%;width:64%;inset-inline-end:0;object-fit:cover;object-position:50% 22%;max-width:none}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,transparent 0,transparent 22%,color-mix(in srgb,var(--bg) 55%,transparent) 44%,var(--bg) 64%),linear-gradient(to top,var(--bg),transparent 28%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 60%,transparent),transparent 18%)}
 html[dir="ltr"] .hero-bg::after{background:linear-gradient(to left,transparent 0,transparent 22%,color-mix(in srgb,var(--bg) 55%,transparent) 44%,var(--bg) 64%),linear-gradient(to top,var(--bg),transparent 28%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 60%,transparent),transparent 18%)}
 .hero.has-bg #hero3d{opacity:.35}
@@ -490,7 +490,7 @@ html[dir="ltr"] .hero-bg::after{background:linear-gradient(to left,transparent 0
 .hero.has-bg.no-reels .hero-grid{min-height:min(780px,88vh)}
 .hero.has-bg.no-reels .hero-grid > div:first-child{max-width:600px}
 @media(max-width:900px){
-  .hero-bg img{width:100%;height:68%;object-position:50% 15%}
+  .hero-bg img,.hero-bg video{width:100%;height:68%;object-position:50% 15%}
   .hero-bg::after,html[dir="ltr"] .hero-bg::after{background:linear-gradient(to top,var(--bg) 34%,color-mix(in srgb,var(--bg) 70%,transparent) 52%,transparent 72%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 55%,transparent),transparent 16%)}
   .hero.has-bg .hero-grid{padding-top:44vh;min-height:0}
 }
@@ -899,8 +899,17 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
 /* ---------- hero background photo ---------- */
 (function(){
   const hb=CONTENT.heroBg||{src:'m/hero-bg.jpg',showReels:false}, wrap=$('#heroWrap'), img=$('#heroBg img');
-  if(hb.src){ img.src=hb.src; wrap.classList.add('has-bg'); if(hb.showReels===false) wrap.classList.add('no-reels');
-    if(hb.position) img.style.objectPosition=hb.position; }
+  if(!hb.src) return;
+  let el=img;
+  if(hb.type==='video'||/\.(mp4|webm|mov)(\?|#|$)/i.test(hb.src)){
+    const v=document.createElement('video'); v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('muted','');
+    v.preload='auto'; if(hb.poster) v.poster=hb.poster;
+    if(!matchMedia('(prefers-reduced-motion: reduce)').matches) v.autoplay=true;
+    v.src=hb.src; img.replaceWith(v); el=v;
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) v.pause(); else if(v.autoplay) v.play().catch(()=>{}); });
+  } else img.src=hb.src;
+  wrap.classList.add('has-bg'); if(hb.showReels===false) wrap.classList.add('no-reels');
+  if(hb.position) el.style.objectPosition=hb.position;
 })();
 /* ---------- hero reel wall ---------- */
 (function(){
