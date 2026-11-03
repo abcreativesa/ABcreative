@@ -954,7 +954,7 @@ function renderSvcs(){
 
 /* ---------- work grid ---------- */
 let filter='all', mtype='all', shown=18, view=[], expanded=false;
-const VID_CAP=6;
+const VID_CAP=6, ALL_FIRST=8;
 const MT=[{id:'all',ar:'كل الأعمال',en:'All work',sar:'الكل',sen:'All',ic:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>'},{id:'v',ar:'فيديوهات',en:'Videos',sar:'فيديو',sen:'Video',ic:'<rect x="2" y="5" width="15" height="14" rx="2"/><path d="M17 10l5-3v10l-5-3z"/>'},{id:'i',ar:'صور وتصاميم',en:'Photos & designs',sar:'صور',sen:'Photos',ic:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/>'}];
 const inType=m=>mtype==='all'||(mtype==='v'?m.type==='v':m.type!=='v');
 try{ const h=location.hash.replace('#',''); if(CATS.some(c=>c.id===h)) filter=h; if(h==='videos') mtype='v'; if(h==='photos') mtype='i'; }catch(e){}
@@ -987,8 +987,9 @@ function renderGrid(){
   if(capped){ let v=0; view=view.filter(m=>{ if(m.type!=='v') return true; v++; if(v<=VID_CAP) return true; hiddenVids++; return false; }); }
   const allVids=M.filter(m=>m.type==='v').length;
   $('#mtypes').innerHTML=MT.map(t=>{const n=t.id==='all'?M.length:M.filter(m=>t.id==='v'?m.type==='v':m.type!=='v').length;return `<button class="mtype" type="button" role="tab" data-t="${t.id}" aria-selected="${t.id===mtype}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${t.ic}</svg><span class="lf">${T(t.ar,t.en)}</span><span class="ls">${T(t.sar,t.sen)}</span><b>${n}</b></button>`}).join('');
-  layGrid(view.slice(0,shown));
-  const more=view.length>shown||(capped&&hiddenVids>0);
+  const lim=(!expanded&&filter==='all'&&mtype==='all')?Math.min(shown,ALL_FIRST):shown; /* home 'All': first 8 only */
+  layGrid(view.slice(0,lim));
+  const more=view.length>lim||(capped&&hiddenVids>0);
   $('#moreBtn').hidden=!more;
   $('#allVidsBtn').hidden=true;
   $('#allVidsBtn').querySelector('b').textContent=allVids;
@@ -1007,7 +1008,7 @@ $('#mtypes').addEventListener('click',e=>{const b=e.target.closest('.mtype');if(
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('.filter');if(!b)return;filter=b.dataset.f;shown=18;expanded=false;renderGrid();});
 document.querySelectorAll('.ind[data-filter]').forEach(a=>a.addEventListener('click',()=>{mtype='all';filter=a.dataset.filter;shown=18;expanded=false;renderGrid();}));
 $('#svcList').addEventListener('click',e=>{const a=e.target.closest('.svc');if(!a)return;const el=document.getElementById('s'+a.dataset.svc);if(el&&!el.checked){el.checked=true;buildWa();}});
-$('#moreBtn').addEventListener('click',()=>{expanded=true;shown+=18;renderGrid();});
+$('#moreBtn').addEventListener('click',()=>{const first=!expanded&&filter==='all'&&mtype==='all';expanded=true;if(!first)shown+=18;renderGrid();});
 $('#allVidsBtn').addEventListener('click',()=>{mtype='v';filter='all';shown=18;expanded=false;renderGrid();document.getElementById('mtypes').scrollIntoView({behavior:'smooth',block:'start'});});
 $('#grid').addEventListener('click',e=>{const t=e.target.closest('.tile');if(t)openLB(+t.dataset.i,view);});
 
