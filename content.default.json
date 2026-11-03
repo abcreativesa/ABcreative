@@ -82,6 +82,14 @@
   {
    "type": "video",
    "cat": "fashion",
+   "src": "v/n11.mp4",
+   "poster": "v/n11.jpg",
+   "isNew": true,
+   "id": "w74"
+  },
+  {
+   "type": "video",
+   "cat": "fashion",
    "src": "v/blob/072ba567fd17e96a626daa9f3e3f28a1.mp4",
    "id": "w11"
   },
