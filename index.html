@@ -481,6 +481,7 @@ html.gated,html.gated body{overflow:hidden}
 /* hero background photo */
 .hero-bg{display:none;position:absolute;inset:0;z-index:0;overflow:hidden;pointer-events:none}
 .hero.has-bg .hero-bg{display:block}
+.hero-bg .hb-vid{opacity:0;transition:opacity .6s}.hero-bg .hb-vid.on{opacity:1}
 .hero-bg img,.hero-bg video{position:absolute;top:0;bottom:0;height:100%;width:64%;inset-inline-end:0;object-fit:cover;object-position:50% 22%;max-width:none}
 .hero-bg::after{content:"";position:absolute;inset:0;background:linear-gradient(to right,transparent 0,transparent 22%,color-mix(in srgb,var(--bg) 55%,transparent) 44%,var(--bg) 64%),linear-gradient(to top,var(--bg),transparent 28%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 60%,transparent),transparent 18%)}
 html[dir="ltr"] .hero-bg::after{background:linear-gradient(to left,transparent 0,transparent 22%,color-mix(in srgb,var(--bg) 55%,transparent) 44%,var(--bg) 64%),linear-gradient(to top,var(--bg),transparent 28%),linear-gradient(to bottom,color-mix(in srgb,var(--bg) 60%,transparent),transparent 18%)}
@@ -899,20 +900,30 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
 /* ---------- hero background photo ---------- */
 (function(){
   const hb=CONTENT.heroBg||{src:'m/hero-bg.jpg',showReels:false}, wrap=$('#heroWrap'), img=$('#heroBg img');
+  window.__heroGate=Promise.resolve();
   if(!hb.src) return;
   let el=img;
   if(hb.type==='video'||/\.(mp4|webm|mov)(\?|#|$)/i.test(hb.src)){
-    const v=document.createElement('video'); v.muted=true; v.loop=true; v.playsInline=true; v.setAttribute('playsinline',''); v.setAttribute('muted','');
-    v.preload='auto'; if(hb.poster) v.poster=hb.poster;
-    if(!matchMedia('(prefers-reduced-motion: reduce)').matches) v.autoplay=true;
-    v.src=hb.src; img.replaceWith(v); el=v;
-    document.addEventListener('visibilitychange',()=>{ if(document.hidden) v.pause(); else if(v.autoplay) v.play().catch(()=>{}); });
+    /* poster shows instantly; the video fades in over it as soon as it plays */
+    if(hb.poster) img.src=hb.poster; else img.remove();
+    const v=document.createElement('video'); v.muted=true; v.defaultMuted=true; v.loop=true; v.playsInline=true;
+    v.setAttribute('playsinline',''); v.setAttribute('muted',''); v.setAttribute('aria-hidden','true');
+    v.preload='auto'; if(hb.poster) v.poster=hb.poster; v.className='hb-vid';
+    const motionOk=!matchMedia('(prefers-reduced-motion: reduce)').matches;
+    v.src=hb.src; $('#heroBg').appendChild(v); el=v;
+    window.__heroGate=new Promise(res=>{ v.addEventListener('playing',res,{once:true}); v.addEventListener('error',res,{once:true}); setTimeout(res,4000); });
+    v.addEventListener('playing',()=>v.classList.add('on'),{once:true});
+    if(motionOk){ v.autoplay=true; const go=()=>v.play().catch(()=>{}); go(); v.addEventListener('canplay',go,{once:true});
+      ['pointerdown','touchstart','scroll','keydown'].forEach(ev=>addEventListener(ev,()=>{ if(v.paused&&!document.hidden) go(); },{once:true,passive:true})); }
+    else v.classList.add('on');
+    document.addEventListener('visibilitychange',()=>{ if(document.hidden) v.pause(); else if(motionOk) v.play().catch(()=>{}); });
   } else img.src=hb.src;
   wrap.classList.add('has-bg'); if(hb.showReels===false) wrap.classList.add('no-reels');
   if(hb.position) el.style.objectPosition=hb.position;
 })();
 /* ---------- hero reel wall ---------- */
 (function(){
+  if($('#heroWrap').classList.contains('no-reels')) return;
   let heroList=(CONTENT.hero||[]).map(byId).filter(Boolean);
   if(heroList.length<3) heroList=M.slice(0,15);
   const per=Math.ceil(heroList.length/3);
@@ -921,14 +932,16 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
     const items=list.map(m=>{
       const tag=`<span class="rtag">${catName(m.cat)}</span>`;
       if(m.type==='l') return `<div class="reel" data-cat="logo" data-i="${m.i}"><span class="logo-board" style="height:100%;aspect-ratio:auto">${logoSvg(m.k)}</span>${tag}</div>`;
-      if(m.type==='v') return `<div class="reel" data-cat="${m.cat}" data-i="${m.i}"><video src="${m.src}" poster="${m.poster||''}" muted loop playsinline autoplay preload="auto"></video>${tag}</div>`;
+      if(m.type==='v') return `<div class="reel" data-cat="${m.cat}" data-i="${m.i}"><video data-src="${m.src}" poster="${m.poster||''}" muted loop playsinline autoplay preload="none"></video>${tag}</div>`;
       return `<div class="reel" data-cat="${m.cat}" data-i="${m.i}"><img src="${m.src}" alt="" loading="eager">${tag}</div>`;
     }).join('');
     return `<div class="reel-col"><div class="reel-track">${items}${items}</div></div>`;
   });
   $('#reels').innerHTML=cols.join('');
   $('#reels').addEventListener('click',e=>{const r=e.target.closest('.reel');if(r)openLB(+r.dataset.i,null);});
-  if(matchMedia('(prefers-reduced-motion: reduce)').matches) document.querySelectorAll('#reels video').forEach(v=>{v.removeAttribute('autoplay');v.pause&&v.pause();});
+  const rm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* load the wall's videos only after the hero background is playing, so it gets the bandwidth first */
+  (window.__heroGate||Promise.resolve()).then(()=>document.querySelectorAll('#reels video[data-src]').forEach((v,k)=>setTimeout(()=>{ v.preload='auto'; v.src=v.dataset.src; v.removeAttribute('data-src'); if(rm){v.removeAttribute('autoplay');} else v.play().catch(()=>{}); },k*120)));
 })();
 
 /* ---------- services ---------- */
