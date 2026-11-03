@@ -91,6 +91,18 @@ main{max-width:1200px;margin:0 auto;padding:24px max(16px,env(safe-area-inset-ri
 .w .flags{display:flex;flex-wrap:wrap;gap:6px}
 .flag{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;padding:4px 8px;border-radius:8px;border:1px solid var(--line);cursor:pointer;user-select:none}
 .flag input{accent-color:var(--blue)}
+.w[draggable=true] .th{cursor:grab}
+.w.dragging{opacity:.4}
+.w.drop-at{outline:3px dashed var(--blue);outline-offset:3px}
+.w.moved{animation:wmv .9s ease}
+@keyframes wmv{0%{box-shadow:0 0 0 0 var(--blue)}30%{box-shadow:0 0 0 4px var(--blue)}100%{box-shadow:0 0 0 0 transparent}}
+.w .ord{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.w .ord [data-act=first]{margin-inline-start:auto}
+.w .ord label{font-size:.78rem;color:var(--muted)}
+.w .ord input{width:52px;padding:6px 8px;text-align:center;font-family:var(--fm)}
+.w .ord .btn[disabled]{opacity:.35;pointer-events:none}
+#wTypeF{margin-inline-start:10px}
+.ordhint{margin:12px 0 0;padding:10px 14px;border-radius:12px;background:color-mix(in srgb,var(--blue) 10%,transparent);border:1px solid color-mix(in srgb,var(--blue) 35%,transparent);font-size:.88rem;line-height:1.7}
 .w .acts{display:flex;gap:6px;justify-content:space-between}
 .w.confirm{border-color:var(--red)}
 
@@ -262,8 +274,10 @@ html[dir=ltr] .sw-t input:checked+span::after{transform:translateX(20px)}
         </div>
         <div class="queue" id="queue"></div>
       </div>
+      <p class="ordhint" id="ordHint"></p>
       <div class="toolbar">
         <div class="chips" id="wFilter"></div>
+        <div class="chips" id="wTypeF"></div>
         <span class="sp" style="flex:1"></span>
         <span class="status" id="heroCount" style="--x:0"></span>
       </div>
@@ -320,7 +334,7 @@ const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const CATS=[['motion','موشن جرافيك'],['fashion','أزياء وعبايات'],['food','مطاعم ومقاهي'],['ai','ذكاء اصطناعي'],['logo','شعارات وهوية']];
 const catAr=id=>(CATS.find(c=>c[0]===id)||[,id])[1];
 const ICONS=[['chart','رسم بياني'],['chat','محادثة'],['fire','لهب'],['film','فيلم'],['motion','حركة'],['spark','نجمة'],['pen','قلم'],['logo','شعار'],['web','موقع'],['palette','ألوان']];
-let C=null, saved='', wFilter='all', confirmDel=null, mediaAtLoad=new Set();
+let C=null, saved='', wFilter='all', wType='all', dragId=null, confirmDel=null, mediaAtLoad=new Set();
 
 function toast(t,bad){const el=$('#toast');el.textContent=t;el.className='toast'+(bad?' bad':'');el.hidden=false;clearTimeout(toast.t);toast.t=setTimeout(()=>el.hidden=true,2600);}
 const dirty=()=>JSON.stringify(C)!==saved;
@@ -352,7 +366,7 @@ $('#logoutBtn').addEventListener('click',async()=>{ if(dirty()&&!window.__leaveO
 async function loadContent(){
   C=await (await fetch('/api/content',{cache:'no-store'})).json();
   if(!C.heroBg) C.heroBg={src:'m/hero-bg.jpg',showReels:false};
-  C.works=C.works||[];C.services=C.services||[];C.texts=C.texts||{};C.contact=C.contact||{};C.hero=C.hero||[];C.lab=C.lab||[];
+  C.works=C.works||[];C.works=C.works.map((w,i)=>({w,i})).sort((a,b)=>((b.w.isNew?1:0)-(a.w.isNew?1:0))||a.i-b.i).map(x=>x.w);C.works.forEach(w=>delete w.isNew);C.services=C.services||[];C.texts=C.texts||{};C.contact=C.contact||{};C.hero=C.hero||[];C.lab=C.lab||[];
   saved=JSON.stringify(C); mediaAtLoad=mediaIds(C);
   $('#lastSaved').textContent=C.updatedAt?new Date(C.updatedAt).toLocaleString('ar-SA'):'النسخة الأصلية';
   renderAll(); mark();
@@ -370,50 +384,84 @@ $$('.tab').forEach(t=>t.addEventListener('click',()=>{
 
 /* ---------- works ---------- */
 $('#upCat').innerHTML=CATS.map(c=>`<option value="${c[0]}">${c[1]}</option>`).join('');
+const TYN={video:'فيديو',image:'صورة',logo:'شعار'};
+const inWT=w=>wType==='all'||(wType==='video'?w.type==='video':w.type!=='video');
+function wList(){ return C.works.map((w,i)=>({w,i})).filter(x=>(wFilter==='all'||x.w.cat===wFilter)&&inWT(x.w)); }
+/* move an item to rank r inside the visible list; other items keep their slots */
+function moveTo(id,r){
+  const list=wList(), slots=list.map(x=>x.i), items=list.map(x=>x.w);
+  const from=items.findIndex(w=>w.id===id); if(from<0) return;
+  r=Math.max(0,Math.min(items.length-1,r)); if(r===from) return;
+  const [it]=items.splice(from,1); items.splice(r,0,it);
+  slots.forEach((s,k)=>C.works[s]=items[k]);
+}
 function renderWorks(){
   const counts={all:C.works.length};C.works.forEach(w=>counts[w.cat]=(counts[w.cat]||0)+1);
   $('#wFilter').innerHTML=[['all','الكل'],...CATS].map(c=>`<button class="chip" type="button" data-f="${c[0]}" aria-pressed="${wFilter===c[0]}">${c[1]} · ${counts[c[0]]||0}</button>`).join('');
+  const inCat=C.works.filter(w=>wFilter==='all'||w.cat===wFilter);
+  $('#wTypeF').innerHTML=[['all','فيديو وصور',inCat.length],['video','الفيديوهات',inCat.filter(w=>w.type==='video').length],['image','الصور',inCat.filter(w=>w.type!=='video').length]].map(c=>`<button class="chip" type="button" data-t="${c[0]}" aria-pressed="${wType===c[0]}">${c[1]} · ${c[2]}</button>`).join('');
+  $('#ordHint').innerHTML=wFilter==='all'
+    ?'⇅ <b>لترتيب الظهور:</b> اختر القسم أول (مثلاً أزياء)، وبعدين اختر الفيديوهات أو الصور، ورتّبها بالأسهم أو بكتابة رقم الترتيب أو بالسحب والإفلات.'
+    :`⇅ هذا ترتيب ظهور <b>${(CATS.find(c=>c[0]===wFilter)||[])[1]||''}</b> في الموقع${wType==='video'?' (الفيديوهات)':wType==='image'?' (الصور)':''}. رقم ١ يطلع أول. غيّر الرقم أو اسحب البطاقة، وبعدين اضغط حفظ ونشر.`;
   $('#heroCount').textContent=`في البداية: ${C.hero.length} · في قسم الذكاء الاصطناعي: ${C.lab.length}/3`;
-  const list=C.works.map((w,i)=>({w,i})).filter(x=>wFilter==='all'||x.w.cat===wFilter);
-  if(!list.length){$('#wgrid').innerHTML='<div class="empty">ما فيه أعمال في هذا التصنيف.</div>';return;}
-  $('#wgrid').innerHTML=list.map(({w,i})=>{
+  const list=wList();
+  if(!list.length){$('#wgrid').innerHTML='<div class="empty">ما فيه أعمال هنا.</div>';return;}
+  const rk={};
+  $('#wgrid').innerHTML=list.map(({w},k)=>{
+    const tk=w.type==='video'?'video':w.type==='logo'?'logo':'image'; rk[tk]=(rk[tk]||0)+1;
     const th=w.type==='video'?(w.poster?`<img src="${esc(abs(w.poster))}" alt="" loading="lazy">`:`<video src="${esc(abs(w.src))}#t=0.6" muted preload="metadata"></video>`)
       :w.type==='logo'?`<span class="lg">${esc(w.logo)}</span>`:`<img src="${esc(abs(w.src))}" alt="" loading="lazy">`;
     const conf=confirmDel===w.id;
-    return `<div class="w${conf?' confirm':''}" data-id="${esc(w.id)}">
-      <div class="th">${th}<span class="badge">${w.type==='video'?'فيديو':w.type==='logo'?'شعار':'صورة'}</span><span class="pos">#${i+1}</span></div>
+    return `<div class="w${conf?' confirm':''}" data-id="${esc(w.id)}" draggable="true">
+      <div class="th">${th}<span class="badge">${TYN[tk]} ${rk[tk]}</span><span class="pos">#${k+1}</span></div>
       <div class="body">
+        <div class="ord"><label>الترتيب</label><input class="in" type="number" min="1" max="${list.length}" value="${k+1}" data-act="rank" aria-label="رقم الترتيب">
+          <button class="btn sm icon" type="button" data-act="up" title="قدّم"${k===0?' disabled':''}>↑</button><button class="btn sm icon" type="button" data-act="down" title="أخّر"${k===list.length-1?' disabled':''}>↓</button><button class="btn sm" type="button" data-act="first" title="خلّه الأول"${k===0?' disabled':''}>الأول</button></div>
         <select class="in" data-act="cat" aria-label="التصنيف">${CATS.map(c=>`<option value="${c[0]}"${c[0]===w.cat?' selected':''}>${c[1]}</option>`).join('')}</select>
         <div class="flags">
           <label class="flag"><input type="checkbox" data-act="hero"${C.hero.includes(w.id)?' checked':''}>في البداية</label>
           <label class="flag"><input type="checkbox" data-act="lab"${C.lab.includes(w.id)?' checked':''}>قسم AI</label>
-          <label class="flag"><input type="checkbox" data-act="new"${w.isNew?' checked':''}>يطلع أول</label>
         </div>
         <div class="acts">
-          <span class="row-acts"><button class="btn sm icon" type="button" data-act="up" title="قدّم">↑</button><button class="btn sm icon" type="button" data-act="down" title="أخّر">↓</button></span>
+          <span></span>
           ${conf?`<span class="row-acts"><button class="btn sm danger" type="button" data-act="del-yes">احذف</button><button class="btn sm" type="button" data-act="del-no">لا</button></span>`:`<button class="btn sm danger" type="button" data-act="del">حذف</button>`}
         </div>
       </div></div>`;
   }).join('');
 }
 $('#wFilter').addEventListener('click',e=>{const b=e.target.closest('[data-f]');if(!b)return;wFilter=b.dataset.f;renderWorks();});
+$('#wTypeF').addEventListener('click',e=>{const b=e.target.closest('[data-t]');if(!b)return;wType=b.dataset.t;renderWorks();});
 function workAct(e){
   const card=e.target.closest('.w'); const el=e.target.closest('[data-act]'); if(!card||!el)return;
   const id=card.dataset.id, i=C.works.findIndex(w=>w.id===id); if(i<0)return; const w=C.works[i], a=el.dataset.act;
+  const rank=()=>wList().findIndex(x=>x.w.id===id);
   if(e.type==='change'){
     if(a==='cat') w.cat=el.value;
-    if(a==='new') w.isNew=el.checked;
-    if(a==='hero'){ C.hero=C.hero.filter(x=>x!==id); if(el.checked) C.hero.push(id); }
-    if(a==='lab'){ if(el.checked&&C.lab.length>=3){ el.checked=false; toast('قسم الذكاء الاصطناعي ياخذ ٣ أعمال بس، شيل واحد أول',true); return; } C.lab=C.lab.filter(x=>x!==id); if(el.checked) C.lab.push(id); }
+    else if(a==='rank'){ const n=parseInt(el.value,10); if(!n){ renderWorks(); return; } moveTo(id,n-1); }
+    else if(a==='hero'){ C.hero=C.hero.filter(x=>x!==id); if(el.checked) C.hero.push(id); }
+    else if(a==='lab'){ if(el.checked&&C.lab.length>=3){ el.checked=false; toast('قسم الذكاء الاصطناعي ياخذ ٣ أعمال بس، شيل واحد أول',true); return; } C.lab=C.lab.filter(x=>x!==id); if(el.checked) C.lab.push(id); }
+    else return;
   } else if(e.type==='click'){
-    if(a==='up'||a==='down'){ const j=a==='up'?i-1:i+1; if(j<0||j>=C.works.length) return; [C.works[i],C.works[j]]=[C.works[j],C.works[i]]; }
+    if(el.tagName==='INPUT'||el.tagName==='SELECT') return;
+    if(a==='up') moveTo(id,rank()-1);
+    else if(a==='down') moveTo(id,rank()+1);
+    else if(a==='first') moveTo(id,0);
     else if(a==='del'){ confirmDel=id; }
     else if(a==='del-no'){ confirmDel=null; }
     else if(a==='del-yes'){ C.works.splice(i,1); C.hero=C.hero.filter(x=>x!==id); C.lab=C.lab.filter(x=>x!==id); confirmDel=null; }
     else return;
-  }
+  } else return;
   renderWorks(); mark();
+  if(a==='up'||a==='down'||a==='first'||a==='rank'){ const c=$(`#wgrid .w[data-id="${CSS.escape(id)}"]`); if(c){ c.classList.add('moved'); c.scrollIntoView({block:'nearest',behavior:'smooth'}); setTimeout(()=>c.classList.remove('moved'),900);} }
 }
+$('#wgrid').addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.dataset.act==='rank'){ e.preventDefault(); e.target.blur(); } });
+/* drag & drop to reorder */
+$('#wgrid').addEventListener('dragstart',e=>{const c=e.target.closest('.w');if(!c)return;if(e.target.closest&&e.target.closest('input,select,button')){e.preventDefault();return;}dragId=c.dataset.id;c.classList.add('dragging');e.dataTransfer.effectAllowed='move';try{e.dataTransfer.setData('text/plain',dragId);}catch(_){}});
+$('#wgrid').addEventListener('dragend',()=>{dragId=null;$$('#wgrid .w').forEach(x=>x.classList.remove('dragging','drop-at'));});
+$('#wgrid').addEventListener('dragover',e=>{if(!dragId)return;const c=e.target.closest('.w');e.preventDefault();$$('#wgrid .w').forEach(x=>x.classList.toggle('drop-at',!!c&&x===c&&c.dataset.id!==dragId));});
+$('#wgrid').addEventListener('drop',e=>{if(!dragId)return;e.preventDefault();const c=e.target.closest('.w');const id=dragId;dragId=null;if(!c||c.dataset.id===id){renderWorks();return;}
+  moveTo(id,wList().findIndex(x=>x.w.id===c.dataset.id)); renderWorks(); mark();
+  const n=$(`#wgrid .w[data-id="${CSS.escape(id)}"]`); if(n){n.classList.add('moved');setTimeout(()=>n.classList.remove('moved'),900);} });
 $('#wgrid').addEventListener('click',workAct); $('#wgrid').addEventListener('change',workAct);
 
 /* uploads */
@@ -445,9 +493,9 @@ async function handleFiles(files){
     if(!isVid&&!isImg){row.classList.add('bad');row.querySelector('.pct').textContent='نوع غير مدعوم';continue;}
     try{
       const id='u'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
-      if(isImg){ const [w,h]=await imgSize(f); const r=await put(f,f.name,setP); C.works.unshift({id,type:'image',cat,src:r.url,w,h,isNew:true}); }
+      if(isImg){ const [w,h]=await imgSize(f); const r=await put(f,f.name,setP); C.works.unshift({id,type:'image',cat,src:r.url,w,h}); }
       else{ const pv=await posterOf(f); let poster=''; if(pv&&pv.b){ try{ poster=(await put(pv.b,f.name+'.jpg')).url; }catch(e){} }
-        const r=await put(f,f.name,setP); C.works.unshift({id,type:'video',cat,src:r.url,poster,isNew:true}); }
+        const r=await put(f,f.name,setP); C.works.unshift({id,type:'video',cat,src:r.url,poster}); }
       row.classList.add('ok');row.querySelector('.pct').textContent='تم ✓';
       wFilter='all'; renderWorks(); mark();
     }catch(err){ row.classList.add('bad'); row.querySelector('.pct').textContent=err==='storage_missing'?'التخزين غير مربوط':err==='unauthorized'?'انتهت الجلسة، سجّل دخول':'فشل الرفع'; }
