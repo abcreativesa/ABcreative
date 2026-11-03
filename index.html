@@ -240,7 +240,8 @@ html[dir="ltr"] .filter{padding:0 20px 0 8px}
 :root[data-theme="light"] .filter[data-f="ai"]{--c:#7c5ce6}
 :root[data-theme="light"] .filter[aria-pressed="true"]:not([data-f="all"]),:root[data-theme="light"] .filter[aria-pressed="true"]:not([data-f="all"]) b{color:#fff}
 :root[data-theme="light"] .filter[aria-pressed="true"]:not([data-f="all"])::before{background:#fff}
-.grid{columns:4 240px;column-gap:14px}
+.grid{display:flex;gap:14px;align-items:flex-start}
+.grid .gcol{flex:1 1 0;min-width:0;display:flex;flex-direction:column}
 .tile{break-inside:avoid;margin-bottom:14px;border-radius:16px;overflow:hidden;position:relative;background:var(--panel);border:1px solid var(--line);cursor:pointer;display:block;width:100%;padding:0;text-align:inherit}
 .tile img,.tile video{width:100%;height:auto;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
 .tile video{aspect-ratio:9/16;object-fit:cover;background:#000}
@@ -251,7 +252,7 @@ html[dir="ltr"] .filter{padding:0 20px 0 8px}
 .play svg{width:12px;height:12px;margin-inline-start:2px}
 .more-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:28px}
 @media(max-width:700px){
-  .grid{columns:3;column-gap:8px}
+  .grid{gap:8px}
   .tile{margin-bottom:8px;border-radius:14px;--c:var(--g1);box-shadow:0 14px 30px -20px var(--c)}
   .tile[data-cat="fashion"]{--c:var(--g3)}.tile[data-cat="food"]{--c:var(--g4)}.tile[data-cat="ai"]{--c:var(--g2)}.tile[data-cat="logo"]{--c:#e2b265}
   .tile .cap{opacity:1;transform:none;inset:auto 0 0 0;padding:20px 6px 6px;justify-content:flex-start;background:linear-gradient(transparent,rgba(0,0,0,.55))}
@@ -970,6 +971,13 @@ function tile(m){
   if(m.type==='v') return `<button class="tile" type="button" data-cat="${m.cat}" data-i="${m.i}"><video src="${vsrc(m)}" ${m.poster?`poster="${m.poster}"`:''} muted playsinline loop preload="metadata"></video><span class="play"><svg viewBox="0 0 10 12" fill="currentColor"><path d="M0 0l10 6-10 6z"/></svg></span>${cap}</button>`;
   return `<button class="tile" type="button" data-cat="${m.cat}" data-i="${m.i}"><img src="${m.src}" alt="${catName(m.cat)}" loading="lazy" ${m.w?`width="${m.w}" height="${m.h}"`:''}>${cap}</button>`;
 }
+/* row-by-row masonry: item 1 → column 1, item 2 → column 2 … so the admin order reads across rows */
+function gridCols(){ const g=$('#grid'), w=(g&&g.clientWidth)||innerWidth; if(innerWidth<=700) return 3; return Math.max(1,Math.min(4,Math.floor((w+14)/(240+14)))); }
+let gridN=0;
+function layGrid(items){ const n=gridCols(); gridN=n; const cols=Array.from({length:n},()=>[]);
+  items.forEach((m,k)=>cols[k%n].push(tile(m)));
+  $('#grid').innerHTML=cols.map(c=>`<div class="gcol">${c.join('')}</div>`).join(''); }
+addEventListener('resize',()=>{ if(gridCols()!==gridN) renderGrid(); },{passive:true});
 function renderGrid(){
   const pool=M.filter(inType);
   if(filter!=='all'&&!pool.some(m=>m.cat===filter)) filter='all';
@@ -979,7 +987,7 @@ function renderGrid(){
   if(capped){ let v=0; view=view.filter(m=>{ if(m.type!=='v') return true; v++; if(v<=VID_CAP) return true; hiddenVids++; return false; }); }
   const allVids=M.filter(m=>m.type==='v').length;
   $('#mtypes').innerHTML=MT.map(t=>{const n=t.id==='all'?M.length:M.filter(m=>t.id==='v'?m.type==='v':m.type!=='v').length;return `<button class="mtype" type="button" role="tab" data-t="${t.id}" aria-selected="${t.id===mtype}"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${t.ic}</svg><span class="lf">${T(t.ar,t.en)}</span><span class="ls">${T(t.sar,t.sen)}</span><b>${n}</b></button>`}).join('');
-  $('#grid').innerHTML=view.slice(0,shown).map(tile).join('');
+  layGrid(view.slice(0,shown));
   const more=view.length>shown||(capped&&hiddenVids>0);
   $('#moreBtn').hidden=!more;
   $('#allVidsBtn').hidden=true;
