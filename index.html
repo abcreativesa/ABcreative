@@ -522,6 +522,33 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
   *,*::before,*::after{animation:none !important;transition:none !important}
   html{scroll-behavior:auto}
 }
+
+/* clients */
+.clients{padding:clamp(48px,6vw,84px) 0 clamp(16px,2vw,28px);position:relative;overflow:hidden}
+.cl-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:clamp(26px,3.5vw,40px)}
+.cl-head h2{font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.3}
+.cl-head h2 em{font-style:normal;background:linear-gradient(90deg,var(--g1),var(--g2),var(--g3),var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+.cl-marquee{--gap:18px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);padding:6px 0 14px}
+.cl-track{display:flex;gap:var(--gap);width:max-content;animation:clslide 38s linear infinite}
+html[dir="rtl"] .cl-track{animation-name:clslide-rtl}
+.cl-marquee:hover .cl-track,.cl-marquee:focus-within .cl-track{animation-play-state:paused}
+@keyframes clslide{to{transform:translateX(calc(-50% - var(--gap)/2))}}
+@keyframes clslide-rtl{to{transform:translateX(calc(50% + var(--gap)/2))}}
+.cl{margin:0;width:236px;flex:none;border-radius:20px;padding:10px;background:color-mix(in srgb,var(--panel) 85%,transparent);border:1px solid var(--line);transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .45s}
+.cl:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--c) 55%,var(--line));box-shadow:0 22px 44px -26px var(--c)}
+.cl-logo{height:150px;border-radius:14px;background:var(--cb);display:flex;align-items:center;justify-content:center;padding:18px 22px;overflow:hidden;position:relative}
+.cl-logo img{max-width:100%;max-height:106px;width:auto;height:auto;object-fit:contain;display:block;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
+.cl:hover .cl-logo img{transform:scale(1.06)}
+.cl-logo img.big{max-height:126px}
+.cl-photo .cl-logo{background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--g3) 55%,#2a1430),#160c1a 75%);padding:14px}
+.cl-photo .cl-logo img{height:120px;width:120px;border-radius:50%;box-shadow:0 0 0 3px color-mix(in srgb,var(--g3) 70%,transparent),0 12px 30px -10px rgba(0,0,0,.7)}
+.cl figcaption{display:flex;flex-direction:column;gap:4px;padding:12px 6px 4px}
+.cl figcaption b{font-family:var(--f-display);font-size:1rem;font-weight:700;line-height:1.4;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl figcaption span{font-size:.8rem;color:color-mix(in srgb,var(--c) 70%,var(--muted));display:inline-flex;align-items:center;gap:7px}
+.cl figcaption span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
+html[dir="ltr"] .cl figcaption b{font-family:'Alexandria',system-ui,sans-serif}
+@media(max-width:700px){.cl{width:184px;padding:8px;border-radius:16px}.cl-logo{height:118px;padding:12px 14px}.cl-logo img{max-height:84px}.cl-logo img.big{max-height:100px}.cl-photo .cl-logo img{width:96px;height:96px}.cl-marquee{--gap:12px}.cl-track{animation-duration:30s}}
+@media(prefers-reduced-motion:reduce){.cl-track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;padding-inline:16px}.cl-marquee{mask-image:none;-webkit-mask-image:none}.cl-track [aria-hidden]{display:none}}
 </style>
 
 <header>
@@ -574,6 +601,15 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
 <div class="ticker" aria-hidden="true">
   <div class="ticker-track" id="ticker"></div>
 </div>
+
+<!-- ================= CLIENTS ================= -->
+<section id="clients" class="clients" aria-labelledby="clTitle">
+  <div class="wrap cl-head">
+    <div class="label" data-en="Our clients" data-k="t120">عملاؤنا</div>
+    <h2 id="clTitle" data-en="Brands that <em>trust us.</em>" data-k="t121">علامات <em>وثقت فينا.</em></h2>
+  </div>
+  <div class="cl-marquee"><div class="cl-track" id="clTrack"><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#bfae98"><img src="m/clients/jod.png" alt="Jod Medical Complex" loading="lazy" decoding="async"></div><figcaption><b data-en="Jod Medical Complex">مجمع جود الطبي</b><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#0b0a09"><img class="big" src="m/clients/falcon.png" alt="Falcon Medical" loading="lazy" decoding="async"></div><figcaption><b data-en="Falcon Medical">فالكون الطبية</b><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g3)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara.png" alt="Sara Altwaim" loading="lazy" decoding="async"></div><figcaption><b data-en="Sara Altwaim">سارة التويم</b><span data-en="Bridal couture">فساتين الزفاف</span></figcaption></figure><figure class="cl cl-photo" style="--c:var(--g2)"><div class="cl-logo"><img src="m/clients/huda.png" alt="Huda Arabi" loading="lazy" decoding="async"></div><figcaption><b data-en="Huda Arabi">هدى عربي</b><span data-en="Artist">فنانة</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img class="big" src="m/clients/forno.png" alt="Forno Nero" loading="lazy" decoding="async"></div><figcaption><b data-en="Forno Nero">فورنو نيرو</b><span data-en="Restaurant">مطاعم</span></figcaption></figure><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/asfar.png" alt="Asfar Travel & Tourism" loading="lazy" decoding="async"></div><figcaption><b data-en="Asfar Travel & Tourism">أسفار للسفر والسياحة</b><span data-en="Travel & tourism">السفر والسياحة</span></figcaption></figure></div></div>
+</section>
 
 <!-- ================= WORK ================= -->
 <section id="work">
@@ -1066,6 +1102,10 @@ $('#copyPhone').addEventListener('click',()=>{
   function selectNum(){const r=document.createRange();r.selectNodeContents(document.querySelector('.phone .num'));const s=getSelection();s.removeAllRanges();s.addRange(r);toast(T('الرقم محدد، انسخه','Number selected, copy it'));}
 });
 
+
+/* clients marquee: clone the set once for a seamless loop */
+(function(){const t=document.getElementById('clTrack');if(!t||t.dataset.cloned)return;t.dataset.cloned=1;
+  [...t.children].forEach(c=>{const d=c.cloneNode(true);d.setAttribute('aria-hidden','true');d.querySelectorAll('[data-en]').forEach(e=>e.removeAttribute('data-ar'));t.appendChild(d);});})();
 /* ---------- language ---------- */
 function applyLang(){
   const root=document.documentElement;
