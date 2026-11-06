@@ -526,7 +526,7 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
 /* clients */
 .clients{padding:clamp(48px,6vw,84px) 0 clamp(16px,2vw,28px);position:relative;overflow:hidden}
 .cl-head{display:flex;align-items:end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:clamp(26px,3.5vw,40px)}
-.cl-head h2{font-family:'Alexandria',system-ui,sans-serif;font-weight:600;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.35;letter-spacing:0;word-spacing:0;color:var(--text)}
+.cl-head h2{font-family:var(--f-display);font-weight:700;font-size:clamp(1.6rem,3vw,2.3rem);line-height:1.35;letter-spacing:0;word-spacing:0;color:var(--text)}
 .cl-head h2::after{content:"";display:inline-block;width:.32em;height:.32em;border-radius:50%;background:var(--g1);margin-inline-start:.18em;box-shadow:0 0 14px var(--g1)}
 .cl-marquee{--gap:18px;overflow:hidden;mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);padding:6px 0 14px}
 .cl-track{display:flex;gap:var(--gap);width:max-content;animation:clslide 38s linear infinite}
@@ -543,9 +543,10 @@ html[dir="rtl"] .cl-track{animation-name:clslide-rtl}
 .cl-photo .cl-logo{background:radial-gradient(120% 90% at 50% 0%,color-mix(in srgb,var(--g3) 55%,#2a1430),#160c1a 75%);padding:14px}
 .cl-photo .cl-logo img{height:120px;width:120px;border-radius:50%;box-shadow:0 0 0 3px color-mix(in srgb,var(--g3) 70%,transparent),0 12px 30px -10px rgba(0,0,0,.7)}
 .cl figcaption{display:flex;flex-direction:column;gap:4px;padding:12px 6px 4px}
-.cl figcaption b{font-family:'Alexandria',system-ui,sans-serif;font-size:1rem;font-weight:600;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cl figcaption b{font-family:var(--f-display);font-size:1rem;font-weight:700;line-height:1.45;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cl figcaption i{font-style:normal;font-family:'Alexandria',system-ui,sans-serif;font-weight:300;font-size:.78rem;color:var(--muted);direction:ltr;text-align:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:-2px}
 html[dir="rtl"] .cl figcaption i{text-align:right}
+html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexandria',system-ui,sans-serif}
 .cl figcaption span{font-size:.8rem;color:color-mix(in srgb,var(--c) 70%,var(--muted));display:inline-flex;align-items:center;gap:7px}
 .cl figcaption span::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c);box-shadow:0 0 8px var(--c)}
 @media(max-width:700px){.cl{width:184px;padding:8px;border-radius:16px}.cl-logo{height:118px;padding:12px 14px}.cl-logo img{max-height:84px}.cl-logo img.big{max-height:100px}.cl-photo .cl-logo img{width:96px;height:96px}.cl-marquee{--gap:12px}.cl-track{animation-duration:30s}}
