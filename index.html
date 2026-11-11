@@ -885,6 +885,7 @@ const CATS=[
   {id:'all',ar:'الكل',en:'All'},
   {id:'motion',ar:'موشن جرافيك',en:'Motion graphics'},
   {id:'fashion',ar:'أزياء وعبايات',en:'Fashion & abayas'},
+  {id:'packaging',ar:'تغليف وأكياس',en:'Packaging design'},
   {id:'food',ar:'مطاعم ومقاهي',en:'Restaurants & cafés'},
   {id:'ai',ar:'ذكاء اصطناعي',en:'AI content'},
   {id:'logo',ar:'شعارات وهوية',en:'Logos & identity'}
@@ -1001,7 +1002,7 @@ try{ const h=location.hash.replace('#',''); if(CATS.some(c=>c.id===h)) filter=h;
 function order(list){
   if(filter!=='all'||CONTENT.order==='manual') return list; /* manual = order set in the admin */
   const by={};list.forEach(m=>(by[m.cat]=by[m.cat]||[]).push(m));
-  const keys=['motion','fashion','logo','food','ai'],out=[];let k=0;
+  const keys=['motion','fashion','packaging','logo','food','ai'],out=[];let k=0;
   while(out.length<list.length){const a=by[keys[k%keys.length]];if(a&&a.length)out.push(a.shift());k++;}
   return out;
 }

@@ -331,7 +331,7 @@ const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const H={'x-abc-admin':'1'};
 const abs=u=>!u?'':/^(https?:|\/)/.test(u)?u:'/'+u;
 const esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const CATS=[['motion','موشن جرافيك'],['fashion','أزياء وعبايات'],['food','مطاعم ومقاهي'],['ai','ذكاء اصطناعي'],['logo','شعارات وهوية']];
+const CATS=[['motion','موشن جرافيك'],['fashion','أزياء وعبايات'],['packaging','تغليف وأكياس'],['food','مطاعم ومقاهي'],['ai','ذكاء اصطناعي'],['logo','شعارات وهوية']];
 const catAr=id=>(CATS.find(c=>c[0]===id)||[,id])[1];
 const ICONS=[['chart','رسم بياني'],['chat','محادثة'],['fire','لهب'],['film','فيلم'],['motion','حركة'],['spark','نجمة'],['pen','قلم'],['logo','شعار'],['web','موقع'],['palette','ألوان']];
 let C=null, saved='', wFilter='all', wType='all', dragId=null, confirmDel=null, mediaAtLoad=new Set();
@@ -368,7 +368,7 @@ async function loadContent(){
   if(!C.heroBg) C.heroBg={src:'m/hero-bg.jpg',showReels:false};
   C.works=C.works||[];C.works=C.works.map((w,i)=>({w,i})).sort((a,b)=>((b.w.isNew?1:0)-(a.w.isNew?1:0))||a.i-b.i).map(x=>x.w);C.works.forEach(w=>delete w.isNew);
   if(C.order!=='manual'){ /* one-time: freeze the site's old mixed 'All' order so it can be edited */
-    const by={},keys=['motion','fashion','logo','food','ai'],out=[];C.works.forEach(w=>(by[w.cat]=by[w.cat]||[]).push(w));
+    const by={},keys=['motion','fashion','packaging','logo','food','ai'],out=[];C.works.forEach(w=>(by[w.cat]=by[w.cat]||[]).push(w));
     const n=C.works.length;let k=0,guard=0;while(out.length<n&&guard<n*keys.length+10){const a=by[keys[k%keys.length]];if(a&&a.length)out.push(a.shift());k++;guard++;}
     C.works.forEach(w=>{if(!out.includes(w))out.push(w);});C.works=out;C.order='manual'; }C.services=C.services||[];C.texts=C.texts||{};C.contact=C.contact||{};C.hero=C.hero||[];C.lab=C.lab||[];
   saved=JSON.stringify(C); mediaAtLoad=mediaIds(C);

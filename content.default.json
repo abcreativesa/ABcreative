@@ -12,6 +12,50 @@
  "works": [
   {
    "type": "video",
+   "cat": "packaging",
+   "src": "v/n12.mp4",
+   "poster": "v/n12.jpg",
+   "isNew": true,
+   "id": "w75"
+  },
+  {
+   "type": "image",
+   "cat": "packaging",
+   "src": "m/pk01.jpeg",
+   "w": 1100,
+   "h": 939,
+   "isNew": true,
+   "id": "w76"
+  },
+  {
+   "type": "image",
+   "cat": "packaging",
+   "src": "m/pk02.jpeg",
+   "w": 1100,
+   "h": 1100,
+   "isNew": true,
+   "id": "w77"
+  },
+  {
+   "type": "image",
+   "cat": "packaging",
+   "src": "m/pk03.jpeg",
+   "w": 1100,
+   "h": 825,
+   "isNew": true,
+   "id": "w78"
+  },
+  {
+   "type": "image",
+   "cat": "packaging",
+   "src": "m/pk04.jpeg",
+   "w": 1100,
+   "h": 825,
+   "isNew": true,
+   "id": "w79"
+  },
+  {
+   "type": "video",
    "cat": "motion",
    "src": "v/n10.mp4",
    "poster": "v/n10.jpg",
@@ -541,6 +585,7 @@
   }
  ],
  "hero": [
+  "w75",
   "w1",
   "w56",
   "w5",
