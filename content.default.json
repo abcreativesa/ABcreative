@@ -16,7 +16,8 @@
    "src": "v/n12.mp4",
    "poster": "v/n12.jpg",
    "isNew": true,
-   "id": "w75"
+   "id": "w75",
+   "addedAt": "2026-11-11T19:20:00Z"
   },
   {
    "type": "image",
@@ -25,7 +26,8 @@
    "w": 1100,
    "h": 939,
    "isNew": true,
-   "id": "w76"
+   "id": "w76",
+   "addedAt": "2026-11-11T19:20:00Z"
   },
   {
    "type": "image",
@@ -34,7 +36,8 @@
    "w": 1100,
    "h": 1100,
    "isNew": true,
-   "id": "w77"
+   "id": "w77",
+   "addedAt": "2026-11-11T19:20:00Z"
   },
   {
    "type": "image",
@@ -43,7 +46,8 @@
    "w": 1100,
    "h": 825,
    "isNew": true,
-   "id": "w78"
+   "id": "w78",
+   "addedAt": "2026-11-11T19:20:00Z"
   },
   {
    "type": "image",
@@ -52,7 +56,8 @@
    "w": 1100,
    "h": 825,
    "isNew": true,
-   "id": "w79"
+   "id": "w79",
+   "addedAt": "2026-11-11T19:20:00Z"
   },
   {
    "type": "video",

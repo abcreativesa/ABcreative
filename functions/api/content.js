@@ -1,9 +1,27 @@
 import { json, isAdmin, sameOrigin } from '../_lib/auth.js';
 // GET: live site content (falls back to the bundled default file). PUT: admin saves new content.
+// Works added to the bundled defaults after the admin's last save (marked with addedAt) are shown on top,
+// so new work pushed to the repo appears even when the admin has saved content before.
+async function withNewDefaults(saved, env, request) {
+  try {
+    const data = JSON.parse(saved);
+    const res = await env.ASSETS.fetch(new URL('/content.default.json', request.url));
+    const def = await res.json();
+    const savedAt = Date.parse(data.updatedAt || 0) || 0;
+    const have = new Set((data.works || []).map(w => w.id));
+    const removed = new Set(data.removed || []);
+    const fresh = (def.works || []).filter(w => w.addedAt && Date.parse(w.addedAt) > savedAt && !have.has(w.id) && !removed.has(w.id));
+    if (!fresh.length) return saved;
+    data.works = fresh.concat(data.works || []);
+    const heroNew = (def.hero || []).filter(id => fresh.some(w => w.id === id));
+    if (heroNew.length && Array.isArray(data.hero)) data.hero = heroNew.concat(data.hero.filter(id => !heroNew.includes(id)));
+    return JSON.stringify(data);
+  } catch (e) { return saved; }
+}
 export async function onRequestGet({ env, request }) {
   if (env.CONTENT) {
     const saved = await env.CONTENT.get('content', 'text');
-    if (saved) return new Response(saved, { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-cache' } });
+    if (saved) return new Response(await withNewDefaults(saved, env, request), { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-cache' } });
   }
   const res = await env.ASSETS.fetch(new URL('/content.default.json', request.url));
   return new Response(res.body, { headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-cache' } });
