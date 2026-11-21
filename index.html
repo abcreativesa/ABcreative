@@ -10,7 +10,7 @@
 <meta property="og:image" content="m/lockup.png">
 <meta name="theme-color" content="#070c18">
 <link rel="icon" type="image/png" href="m/mark.png">
-<script>(function(){try{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;}catch(e){}var r=document.documentElement;r.classList.add('hx');setTimeout(function(){if(!window.gsap||!window.ScrollTrigger)r.classList.remove('hx')},4500);})();</script>
+<script>(function(){try{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;}catch(e){}var r=document.documentElement;r.classList.add('hx');setTimeout(function(){if(!window.gsap||!window.ScrollTrigger)r.classList.remove('hx')},6000);})();</script>
 <style>html.hx .hero h1,html.hx .hero-eyebrow,html.hx .hero .lead,html.hx .svc-pills,html.hx .hero .actions,html.hx .hero .fact,html.hx .fact{opacity:0}</style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 <style>
@@ -183,7 +183,8 @@ html[dir="rtl"] .arrow{transform:scaleX(-1)}
 .hero h1{font-size:clamp(1.6rem,3.3vw,2.95rem);line-height:1.55;font-weight:800;margin-top:18px;letter-spacing:0;text-wrap:balance;color:#f4f8ff;text-shadow:0 10px 40px rgba(0,0,0,.35)}
 @media(max-width:620px){.hero h1{font-size:clamp(1.45rem,6.6vw,1.85rem);line-height:1.6}}
 .hero h1 .ln{display:block;overflow:hidden;padding:.06em 0 .16em;margin:-.06em 0 -.16em}
-.hero h1 .li{display:inline-block;will-change:transform}
+.hero h1 .li{display:inline-block}
+.hero h1 .hw{display:inline-block;will-change:transform,opacity}
 .hero h1 .ln em{display:inline-block}
 html[dir="ltr"] .hero h1{font-size:clamp(2rem,4.2vw,3.7rem);line-height:1.08}
 .hero h1 em{font-style:normal;text-shadow:none;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
@@ -244,7 +245,7 @@ section::before{content:"";position:absolute;z-index:-1;width:min(720px,90vw);as
 .ticker{background:linear-gradient(90deg,#0b1a36,#1a1236,#2a1030)}
 :root[data-theme="light"] .ticker{background:linear-gradient(90deg,#e6effb,#efe9fb,#fbe8f0)}
 .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:clamp(36px,5vw,64px)}
-.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
+.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1),var(--g2) 45%,var(--g3) 75%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
 .sec-head h2{font-size:clamp(1.75rem,3.6vw,2.9rem);line-height:1.55;margin-top:12px}
 html[dir="ltr"] .sec-head h2{line-height:1.15}
 .sec-head p{color:var(--muted);max-width:52ch}
@@ -413,7 +414,7 @@ html[dir="ltr"] .steps-line i{transform-origin:0 50%;background:linear-gradient(
 .contact{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(28px,5vw,64px);align-items:start}
 .contact h2{font-size:clamp(2rem,4.4vw,3.5rem);line-height:1.45}
 html[dir="ltr"] .contact h2{line-height:1.1}
-.contact h2 em{font-style:normal;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1),var(--g2) 45%,var(--g3) 75%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
 .contact .side p{color:var(--muted);margin-top:18px;max-width:44ch}
 .wa-card{margin-top:30px;display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:20px;border:1px solid color-mix(in srgb,#25d366 40%,transparent);background:linear-gradient(120deg,color-mix(in srgb,#25d366 16%,transparent),transparent)}
 .wa-card{position:relative;z-index:1;flex-wrap:wrap;transition:box-shadow .3s,border-color .3s}
@@ -606,6 +607,16 @@ body.has-cursor .cursor-ring,body.has-cursor .cursor-glow{opacity:1}
 .cl-track{display:flex;gap:var(--gap);width:max-content;animation:clslide 38s linear infinite}
 html[dir="rtl"] .cl-track{animation-name:clslide-rtl}
 .cl-marquee:hover .cl-track,.cl-marquee:focus-within .cl-track{animation-play-state:paused}
+
+/* clients marquee: drag / swipe while it keeps moving */
+.cl-marquee.js .cl-track{animation:none!important;will-change:transform}
+.cl-marquee.js{cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.cl-marquee.js.drag{cursor:grabbing}
+.cl-marquee.js img{-webkit-user-drag:none;pointer-events:none}
+.cl-nav{display:flex;gap:10px;margin-inline-start:auto}
+.cl-arrow{width:46px;height:46px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 85%,transparent);color:var(--text);font-size:1.5rem;line-height:1;cursor:pointer;display:grid;place-items:center;transition:background .25s,border-color .25s,transform .25s}
+.cl-arrow:hover{border-color:var(--g1);background:color-mix(in srgb,var(--g1) 22%,var(--panel));transform:scale(1.06)}
+@media(max-width:700px){.cl-arrow{width:40px;height:40px;font-size:1.3rem}}
 @keyframes clslide{to{transform:translateX(calc(-50% - var(--gap)/2))}}
 @keyframes clslide-rtl{to{transform:translateX(calc(50% + var(--gap)/2))}}
 .cl{margin:0;width:236px;flex:none;border-radius:20px;padding:10px;background:color-mix(in srgb,var(--panel) 85%,transparent);border:1px solid var(--line);transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .3s,box-shadow .45s}
@@ -683,6 +694,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
   <div class="wrap cl-head">
     <div class="label" data-en="Our clients" data-k="t120">عملاؤنا</div>
     <h2 id="clTitle" data-en="Brands that trust us" data-k="t121">علامات وثقت بنا</h2>
+    <div class="cl-nav"><button type="button" class="cl-arrow" id="clPrev" aria-label="previous">›</button><button type="button" class="cl-arrow" id="clNext" aria-label="next">‹</button></div>
   </div>
   <div class="cl-marquee"><div class="cl-track" id="clTrack"><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#bfae98"><img src="m/clients/jod.png" alt="Jod Medical Complex" loading="lazy" decoding="async"></div><figcaption><b>مجمع جود الطبي</b><i>Jod Medical Complex</i><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#0b0a09"><img class="big" src="m/clients/falcon.png" alt="Falcon Medical" loading="lazy" decoding="async"></div><figcaption><b>فالكون الطبية</b><i>Falcon Medical</i><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g3)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara.png" alt="Sara Altwaim" loading="lazy" decoding="async"></div><figcaption><b>سارة التويم للزفاف</b><i>Sara Altwaim Bridal</i><span data-en="Bridal couture">فساتين الزفاف</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara-fh.png" alt="Sara Altwaim Fashion House" loading="lazy" decoding="async"></div><figcaption><b>سارة التويم للأزياء</b><i>Sara Altwaim Fashion House</i><span data-en="Fashion house">دار أزياء</span></figcaption></figure><figure class="cl" style="--c:var(--g2)"><div class="cl-logo" style="--cb:linear-gradient(180deg,#cfc6ba,#b9afa2)"><img src="m/clients/lorven.png" alt="LORVÉN" loading="lazy" decoding="async"></div><figcaption><b>لورفين</b><i>LORVÉN</i><span data-en="Luxury abayas">عبايات فاخرة</span></figcaption></figure><figure data-client="huda" tabindex="0" role="button" class="cl cl-photo" style="--c:var(--g2)"><div class="cl-logo"><img src="m/clients/huda.png" alt="Huda Arabi" loading="lazy" decoding="async"></div><figcaption><b>هدى عربي</b><i>Huda Arabi</i><span data-en="Artist">فنانة</span></figcaption><span class="cl-go" data-en="View work ↗">شوف أعمالها ↗</span></figure><figure data-client="osman" tabindex="0" role="button" class="cl cl-photo" style="--c:var(--g1)"><div class="cl-logo"><img src="m/clients/osman.png" alt="Osman Bisha" loading="lazy" decoding="async"></div><figcaption><b>عثمان بشة</b><i>Osman Bisha</i><span data-en="Artist">فنان</span></figcaption><span class="cl-go" data-en="View work ↗">شوف العمل ↗</span></figure><figure data-client="forno" tabindex="0" role="button" class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img class="big" src="m/clients/forno.png" alt="Forno Nero" loading="lazy" decoding="async"></div><figcaption><b>فورنو نيرو</b><i>Forno Nero</i><span data-en="Restaurant">مطاعم</span></figcaption><span class="cl-go" data-en="View work ↗">شوف العمل ↗</span></figure><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/asfar.png" alt="Asfar Travel & Tourism" loading="lazy" decoding="async"></div><figcaption><b>أسفار للسفر والسياحة</b><i>Asfar Travel & Tourism</i><span data-en="Travel & tourism">السفر والسياحة</span></figcaption></figure></div></div>
 </section>
@@ -711,9 +723,9 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
     <div class="sec-head">
       <div>
         <div class="label" data-en="Digital projects" data-k="dp1">مشاريع رقمية</div>
-        <h2 data-en="Your brand, <em>live online.</em>" data-k="dp2">نصنع لعلامتك <em>حضورا رقميا.</em></h2>
+        <h2 data-en="Websites and menus that <em>live online.</em>" data-k="dp2">مواقع ومنيو <em>تعيش أونلاين.</em></h2>
       </div>
-      <p data-en="Official websites for artists and brands, and interactive menus for restaurants and cafés. Fast, bilingual, on your own domain, and built to be shared." data-k="dp3">مواقع رسمية للفنانين والعلامات التجارية، ومنيو تفاعلي للمطاعم والمقاهي. سريعة، بالعربي والإنجليزي، على دومين باسمك، ومصممة عشان تنتشر.</p>
+      <p data-en="We build official websites for artists and brands, and interactive digital menus for restaurants and cafés: fast, bilingual, and live on your own domain." data-k="dp3">نبني مواقع رسمية للفنانين والعلامات التجارية، ومنيو إلكتروني تفاعلي للمطاعم والمقاهي: سريعة، بالعربي والإنجليزي، وعلى دومين خاص فيك.</p>
     </div>
     <div class="dp">
       <div class="phone" aria-label="Forno Nero digital menu preview">
@@ -1253,6 +1265,47 @@ $('#copyPhone').addEventListener('click',()=>{
 (function(){const t=document.getElementById('clTrack');if(!t||t.dataset.cloned)return;t.dataset.cloned=1;
   [...t.children].forEach(c=>{const d=c.cloneNode(true);d.setAttribute('aria-hidden','true');d.removeAttribute('tabindex');d.querySelectorAll('[data-en]').forEach(e=>e.removeAttribute('data-ar'));t.appendChild(d);});})();
 
+
+/* clients: auto-scrolling strip the visitor can drag, swipe or step with arrows */
+(function(){
+  const t=document.getElementById('clTrack'); if(!t) return; const m=t.parentElement; m.classList.add('js');
+  const reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const rtl=()=>document.documentElement.dir==='rtl';
+  let half=0,x=0,v=0,auto=0,target=null,hover=false,down=false,moved=0,lx=0,lt=0,last=performance.now();
+  const measure=()=>{const gap=parseFloat(getComputedStyle(m).getPropertyValue('--gap'))||18; half=t.scrollWidth/2+gap/2; auto=reduce?0:half/38;};
+  const lo=()=>rtl()?0:-half, hi=()=>rtl()?half:0;
+  const wrap=()=>{ if(!half) return; const nx=lo()+(((x-lo())%half)+half)%half, d=nx-x; if(d){x=nx; if(target!==null) target+=d;} };
+  const dirSign=()=>rtl()?1:-1;            /* same direction the old CSS animation used */
+  function frame(now){
+    const dt=Math.min(.05,(now-last)/1000); last=now;
+    if(!down){
+      if(target!==null){ const d=target-x; x+=d*Math.min(1,dt*9); if(Math.abs(d)<.5){x=target;target=null;} }
+      else{ const want=hover?0:auto*dirSign(); v+=(want-v)*Math.min(1,dt*2.2); x+=v*dt; }
+    }
+    wrap(); t.style.transform=`translate3d(${x}px,0,0)`; requestAnimationFrame(frame);
+  }
+  measure(); addEventListener('resize',measure); addEventListener('load',measure);
+  // start from the position the CSS animation had reached, if any
+  requestAnimationFrame(frame);
+  m.addEventListener('pointerenter',e=>{if(e.pointerType==='mouse')hover=true;});
+  m.addEventListener('pointerleave',e=>{if(e.pointerType==='mouse')hover=false;});
+  m.addEventListener('pointerdown',e=>{ if(e.button>0) return; down=true;moved=0;lx=e.clientX;lt=performance.now();target=null;v=0; });
+  addEventListener('pointermove',e=>{ if(!down) return; const dx=e.clientX-lx; lx=e.clientX; moved+=Math.abs(dx);
+    if(moved>6){ m.classList.add('drag'); if(!m.hasPointerCapture(e.pointerId)) try{m.setPointerCapture(e.pointerId)}catch(_){} }
+    const now=performance.now(); const dtt=Math.max(1,now-lt)/1000; lt=now; x+=dx; v=dx/dtt; });
+  const up=()=>{ if(!down) return; down=false; m.classList.remove('drag'); v=Math.max(-2600,Math.min(2600,v)); };
+  addEventListener('pointerup',up); addEventListener('pointercancel',up);
+  // a drag is not a click: keep the client sheet closed after dragging
+  m.addEventListener('click',e=>{ if(moved>6){ e.stopPropagation(); e.preventDefault(); moved=0; } },true);
+  // trackpad / shift-wheel horizontal scrolling
+  m.addEventListener('wheel',e=>{ if(Math.abs(e.deltaX)>Math.abs(e.deltaY)){ e.preventDefault(); x-=e.deltaX; v=0; target=null; } },{passive:false});
+  const stepW=()=>{const c=t.querySelector('.cl');return c?c.getBoundingClientRect().width+(parseFloat(getComputedStyle(m).getPropertyValue('--gap'))||18):250;};
+  const step=s=>{ v=0; let base=target!==null?target:x; target=base+s*stepW(); if(target>=hi()){x-=half;target-=half;} if(target<lo()){x+=half;target+=half;} };
+  /* arrows point the way the cards travel: › moves them right, ‹ moves them left */
+  const p=document.getElementById('clPrev'), n=document.getElementById('clNext');
+  if(p) p.onclick=()=>step(1); if(n) n.onclick=()=>step(-1);
+  addEventListener('keydown',e=>{ if(!m.contains(document.activeElement)) return; if(e.key==='ArrowRight') step(1); if(e.key==='ArrowLeft') step(-1); });
+})();
 /* ---------- clients: open their work ---------- */
 (function(){
   const CL={
@@ -1515,17 +1568,28 @@ if (!reduce && window.gsap && window.ScrollTrigger) {
       const li = document.createElement('span'); li.className = 'li';
       l.forEach(n => li.appendChild(n)); ln.appendChild(li); h1.appendChild(ln);
     });
-    const tl = gsap.timeline({paused:true, defaults:{ease:'expo.out'}, onStart:() => document.documentElement.classList.remove('hx')});
+    // split each line into words so they arrive one after another
+    h1.querySelectorAll('.li').forEach(li => {
+      [...li.childNodes].forEach(n => {
+        if (n.nodeType === 3) {
+          const frag = document.createDocumentFragment();
+          n.textContent.split(/(\s+)/).forEach(part => { if (!part) return; if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+            const w = document.createElement('span'); w.className = 'hw'; w.textContent = part; frag.appendChild(w); });
+          n.replaceWith(frag);
+        } else if (n.nodeType === 1) { n.classList.add('hw'); }
+      });
+    });
+    const tl = gsap.timeline({paused:true, delay:1.1, defaults:{ease:'power3.out'}, onStart:() => document.documentElement.classList.remove('hx')});
     tl.set('.hero h1, .hero-eyebrow, .hero .lead, .svc-pills, .hero .actions, .fact', {opacity:1})
-      .from('.hero-eyebrow', {y:-14, opacity:0, duration:.9}, 0)
-      .from(h1.querySelectorAll('.li'), {yPercent:118, skewY:5, duration:1.25, stagger:.13}, .12)
-      .from('.hero .lead', {y:18, opacity:0, filter:'blur(8px)', duration:1.1, clearProps:'filter'}, .62)
-      .from('.svc-pills span', {y:14, opacity:0, scale:.92, duration:.8, stagger:.045}, .78)
-      .from('.hero .actions .btn', {y:16, opacity:0, duration:.9, stagger:.08}, .92)
-      .from('.fact', {y:18, opacity:0, duration:.9, stagger:.07}, 1.02);
+      .from('.hero-eyebrow', {y:-12, opacity:0, duration:1.4}, 0)
+      .from(h1.querySelectorAll('.hw'), {yPercent:105, opacity:0, filter:'blur(12px)', duration:1.9, ease:'expo.out', stagger:.38, clearProps:'filter'}, .7)
+      .from('.hero .lead', {y:18, opacity:0, filter:'blur(10px)', duration:1.8, clearProps:'filter'}, 2.6)
+      .from('.svc-pills span', {y:14, opacity:0, scale:.94, duration:1.1, stagger:.09}, 3.3)
+      .from('.hero .actions .btn', {y:16, opacity:0, duration:1.2, stagger:.15}, 3.8)
+      .from('.fact', {y:18, opacity:0, duration:1.2, stagger:.12}, 4.1);
     gsap.from('#reels .reel-col', {y:220, duration:1.9, ease:'expo.out', stagger:.14, delay:.2});
     let played = false;
-    const go = () => { if (played) return; played = true; tl.play(0); };
+    const go = () => { if (played) return; played = true; tl.restart(true); };
     addEventListener('abc:enter', go, {once:true});
     const check = () => { if (!document.querySelector('.gate')) go(); };
     setTimeout(check, 650); setTimeout(check, 1600);
@@ -1542,39 +1606,8 @@ if (!reduce && window.gsap && window.ScrollTrigger) {
   if (ticker) ScrollTrigger.create({onUpdate:self => gsap.to(ticker, {skewX:gsap.utils.clamp(-12, 12, self.getVelocity() / -250), duration:.4, ease:'power3', overwrite:true})});
 
 
-  // headings: word-by-word unfold when they come into view (like the hero)
-  const splitWords = node => {
-    [...node.childNodes].forEach(n => {
-      if (n.nodeType === 3) {
-        const frag = document.createDocumentFragment();
-        n.textContent.split(/(\s+)/).forEach(part => {
-          if (!part) return;
-          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
-          const sp = document.createElement('span'); sp.className = 'sw'; sp.textContent = part; frag.appendChild(sp);
-        });
-        n.replaceWith(frag);
-      } else if (n.nodeType === 1 && n.tagName === 'EM') { n.style.display = 'inline-block'; n.classList.add('sw'); }
-    });
-  };
-  if (MO.reveal!==false) {
-    document.querySelectorAll('.sec-head h2, #digital h3, .cl-head h2').forEach(h => {
-      if (h.dataset.ar === undefined && h.dataset.en !== undefined) h.dataset.ar = h.innerHTML;
-      splitWords(h);
-      gsap.from(h.querySelectorAll('.sw'), {y:60, rotateX:-75, transformPerspective:600, transformOrigin:'50% 100%', filter:'blur(10px)', opacity:0, duration:1.25, ease:'expo.out', stagger:.08, clearProps:'all',
-        scrollTrigger:{trigger:h, start:'top 86%', once:true}});
-    });
-    // digital projects: device glides in, copy follows
-    gsap.utils.toArray('#digital .dp').forEach((dp, k) => {
-      const dev = dp.querySelector('.phone, .laptop'), side = dp.classList.contains('rev') ? 1 : -1;
-      const rtl = document.documentElement.dir === 'rtl' ? -1 : 1;
-      if (dev) gsap.from(dev, {x:120*side*rtl, rotateY:-28*side*rtl, rotateX:8, transformPerspective:1400, opacity:0, duration:1.6, ease:'expo.out', scrollTrigger:{trigger:dp, start:'top 80%', once:true}});
-      gsap.from(dp.querySelectorAll('.num, .client, .lead, .feats li, .acts .btn'), {y:34, opacity:0, filter:'blur(6px)', duration:1.1, ease:'expo.out', stagger:.06, delay:.25, clearProps:'filter', scrollTrigger:{trigger:dp, start:'top 78%', once:true}});
-    });
-    // section paragraphs: soft focus-in
-    gsap.utils.toArray('.sec-head p, .cl-head .label, .sec-head .label').forEach(p => gsap.from(p, {opacity:0, y:20, filter:'blur(8px)', duration:1.2, ease:'expo.out', clearProps:'filter', scrollTrigger:{trigger:p, start:'top 90%', once:true}}));
-  }
   // section headings: slide + unfold
-  if (MO.reveal!==false) gsap.utils.toArray('.lab-copy, .contact .side').forEach(el => {
+  if (MO.reveal!==false) gsap.utils.toArray('.sec-head, .lab-copy, .contact .side').forEach(el => {
     gsap.from(el.children, {y:60, rotateX:-25, transformPerspective:800, duration:1.2, ease:'expo.out', stagger:.08, scrollTrigger:{trigger:el, start:'top 88%'}});
   });
 
