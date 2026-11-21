@@ -12,52 +12,10 @@
  "works": [
   {
    "type": "video",
-   "cat": "events",
-   "src": "v/n14.mp4",
-   "poster": "v/n14.jpg",
-   "isNew": true,
-   "id": "w81",
-   "addedAt": "2026-11-21T14:55:00Z"
-  },
-  {
-   "type": "image",
-   "cat": "events",
-   "src": "m/ev01.jpeg",
-   "w": 1080,
-   "h": 1920,
-   "isNew": true,
-   "id": "w82",
-   "addedAt": "2026-11-21T14:55:00Z"
-  },
-  {
-   "type": "image",
-   "cat": "events",
-   "src": "m/ev02.jpeg",
-   "w": 1080,
-   "h": 1920,
-   "isNew": true,
-   "id": "w83",
-   "addedAt": "2026-11-21T14:55:00Z"
-  },
-  {
-   "type": "image",
-   "cat": "events",
-   "src": "m/ev03.jpeg",
-   "w": 1080,
-   "h": 1920,
-   "isNew": true,
-   "id": "w84",
-   "addedAt": "2026-11-21T14:55:00Z"
-  },
-  {
-   "type": "image",
-   "cat": "events",
-   "src": "m/ev04.jpeg",
-   "w": 1280,
-   "h": 720,
-   "isNew": true,
-   "id": "w85",
-   "addedAt": "2026-11-21T14:55:00Z"
+   "cat": "fashion",
+   "src": "v/n11.mp4",
+   "poster": "v/n11.jpg",
+   "id": "w74"
   },
   {
    "type": "video",
@@ -117,10 +75,52 @@
   },
   {
    "type": "video",
-   "cat": "fashion",
-   "src": "v/n11.mp4",
-   "poster": "v/n11.jpg",
-   "id": "w74"
+   "cat": "events",
+   "src": "v/n14.mp4",
+   "poster": "v/n14.jpg",
+   "isNew": true,
+   "id": "w81",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev01.jpeg",
+   "w": 1080,
+   "h": 1920,
+   "isNew": true,
+   "id": "w82",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev02.jpeg",
+   "w": 1080,
+   "h": 1920,
+   "isNew": true,
+   "id": "w83",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev03.jpeg",
+   "w": 1080,
+   "h": 1920,
+   "isNew": true,
+   "id": "w84",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev04.jpeg",
+   "w": 1280,
+   "h": 720,
+   "isNew": true,
+   "id": "w85",
+   "addedAt": "2026-11-21T14:55:00Z"
   },
   {
    "type": "video",
@@ -268,7 +268,7 @@
   },
   {
    "type": "video",
-   "cat": "fashion",
+   "cat": "events",
    "src": "v/n05.mp4",
    "poster": "v/n05.jpg",
    "id": "w56"
@@ -891,5 +891,18 @@
   "enabled": true,
   "volume": 0.5
  },
- "order": "manual"
+ "order": "manual",
+ "patches": [
+  {
+   "at": "2026-11-21T15:20:00Z",
+   "top": [
+    "w74"
+   ],
+   "set": {
+    "w56": {
+     "cat": "events"
+    }
+   }
+  }
+ ]
 }

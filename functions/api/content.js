@@ -11,15 +11,22 @@ async function withNewDefaults(saved, env, request) {
     const have = new Set((data.works || []).map(w => w.id));
     const removed = new Set(data.removed || []);
     const fresh = (def.works || []).filter(w => w.addedAt && Date.parse(w.addedAt) > savedAt && !have.has(w.id) && !removed.has(w.id));
-    if (!fresh.length) return saved;
+    // Patches from the repo (dated): move chosen works to the top and change fields, unless the admin saved after them.
+    let patched = false;
+    (def.patches || []).forEach(p => {
+      if (!p.at || Date.parse(p.at) <= savedAt) return;
+      const ws = data.works || [];
+      Object.entries(p.set || {}).forEach(([id, f]) => { const w = ws.find(x => x.id === id); if (w) { Object.assign(w, f); patched = true; } });
+      (p.top || []).slice().reverse().forEach(id => { const i = ws.findIndex(x => x.id === id); if (i > 0) { ws.unshift(ws.splice(i, 1)[0]); patched = true; } });
+    });
+    if (!fresh.length) return patched ? JSON.stringify(data) : saved;
     // Keep each new work at its place in the defaults: after the nearest earlier default work the admin
     // content already has; works at the very top of the defaults (or with no such neighbour) go on top.
     const works = (data.works || []).slice(), top = [];
-    const freshIds = new Set(fresh.map(w => w.id));
     fresh.forEach(w => {
       const di = def.works.findIndex(x => x.id === w.id);
       let anchor = null;
-      for (let k = di - 1; k >= 0; k--) { const id = def.works[k].id; if (freshIds.has(id)) break; if (works.some(x => x.id === id)) { anchor = id; break; } }
+      for (let k = di - 1; k >= 0; k--) { const id = def.works[k].id; if (works.some(x => x.id === id)) { anchor = id; break; } }
       if (anchor) { const at = works.findIndex(x => x.id === anchor); works.splice(at + 1, 0, w); } else top.push(w);
     });
     data.works = top.concat(works);
