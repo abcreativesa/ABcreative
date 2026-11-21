@@ -178,9 +178,10 @@ html[dir="rtl"] .arrow{transform:scaleX(-1)}
 :root[data-theme="light"] .aurora i{opacity:.22}
 .hero-mark{position:absolute;width:min(760px,90vw);opacity:.035;bottom:-14%;inset-inline-start:-8%;pointer-events:none}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,72px);align-items:center;padding-block:clamp(48px,7vw,96px)}
-.hero h1{font-size:clamp(2.1rem,4.9vw,4.3rem);line-height:1.5;font-weight:700;margin-top:18px}
+.hero h1{font-size:clamp(1.9rem,4.6vw,4.1rem);line-height:1.45;font-weight:800;margin-top:18px;letter-spacing:0;text-wrap:balance;color:#f4f8ff;text-shadow:0 10px 40px rgba(0,0,0,.35)}
+@media(max-width:620px){.hero h1{font-size:clamp(1.75rem,8.4vw,2.3rem);line-height:1.5}}
 html[dir="ltr"] .hero h1{font-size:clamp(2.4rem,5.6vw,4.9rem);line-height:1.02}
-.hero h1 em{font-style:normal;background:linear-gradient(100deg,var(--g1) 0%,var(--g2) 45%,var(--g3) 75%,var(--g4) 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
+.hero h1 em{font-style:normal;text-shadow:none;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
 @keyframes sheen{from{background-position:0% 50%}to{background-position:100% 50%}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 16px 0 14px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 70%,transparent);backdrop-filter:blur(8px);font-size:.86rem;color:var(--muted)}
 .hero-eyebrow .live{width:8px;height:8px;border-radius:50%;background:#2ed3a0;box-shadow:0 0 0 4px color-mix(in srgb,#2ed3a0 25%,transparent);animation:pulse 2s ease-in-out infinite}
@@ -238,7 +239,7 @@ section::before{content:"";position:absolute;z-index:-1;width:min(720px,90vw);as
 .ticker{background:linear-gradient(90deg,#0b1a36,#1a1236,#2a1030)}
 :root[data-theme="light"] .ticker{background:linear-gradient(90deg,#e6effb,#efe9fb,#fbe8f0)}
 .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:clamp(36px,5vw,64px)}
-.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1) 0%,#8fd0ff 30%,var(--g2) 65%,var(--g1) 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
+.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
 .sec-head h2{font-size:clamp(1.75rem,3.6vw,2.9rem);line-height:1.55;margin-top:12px}
 html[dir="ltr"] .sec-head h2{line-height:1.15}
 .sec-head p{color:var(--muted);max-width:52ch}
@@ -407,7 +408,7 @@ html[dir="ltr"] .steps-line i{transform-origin:0 50%;background:linear-gradient(
 .contact{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(28px,5vw,64px);align-items:start}
 .contact h2{font-size:clamp(2rem,4.4vw,3.5rem);line-height:1.45}
 html[dir="ltr"] .contact h2{line-height:1.1}
-.contact h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1),var(--g2) 45%,var(--g3) 75%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+.contact h2 em{font-style:normal;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent}
 .contact .side p{color:var(--muted);margin-top:18px;max-width:44ch}
 .wa-card{margin-top:30px;display:flex;align-items:center;gap:16px;padding:18px 20px;border-radius:20px;border:1px solid color-mix(in srgb,#25d366 40%,transparent);background:linear-gradient(120deg,color-mix(in srgb,#25d366 16%,transparent),transparent)}
 .wa-card{position:relative;z-index:1;flex-wrap:wrap;transition:box-shadow .3s,border-color .3s}
@@ -651,7 +652,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
   <div class="wrap hero-grid">
     <div>
       <div class="hero-eyebrow"><span class="live"></span><span data-en="Marketing & creative studio · KSA · UAE · Sudan" data-k="t7">استوديو تسويق وإبداع · السعودية · الإمارات · السودان</span></div>
-      <h1 data-en="We build brands people <em>can't scroll past.</em>" data-k="t8">نصنع لعلامتك حضورا <em>يوقف التمرير.</em></h1>
+      <h1 data-en="We build brands people<br><em>can't scroll past.</em>" data-k="t8">نصنع لعلامتك حضورا<br><em>يوقف التمرير.</em></h1>
       <p class="lead" data-en="Marketing, design, motion graphics and AI-made content under one roof. We move at the speed of trends and deliver at the standard of global advertising." data-k="t9">تسويق وتصميم وموشن جرافيك ومحتوى بالذكاء الاصطناعي تحت سقف واحد. نشتغل بسرعة الترند، ونسلم بجودة الإعلان العالمي.</p>
       <div class="svc-pills"><span data-en="Marketing" data-k="t10">تسويق</span><span data-en="AI content" data-k="t11">ذكاء اصطناعي</span><span data-en="Branding" data-k="t12">هوية وشعارات</span><span data-en="Motion graphics" data-k="t13">موشن جرافيك</span><span data-en="Trends" data-k="t14">ترندات</span><span data-en="Websites" data-k="t15">مواقع إلكترونية</span></div>
       <div class="actions">
