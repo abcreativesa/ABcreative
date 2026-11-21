@@ -11,6 +11,26 @@
 <meta name="theme-color" content="#070c18">
 <link rel="icon" type="image/png" href="m/mark.png">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
+<style>
+/* ===== Digital projects: Forno Nero e-menu ===== */
+#digital .dp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(32px,6vw,80px);align-items:center}
+#digital .phone{position:relative;justify-self:center;width:300px;height:620px;border-radius:46px;padding:12px;background:linear-gradient(160deg,#2a2f3a,#0b0e14);box-shadow:0 40px 90px rgba(0,0,0,.45),inset 0 0 0 1.5px rgba(255,255,255,.12)}
+#digital .phone::before{content:"";position:absolute;top:20px;left:50%;width:90px;height:22px;margin-left:-45px;border-radius:999px;background:#05070b;z-index:2}
+#digital .screen{position:relative;width:100%;height:100%;border-radius:36px;overflow:hidden;background:#7A1712}
+#digital .screen iframe{position:absolute;top:0;left:0;width:390px;height:842px;border:0;transform:scale(.7077);transform-origin:0 0}
+html[dir="rtl"] #digital .screen iframe{left:auto;right:0;transform-origin:100% 0}
+#digital .glow{position:absolute;inset:-40px;z-index:-1;border-radius:50%;background:radial-gradient(closest-side,rgba(229,90,60,.35),transparent);filter:blur(20px)}
+#digital .client{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border:1px solid var(--line);border-radius:999px;font-weight:600;margin-bottom:18px}
+#digital .client i{width:10px;height:10px;border-radius:50%;background:#c0392b;display:block}
+#digital h3{font-size:clamp(1.5rem,3vw,2.3rem);line-height:1.5;margin:0 0 14px}
+html[dir="ltr"] #digital h3{line-height:1.2}
+#digital .lead{color:var(--muted);margin:0 0 22px;max-width:52ch}
+#digital ul.feats{list-style:none;margin:0 0 28px;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 22px}
+#digital ul.feats li{display:flex;gap:10px;align-items:flex-start;line-height:1.6}
+#digital ul.feats li::before{content:"";flex:none;width:8px;height:8px;margin-top:.6em;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g4))}
+#digital .acts{display:flex;flex-wrap:wrap;gap:12px}
+@media(max-width:860px){#digital .dp{grid-template-columns:1fr}#digital ul.feats{grid-template-columns:1fr}}
+</style>
 </head>
 <body>
 
@@ -631,6 +651,42 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
   </div>
 </section>
 
+<!-- ================= DIGITAL PROJECTS ================= -->
+<section id="digital">
+  <div class="wrap">
+    <div class="sec-head">
+      <div>
+        <div class="label" data-en="Digital projects" data-k="dp1">مشاريع رقمية</div>
+        <h2 data-en="Menus that <em>open the appetite.</em>" data-k="dp2">منيو إلكتروني <em>يفتح الشهية.</em></h2>
+      </div>
+      <p data-en="We design interactive digital menus for restaurants and cafés: animated, bilingual, linked to location and reviews, and reachable with one QR scan from the table." data-k="dp3">نصمم منيو إلكتروني تفاعلي للمطاعم والمقاهي: متحرك، بالعربي والإنجليزي، مربوط بالموقع والتقييمات، ويوصل له الزبون بمسح باركود واحد من الطاولة.</p>
+    </div>
+    <div class="dp">
+      <div class="phone" aria-label="Forno Nero digital menu preview">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="screen"><iframe src="https://fornonero-menu.ab-creativesa.com/" title="منيو Forno Nero الإلكتروني" loading="lazy"></iframe></div>
+      </div>
+      <div>
+        <span class="client"><i aria-hidden="true"></i>Forno Nero · Pizza Napoletana</span>
+        <h3 data-en="A live digital menu for a Neapolitan pizzeria in Riyadh" data-k="dp4">منيو إلكتروني حي لمطعم بيتزا نابولي في الرياض</h3>
+        <p class="lead" data-en="From the welcome animation to the last dessert: every dish, price and calorie count in a fast page the customer opens from their phone." data-k="dp5">من لحظة الترحيب إلى آخر حلى: كل الأطباق والأسعار والسعرات في صفحة سريعة يفتحها الزبون من جواله.</p>
+        <ul class="feats">
+          <li data-en="Animated welcome intro" data-k="dp6">مقدمة ترحيبية متحركة</li>
+          <li data-en="Moving showcase of the restaurant's ads" data-k="dp7">عرض متحرك لإعلانات المطعم</li>
+          <li data-en="Arabic &amp; English with proper ingredient translation" data-k="dp8">عربي وإنجليزي بترجمة دقيقة للمكونات</li>
+          <li data-en="Prices and calories for every dish" data-k="dp9">الأسعار والسعرات لكل طبق</li>
+          <li data-en="Location, Google reviews and one-tap call" data-k="dp10">الموقع وتقييم قوقل والاتصال بضغطة</li>
+          <li data-en="Table QR codes and a round printed menu" data-k="dp11">باركود للطاولات ومنيو دائري للطباعة</li>
+        </ul>
+        <div class="acts">
+          <a class="btn btn-blue" href="https://fornonero-menu.ab-creativesa.com/" target="_blank" rel="noopener"><span data-en="View the live menu" data-k="dp12">شاهد المنيو مباشرة</span> <span class="arrow">↗</span></a>
+          <a class="btn btn-line" href="#contact" data-en="Get a menu for your restaurant" data-k="dp13">اطلب منيو لمطعمك</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ================= SERVICES ================= -->
 <section id="services">
   <div class="wrap">
@@ -796,7 +852,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
           <a href="https://wa.me/966592451829" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2s-1 .3-3.3-.7a11.6 11.6 0 0 1-4.6-4c-.4-.5-1.1-1.6-1.1-3s.7-2 1-2.3a1 1 0 0 1 .7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6a8.6 8.6 0 0 0 1.6 2 7.7 7.7 0 0 0 2.3 1.4c.3.1.5.1.6 0l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3a2.4 2.4 0 0 1-.2 1.3z"/></svg></a>
         </div>
       </div>
-      <div class="foot-col"><h5 data-en="Explore" data-k="t96">استكشف</h5><a href="#work" data-en="Work" data-k="t97">الأعمال</a><a href="#services" data-en="Services" data-k="t98">الخدمات</a><a href="#results" data-en="Results" data-k="t99">النتائج</a><a href="#ai" data-en="AI Studio" data-k="t100">استوديو الذكاء الاصطناعي</a><a href="#process" data-en="Process" data-k="t101">طريقتنا</a></div>
+      <div class="foot-col"><h5 data-en="Explore" data-k="t96">استكشف</h5><a href="#work" data-en="Work" data-k="t97">الأعمال</a><a href="#digital" data-en="Digital menus" data-k="dp14">المنيو الإلكتروني</a><a href="#services" data-en="Services" data-k="t98">الخدمات</a><a href="#results" data-en="Results" data-k="t99">النتائج</a><a href="#ai" data-en="AI Studio" data-k="t100">استوديو الذكاء الاصطناعي</a><a href="#process" data-en="Process" data-k="t101">طريقتنا</a></div>
       <div class="foot-col"><h5 data-en="Services" data-k="t102">الخدمات</h5><a href="#services" data-en="Digital marketing" data-k="t103">التسويق الرقمي</a><a href="#services" data-en="Motion graphics" data-k="t104">موشن جرافيك</a><a href="#services" data-en="Logos & identity" data-k="t105">الشعارات والهوية</a><a href="#services" data-en="Websites" data-k="t106">المواقع الإلكترونية</a><a href="#services" data-en="AI content" data-k="t107">محتوى الذكاء الاصطناعي</a></div>
       <div class="foot-col"><h5 data-en="Contact" data-k="t108">تواصل</h5><span class="ltr" data-phone>+966 59 245 1829</span><a href="#contact" data-en="Send a project brief" data-k="t109">أرسل طلب مشروع</a><span data-en="Saudi Arabia · UAE · Sudan" data-k="t110">السعودية · الإمارات · السودان</span></div>
     </div>
