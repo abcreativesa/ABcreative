@@ -12,6 +12,55 @@
  "works": [
   {
    "type": "video",
+   "cat": "events",
+   "src": "v/n14.mp4",
+   "poster": "v/n14.jpg",
+   "isNew": true,
+   "id": "w81",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev01.jpeg",
+   "w": 1080,
+   "h": 1920,
+   "isNew": true,
+   "id": "w82",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev02.jpeg",
+   "w": 1080,
+   "h": 1920,
+   "isNew": true,
+   "id": "w83",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev03.jpeg",
+   "w": 1080,
+   "h": 1920,
+   "isNew": true,
+   "id": "w84",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "image",
+   "cat": "events",
+   "src": "m/ev04.jpeg",
+   "w": 1280,
+   "h": 720,
+   "isNew": true,
+   "id": "w85",
+   "addedAt": "2026-11-21T14:55:00Z"
+  },
+  {
+   "type": "video",
    "cat": "ai",
    "src": "v/n13.mp4",
    "poster": "v/n13.jpg",

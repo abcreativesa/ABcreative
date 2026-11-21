@@ -174,7 +174,7 @@ html[dir="ltr"] .hero h1{font-size:clamp(2.4rem,5.6vw,4.9rem);line-height:1.02}
 .reel img,.reel video{width:100%;height:100%;object-fit:cover}
 .reel::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 55%,color-mix(in srgb,var(--c,#000) 45%,rgba(0,0,0,.6)));pointer-events:none}
 .reel{--c:var(--g1);box-shadow:0 20px 40px -24px var(--c)}
-.reel[data-cat="fashion"]{--c:var(--g3)}.reel[data-cat="food"]{--c:var(--g4)}.reel[data-cat="ai"]{--c:var(--g2)}.reel[data-cat="logo"]{--c:#e2b265}
+.reel[data-cat="fashion"]{--c:var(--g3)}.reel[data-cat="food"]{--c:var(--g4)}.reel[data-cat="ai"]{--c:var(--g2)}.reel[data-cat="events"]{--c:#d86bc4}.reel[data-cat="logo"]{--c:#e2b265}
 .reel .rtag{position:absolute;z-index:1;bottom:10px;inset-inline-start:10px;display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:999px;font-size:.72rem;color:#fff;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);border:1px solid color-mix(in srgb,var(--c) 60%,transparent);white-space:nowrap;max-width:calc(100% - 20px);overflow:hidden}
 @media(max-width:600px){.reel .rtag{font-size:.62rem;height:22px;padding:0 8px;bottom:8px;inset-inline-start:8px}.hero-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.fact span{font-size:.74rem;line-height:1.5;display:block}}
 .reel .rtag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--c)}
@@ -250,7 +250,7 @@ html[dir="ltr"] .filter{padding:0 20px 0 8px}
 .filter[data-f="motion"]{--c:var(--g1)}
 .filter[data-f="fashion"]{--c:var(--g3)}
 .filter[data-f="food"]{--c:var(--g4)}
-.filter[data-f="ai"]{--c:var(--g2)}
+.filter[data-f="ai"]{--c:var(--g2)}.filter[data-f="events"]{--c:#d86bc4}
 .filter[data-f="logo"]{--c:#e2b265}
 :root[data-theme="light"] .filter[data-f="logo"]{--c:#b07c1f}
 .logo-board{display:block;width:100%;aspect-ratio:4/5;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
@@ -288,7 +288,7 @@ html[dir="ltr"] .filter{padding:0 20px 0 8px}
 @media(max-width:700px){
   .grid{gap:8px}
   .tile{margin-bottom:8px;border-radius:14px;--c:var(--g1);box-shadow:0 14px 30px -20px var(--c)}
-  .tile[data-cat="fashion"]{--c:var(--g3)}.tile[data-cat="food"]{--c:var(--g4)}.tile[data-cat="ai"]{--c:var(--g2)}.tile[data-cat="logo"]{--c:#e2b265}
+  .tile[data-cat="fashion"]{--c:var(--g3)}.tile[data-cat="food"]{--c:var(--g4)}.tile[data-cat="ai"]{--c:var(--g2)}.tile[data-cat="events"]{--c:#d86bc4}.tile[data-cat="logo"]{--c:#e2b265}
   .tile .cap{opacity:1;transform:none;inset:auto 0 0 0;padding:20px 6px 6px;justify-content:flex-start;background:linear-gradient(transparent,rgba(0,0,0,.55))}
   .tile .cap span:first-child{display:inline-flex;align-items:center;gap:4px;height:20px;padding:0 7px;border-radius:999px;font-size:.58rem;color:#fff;background:rgba(0,0,0,.4);backdrop-filter:blur(6px);border:1px solid color-mix(in srgb,var(--c) 60%,transparent);white-space:nowrap;max-width:100%;overflow:hidden}
   .tile .cap span:first-child::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--c);flex:none}
@@ -978,6 +978,7 @@ oudia:`<svg viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg" role="img" 
 const CATS=[
   {id:'all',ar:'الكل',en:'All'},
   {id:'motion',ar:'موشن جرافيك',en:'Motion graphics'},
+  {id:'events',ar:'حفلات وفنانين',en:'Artists & concerts'},
   {id:'fashion',ar:'أزياء وعبايات',en:'Fashion & abayas'},
   {id:'packaging',ar:'تغليف وأكياس',en:'Packaging design'},
   {id:'food',ar:'مطاعم ومقاهي',en:'Restaurants & cafés'},
@@ -1096,7 +1097,7 @@ try{ const h=location.hash.replace('#',''); if(CATS.some(c=>c.id===h)) filter=h;
 function order(list){
   if(filter!=='all'||CONTENT.order==='manual') return list; /* manual = order set in the admin */
   const by={};list.forEach(m=>(by[m.cat]=by[m.cat]||[]).push(m));
-  const keys=['motion','fashion','packaging','logo','food','ai'],out=[];let k=0;
+  const keys=['motion','events','fashion','packaging','logo','food','ai'],out=[];let k=0;
   while(out.length<list.length){const a=by[keys[k%keys.length]];if(a&&a.length)out.push(a.shift());k++;}
   return out;
 }
