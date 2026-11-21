@@ -44,6 +44,40 @@ html[dir="rtl"] #digital .lscreen iframe{left:auto;right:0;transform-origin:100%
 #digital .laptop .glow{background:radial-gradient(closest-side,rgba(200,90,190,.33),transparent)}
 #digital .client i.huda{background:#c86bd4}
 @media(max-width:860px){#digital .dp.rev > :first-child{order:0}}
+/* ===== v2: digital projects polish ===== */
+#digital .client{background:color-mix(in srgb,var(--panel) 80%,transparent);backdrop-filter:blur(8px);border-color:color-mix(in srgb,var(--g1) 35%,var(--line));font-size:.92rem}
+#digital .client i{background:var(--g1);box-shadow:0 0 10px var(--g1)}
+#digital .client i.huda{background:var(--g3);box-shadow:0 0 10px var(--g3)}
+html[dir="rtl"] #digital .num{text-align:right}
+#digital .num{display:block;text-align:left;font-family:var(--f-mono,monospace);font-size:.8rem;letter-spacing:.2em;color:var(--g1);margin-bottom:10px;opacity:.9}
+/* split-word reveal */
+.sw{display:inline-block;will-change:transform}
+/* ===== clients: clickable ===== */
+.cl[data-client]{cursor:pointer;position:relative}
+.cl[data-client] .cl-go{position:absolute;inset-inline-end:16px;top:16px;z-index:2;display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 12px;border-radius:999px;font-size:.78rem;font-weight:600;color:#fff;background:color-mix(in srgb,var(--c) 75%,#000);box-shadow:0 8px 20px -8px var(--c);opacity:.92;transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .35s}
+.cl[data-client]:hover .cl-go,.cl[data-client]:focus-visible .cl-go{opacity:1;transform:translateY(-2px) scale(1.06);box-shadow:0 12px 26px -8px var(--c)}
+@media(hover:none){.cl[data-client] .cl-go{opacity:1;transform:none}}
+.cl[data-client]:focus-visible{outline:2px solid var(--c);outline-offset:3px}
+.cs{position:fixed;inset:0;z-index:90;display:grid;place-items:center;padding:20px;background:rgba(3,6,14,.72);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+.cs-card{position:relative;width:min(980px,100%);max-height:calc(100vh - 40px);overflow:auto;border-radius:28px;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 96%,transparent),var(--bg,#070c18));border:1px solid var(--line);box-shadow:0 60px 120px -40px rgba(0,0,0,.8);padding:clamp(20px,3.4vw,38px)}
+.cs-card::before{content:"";position:absolute;inset:0 0 auto 0;height:220px;border-radius:28px 28px 0 0;background:radial-gradient(60% 100% at 50% 0%,color-mix(in srgb,var(--c,#3b9bff) 35%,transparent),transparent);pointer-events:none}
+.cs-x{position:absolute;top:16px;inset-inline-end:16px;width:42px;height:42px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--text);cursor:pointer;font-size:1rem;z-index:2}
+.cs-top{position:relative;display:flex;align-items:center;gap:20px;margin-bottom:24px;padding-inline-end:52px}
+.cs-logo{flex:none;width:96px;height:96px;border-radius:22px;display:grid;place-items:center;padding:12px;background:var(--cb,#fff);overflow:hidden}
+.cs-logo img{max-width:100%;max-height:100%;object-fit:contain}
+.cs-top small{display:block;color:var(--muted);font-size:.85rem;margin-bottom:4px}
+.cs-top h3{margin:0;font-family:var(--f-display);font-size:clamp(1.4rem,3vw,2rem);line-height:1.4}
+.cs-top p{margin:6px 0 0;color:var(--muted);max-width:60ch;line-height:1.7}
+.cs-acts{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 22px}
+.cs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.cs-grid button{position:relative;border:0;padding:0;border-radius:16px;overflow:hidden;cursor:pointer;background:#000;aspect-ratio:9/14}
+.cs-grid button.wide{grid-column:span 2;aspect-ratio:16/10}
+.cs-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.cs-grid button:hover img{transform:scale(1.06)}
+.cs-grid .pl{position:absolute;inset:auto auto 10px 10px;width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:rgba(0,0,0,.55);backdrop-filter:blur(6px);color:#fff;font-size:.9rem}
+html[dir="rtl"] .cs-grid .pl{inset:auto 10px 10px auto}
+@media(max-width:620px){.cs{padding:0;align-items:end}.cs-card{border-radius:24px 24px 0 0;max-height:88vh}.cs-logo{width:72px;height:72px}.cs-grid{grid-template-columns:repeat(2,1fr)}.cs-grid button.wide{grid-column:span 2}}
+
 </style>
 </head>
 <body>
@@ -204,7 +238,7 @@ section::before{content:"";position:absolute;z-index:-1;width:min(720px,90vw);as
 .ticker{background:linear-gradient(90deg,#0b1a36,#1a1236,#2a1030)}
 :root[data-theme="light"] .ticker{background:linear-gradient(90deg,#e6effb,#efe9fb,#fbe8f0)}
 .sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px 56px;align-items:end;margin-bottom:clamp(36px,5vw,64px)}
-.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1),var(--g2) 45%,var(--g3) 75%,var(--g4));-webkit-background-clip:text;background-clip:text;color:transparent}
+.sec-head h2 em{font-style:normal;background:linear-gradient(100deg,var(--g1) 0%,#8fd0ff 30%,var(--g2) 65%,var(--g1) 100%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
 .sec-head h2{font-size:clamp(1.75rem,3.6vw,2.9rem);line-height:1.55;margin-top:12px}
 html[dir="ltr"] .sec-head h2{line-height:1.15}
 .sec-head p{color:var(--muted);max-width:52ch}
@@ -644,7 +678,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
     <div class="label" data-en="Our clients" data-k="t120">عملاؤنا</div>
     <h2 id="clTitle" data-en="Brands that trust us" data-k="t121">علامات وثقت بنا</h2>
   </div>
-  <div class="cl-marquee"><div class="cl-track" id="clTrack"><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#bfae98"><img src="m/clients/jod.png" alt="Jod Medical Complex" loading="lazy" decoding="async"></div><figcaption><b>مجمع جود الطبي</b><i>Jod Medical Complex</i><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#0b0a09"><img class="big" src="m/clients/falcon.png" alt="Falcon Medical" loading="lazy" decoding="async"></div><figcaption><b>فالكون الطبية</b><i>Falcon Medical</i><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g3)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara.png" alt="Sara Altwaim" loading="lazy" decoding="async"></div><figcaption><b>سارة التويم للزفاف</b><i>Sara Altwaim Bridal</i><span data-en="Bridal couture">فساتين الزفاف</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara-fh.png" alt="Sara Altwaim Fashion House" loading="lazy" decoding="async"></div><figcaption><b>سارة التويم للأزياء</b><i>Sara Altwaim Fashion House</i><span data-en="Fashion house">دار أزياء</span></figcaption></figure><figure class="cl" style="--c:var(--g2)"><div class="cl-logo" style="--cb:linear-gradient(180deg,#cfc6ba,#b9afa2)"><img src="m/clients/lorven.png" alt="LORVÉN" loading="lazy" decoding="async"></div><figcaption><b>لورفين</b><i>LORVÉN</i><span data-en="Luxury abayas">عبايات فاخرة</span></figcaption></figure><figure class="cl cl-photo" style="--c:var(--g2)"><div class="cl-logo"><img src="m/clients/huda.png" alt="Huda Arabi" loading="lazy" decoding="async"></div><figcaption><b>هدى عربي</b><i>Huda Arabi</i><span data-en="Artist">فنانة</span></figcaption></figure><figure class="cl cl-photo" style="--c:var(--g1)"><div class="cl-logo"><img src="m/clients/osman.png" alt="Osman Bisha" loading="lazy" decoding="async"></div><figcaption><b>عثمان بشة</b><i>Osman Bisha</i><span data-en="Artist">فنان</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img class="big" src="m/clients/forno.png" alt="Forno Nero" loading="lazy" decoding="async"></div><figcaption><b>فورنو نيرو</b><i>Forno Nero</i><span data-en="Restaurant">مطاعم</span></figcaption></figure><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/asfar.png" alt="Asfar Travel & Tourism" loading="lazy" decoding="async"></div><figcaption><b>أسفار للسفر والسياحة</b><i>Asfar Travel & Tourism</i><span data-en="Travel & tourism">السفر والسياحة</span></figcaption></figure></div></div>
+  <div class="cl-marquee"><div class="cl-track" id="clTrack"><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#bfae98"><img src="m/clients/jod.png" alt="Jod Medical Complex" loading="lazy" decoding="async"></div><figcaption><b>مجمع جود الطبي</b><i>Jod Medical Complex</i><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#0b0a09"><img class="big" src="m/clients/falcon.png" alt="Falcon Medical" loading="lazy" decoding="async"></div><figcaption><b>فالكون الطبية</b><i>Falcon Medical</i><span data-en="Healthcare">القطاع الطبي</span></figcaption></figure><figure class="cl" style="--c:var(--g3)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara.png" alt="Sara Altwaim" loading="lazy" decoding="async"></div><figcaption><b>سارة التويم للزفاف</b><i>Sara Altwaim Bridal</i><span data-en="Bridal couture">فساتين الزفاف</span></figcaption></figure><figure class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/sara-fh.png" alt="Sara Altwaim Fashion House" loading="lazy" decoding="async"></div><figcaption><b>سارة التويم للأزياء</b><i>Sara Altwaim Fashion House</i><span data-en="Fashion house">دار أزياء</span></figcaption></figure><figure class="cl" style="--c:var(--g2)"><div class="cl-logo" style="--cb:linear-gradient(180deg,#cfc6ba,#b9afa2)"><img src="m/clients/lorven.png" alt="LORVÉN" loading="lazy" decoding="async"></div><figcaption><b>لورفين</b><i>LORVÉN</i><span data-en="Luxury abayas">عبايات فاخرة</span></figcaption></figure><figure data-client="huda" tabindex="0" role="button" class="cl cl-photo" style="--c:var(--g2)"><div class="cl-logo"><img src="m/clients/huda.png" alt="Huda Arabi" loading="lazy" decoding="async"></div><figcaption><b>هدى عربي</b><i>Huda Arabi</i><span data-en="Artist">فنانة</span></figcaption><span class="cl-go" data-en="View work ↗">شوف أعمالها ↗</span></figure><figure data-client="osman" tabindex="0" role="button" class="cl cl-photo" style="--c:var(--g1)"><div class="cl-logo"><img src="m/clients/osman.png" alt="Osman Bisha" loading="lazy" decoding="async"></div><figcaption><b>عثمان بشة</b><i>Osman Bisha</i><span data-en="Artist">فنان</span></figcaption><span class="cl-go" data-en="View work ↗">شوف العمل ↗</span></figure><figure data-client="forno" tabindex="0" role="button" class="cl" style="--c:var(--g4)"><div class="cl-logo" style="--cb:#f6f2ea"><img class="big" src="m/clients/forno.png" alt="Forno Nero" loading="lazy" decoding="async"></div><figcaption><b>فورنو نيرو</b><i>Forno Nero</i><span data-en="Restaurant">مطاعم</span></figcaption><span class="cl-go" data-en="View work ↗">شوف العمل ↗</span></figure><figure class="cl" style="--c:var(--g1)"><div class="cl-logo" style="--cb:#f6f2ea"><img src="m/clients/asfar.png" alt="Asfar Travel & Tourism" loading="lazy" decoding="async"></div><figcaption><b>أسفار للسفر والسياحة</b><i>Asfar Travel & Tourism</i><span data-en="Travel & tourism">السفر والسياحة</span></figcaption></figure></div></div>
 </section>
 
 <!-- ================= WORK ================= -->
@@ -671,9 +705,9 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
     <div class="sec-head">
       <div>
         <div class="label" data-en="Digital projects" data-k="dp1">مشاريع رقمية</div>
-        <h2 data-en="Websites and menus that <em>live online.</em>" data-k="dp2">مواقع ومنيو <em>تعيش أونلاين.</em></h2>
+        <h2 data-en="Your brand, <em>live online.</em>" data-k="dp2">نصنع لعلامتك <em>حضورا رقميا.</em></h2>
       </div>
-      <p data-en="We build official websites for artists and brands, and interactive digital menus for restaurants and cafés: fast, bilingual, and live on your own domain." data-k="dp3">نبني مواقع رسمية للفنانين والعلامات التجارية، ومنيو إلكتروني تفاعلي للمطاعم والمقاهي: سريعة، بالعربي والإنجليزي، وعلى دومين خاص فيك.</p>
+      <p data-en="Official websites for artists and brands, and interactive menus for restaurants and cafés. Fast, bilingual, on your own domain, and built to be shared." data-k="dp3">مواقع رسمية للفنانين والعلامات التجارية، ومنيو تفاعلي للمطاعم والمقاهي. سريعة، بالعربي والإنجليزي، على دومين باسمك، ومصممة عشان تنتشر.</p>
     </div>
     <div class="dp">
       <div class="phone" aria-label="Forno Nero digital menu preview">
@@ -681,7 +715,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
         <div class="screen"><iframe src="https://fornonero-menu.ab-creativesa.com/" title="منيو Forno Nero الإلكتروني" loading="lazy"></iframe></div>
       </div>
       <div>
-        <span class="client"><i aria-hidden="true"></i>Forno Nero · Pizza Napoletana</span>
+        <span class="num" dir="ltr">01 / 02</span><span class="client"><i aria-hidden="true"></i>Forno Nero · Pizza Napoletana</span>
         <h3 data-en="A live digital menu for a Neapolitan pizzeria in Riyadh" data-k="dp4">منيو إلكتروني حي لمطعم بيتزا نابولي في الرياض</h3>
         <p class="lead" data-en="From the welcome animation to the last dessert: every dish, price and calorie count in a fast page the customer opens from their phone." data-k="dp5">من لحظة الترحيب إلى آخر حلى: كل الأطباق والأسعار والسعرات في صفحة سريعة يفتحها الزبون من جواله.</p>
         <ul class="feats">
@@ -705,7 +739,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
         <div class="base" aria-hidden="true"></div>
       </div>
       <div>
-        <span class="client"><i class="huda" aria-hidden="true"></i><span data-en="Huda Arabi · The Sultana" data-k="dp15">السلطانة هدى عربي</span></span>
+        <span class="num" dir="ltr">02 / 02</span><span class="client"><i class="huda" aria-hidden="true"></i><span data-en="Huda Arabi · The Sultana" data-k="dp15">السلطانة هدى عربي</span></span>
         <h3 data-en="The official website of Sudanese star Huda Arabi" data-k="dp16">الموقع الرسمي للفنانة السودانية هدى عربي</h3>
         <p class="lead" data-en="One home for the Sultana: her story, live performances, upcoming concerts, songs and booking, in a page that carries her stage presence." data-k="dp17">بيت واحد للسلطانة: قصتها، حفلاتها المباشرة، مواعيد الحفلات القادمة، أغانيها، والحجوزات، في صفحة تحمل حضورها على المسرح.</p>
         <ul class="feats">
@@ -902,6 +936,14 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
   </div></div>
 </footer>
 
+<div class="cs" id="cs" hidden role="dialog" aria-modal="true" aria-labelledby="csName">
+  <div class="cs-card" id="csCard">
+    <button class="cs-x" id="csX" type="button" aria-label="close">✕</button>
+    <div class="cs-top"><div class="cs-logo" id="csLogo"></div><div><small id="csSec"></small><h3 id="csName"></h3><p id="csDesc"></p></div></div>
+    <div class="cs-acts" id="csActs"></div>
+    <div class="cs-grid" id="csGrid"></div>
+  </div>
+</div>
 <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="viewer">
   <button class="lb-btn lb-close" id="lbClose" type="button" aria-label="close">✕</button>
   <button class="lb-btn lb-prev" id="lbPrev" type="button" aria-label="previous">‹</button>
@@ -1082,7 +1124,7 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
 const SVCS=(CONTENT.services||[]).map(x=>({ar:x.ar,en:x.en,k:x.label||x.en,d:[x.descAr||'',x.descEn||''],t:x.tags||[],icon:x.icon||'spark',color:x.color||'#3b9bff'}));
 const SVC_ICONS={"chart": "<path d=\"M3 20h18\"/><path d=\"M6 16l4-5 3 3 5-7\"/><path d=\"M15 7h3v3\"/>", "chat": "<path d=\"M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.4A8 8 0 1 1 21 12z\"/><path d=\"M8.5 11h.01M12 11h.01M15.5 11h.01\"/>", "fire": "<path d=\"M12 3c3 4 6 6.5 6 11a6 6 0 0 1-12 0c0-3 1.6-4.8 3-6.5.3 2 1.2 3 2.5 3.5C11 8 11 5.5 12 3z\"/>", "film": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"2\"/><path d=\"M3 9h18M3 15h18M8 5v14M16 5v14\"/>", "motion": "<circle cx=\"15\" cy=\"12\" r=\"5\"/><path d=\"M3 9h5M2 12h6M3 15h5\"/>", "spark": "<path d=\"M12 3l1.8 5.2L19 10l-5.2 1.8L12 17l-1.8-5.2L5 10l5.2-1.8z\"/><path d=\"M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z\"/>", "pen": "<path d=\"M12 20l7-7-4-4-7 7-2 6z\"/><path d=\"M15 9l-3-3 3-3 3 3\"/><circle cx=\"10.5\" cy=\"13.5\" r=\"1.2\"/>", "logo": "<path d=\"M12 3l8 4.5v9L12 21l-8-4.5v-9z\"/><path d=\"M12 8v8M8.5 10l7 4M15.5 10l-7 4\"/>", "web": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"15\" rx=\"2\"/><path d=\"M3 8h18\"/><path d=\"M6 6h.01M8.5 6h.01\"/><path d=\"M8 13l-2 2 2 2M16 13l2 2-2 2\"/>", "palette": "<path d=\"M12 3a9 9 0 1 0 0 18c1.2 0 1.6-1 1.1-1.9-.6-1-.2-2.1 1-2.1H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10z\"/><circle cx=\"7.5\" cy=\"11\" r=\"1\"/><circle cx=\"10\" cy=\"7\" r=\"1\"/><circle cx=\"15\" cy=\"7.5\" r=\"1\"/>"};
 function renderSvcs(){
-  $('#svcList').innerHTML=SVCS.map((s,i)=>`<a class="svc" href="#contact" data-svc="${i}" style="--c:${s.color}"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SVC_ICONS[s.icon]||SVC_ICONS.spark}</svg></span><span class="num">${String(i+1).padStart(2,'0')}</span></div><h3>${T(s.ar,s.en)}<small>${LANG==='en'?s.k:s.en}</small></h3><p>${T(s.d[0],s.d[1])}</p><div class="tags">${s.t.map(t=>`<span class="tag">${Array.isArray(t)?T(t[0],t[1]):t}</span>`).join('')}</div><span class="go"><span>→</span></span></a>`).join('');
+  $('#svcList').innerHTML=SVCS.map((s,i)=>`<a class="svc" href="#contact" data-svc="${i}" style="--c:${s.color}"><div class="top"><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">${SVC_ICONS[s.icon]||SVC_ICONS.spark}</svg></span><span class="num" dir="ltr">${String(i+1).padStart(2,'0')}</span></div><h3>${T(s.ar,s.en)}<small>${LANG==='en'?s.k:s.en}</small></h3><p>${T(s.d[0],s.d[1])}</p><div class="tags">${s.t.map(t=>`<span class="tag">${Array.isArray(t)?T(t[0],t[1]):t}</span>`).join('')}</div><span class="go"><span>→</span></span></a>`).join('');
   const words=SVCS.map(s=>`<span>${T(s.ar,s.en)}</span>`).join('');
   $('#ticker').innerHTML=words+words;
   $('#pick').innerHTML=SVCS.map((s,i)=>`<input type="checkbox" id="s${i}" value="${i}"><label for="s${i}">${T(s.ar,s.en)}</label>`).join('');
@@ -1163,7 +1205,7 @@ function openLB(i,list){try{track('work')}catch(e){}lbList=list||M;lbPos=Math.ma
 function showLB(){const m=lbList[lbPos];
   stage.innerHTML=m.type==='l'?`<div class="lb-logo">${logoSvg(m.k)}</div>`:m.type==='v'?`<video src="${m.src}" ${m.poster?`poster="${m.poster}"`:''} controls autoplay playsinline></video>`:`<img src="${m.src}" alt="${catName(m.cat)}">`;
   $('#lbCount').textContent=(lbPos+1)+' / '+lbList.length+' · '+catName(m.cat);}
-function closeLB(){lb.hidden=true;stage.innerHTML='';document.body.style.overflow='';}
+function closeLB(){lb.hidden=true;stage.innerHTML='';document.body.style.overflow=(window.__csOpen&&window.__csOpen())?'hidden':'';}
 const step=d=>{lbPos=(lbPos+d+lbList.length)%lbList.length;showLB();};
 $('#lbClose').onclick=closeLB;
 $('#lbPrev').onclick=()=>step(LANG==='ar'?1:-1);
@@ -1203,7 +1245,53 @@ $('#copyPhone').addEventListener('click',()=>{
 
 /* clients marquee: clone the set once for a seamless loop */
 (function(){const t=document.getElementById('clTrack');if(!t||t.dataset.cloned)return;t.dataset.cloned=1;
-  [...t.children].forEach(c=>{const d=c.cloneNode(true);d.setAttribute('aria-hidden','true');d.querySelectorAll('[data-en]').forEach(e=>e.removeAttribute('data-ar'));t.appendChild(d);});})();
+  [...t.children].forEach(c=>{const d=c.cloneNode(true);d.setAttribute('aria-hidden','true');d.removeAttribute('tabindex');d.querySelectorAll('[data-en]').forEach(e=>e.removeAttribute('data-ar'));t.appendChild(d);});})();
+
+/* ---------- clients: open their work ---------- */
+(function(){
+  const CL={
+    huda:{ids:['w81','w82','w83','w84','w85'],ar:'السلطانة هدى عربي',en:'Huda Arabi · The Sultana',secAr:'فنانة · حفلات وإعلانات وموقع رسمي',secEn:'Artist · concerts, ads and official website',
+      dAr:'حملة حفلة الدوحة كاملة: إعلان فيديو، بوسترات وستوريات الحفلة، غلاف أغنية جينا فرحانين، والموقع الرسمي للسلطانة.',
+      dEn:'The full Doha concert campaign: video ad, concert posters and stories, the "Jina Farhanin" song cover, and her official website.',
+      links:[{href:'https://hudaarabi.ab-creativesa.com/',ar:'الموقع الرسمي',en:'Official website',main:1},{href:'#digital',ar:'شوف الموقع في الأعمال الرقمية',en:'See it in Digital projects'}]},
+    osman:{ids:['w80'],ar:'عثمان بشة',en:'Osman Bisha',secAr:'فنان · فيديو كليب بالذكاء الاصطناعي',secEn:'Artist · AI music video',
+      dAr:'كواليس كليب «3 بنات»: فيديو منتج بالكامل بالذكاء الاصطناعي بشخصيات سودانية.',dEn:'Behind the scenes of the "3 BANAT" clip, produced entirely with AI using Sudanese characters.',links:[]},
+    forno:{ids:[],ar:'فورنو نيرو',en:'Forno Nero',secAr:'مطعم بيتزا نابولي · الرياض',secEn:'Neapolitan pizzeria · Riyadh',
+      dAr:'منيو إلكتروني حي بالعربي والإنجليزي، بالأسعار والسعرات والموقع، يوصل له الزبون بباركود من الطاولة.',dEn:'A live bilingual digital menu with prices, calories and location, opened with a QR code from the table.',
+      links:[{href:'https://fornonero-menu.ab-creativesa.com/',ar:'شاهد المنيو مباشرة',en:'View the live menu',main:1},{href:'#digital',ar:'شوف المشروع',en:'See the project'}]}
+  };
+  const cs=document.getElementById('cs'); if(!cs) return;
+  const t=(a,e)=>LANG==='en'?e:a;
+  let last=null;
+  function open(key,fig){
+    const c=CL[key]; if(!c) return; last=fig;
+    try{track('client')}catch(e){}
+    const logo=fig.querySelector('.cl-logo');
+    document.getElementById('csLogo').innerHTML=logo?logo.innerHTML:'';
+    document.getElementById('csLogo').style.setProperty('--cb',logo?logo.style.getPropertyValue('--cb'):'#fff');
+    document.getElementById('csCard').style.setProperty('--c',getComputedStyle(fig).getPropertyValue('--c'));
+    document.getElementById('csName').textContent=t(c.ar,c.en);
+    document.getElementById('csSec').textContent=t(c.secAr,c.secEn);
+    document.getElementById('csDesc').textContent=t(c.dAr,c.dEn);
+    document.getElementById('csActs').innerHTML=c.links.map(l=>{const ext=/^http/.test(l.href);return `<a class="btn ${l.main?'btn-blue':'btn-line'}" href="${l.href}" ${ext?'target="_blank" rel="noopener"':'data-close'}>${t(l.ar,l.en)}${ext?' <span class="arrow">↗</span>':''}</a>`}).join('');
+    const list=c.ids.map(id=>M.find(m=>m.id===id)).filter(Boolean);
+    document.getElementById('csGrid').innerHTML=list.map(m=>{const pic=m.type==='v'?m.poster:m.src;const wide=m.w&&m.h&&m.w>m.h;
+      return `<button type="button" class="${wide?'wide':''}" data-i="${m.i}"><img src="${pic}" alt="" loading="lazy">${m.type==='v'?'<span class="pl">▶</span>':''}</button>`}).join('');
+    document.getElementById('csGrid').querySelectorAll('button').forEach(b=>b.onclick=()=>openLB(+b.dataset.i,list));
+    cs.hidden=false; document.body.style.overflow='hidden';
+    if(window.gsap){gsap.fromTo('#csCard',{y:60,scale:.96,opacity:0},{y:0,scale:1,opacity:1,duration:.7,ease:'expo.out'});
+      gsap.fromTo('#csGrid button, #csActs a, .cs-top > *',{y:30,opacity:0},{y:0,opacity:1,duration:.8,ease:'expo.out',stagger:.05,delay:.12});}
+    document.getElementById('csX').focus();
+  }
+  function close(){cs.hidden=true;document.body.style.overflow='';if(last)try{last.focus({preventScroll:true})}catch(e){}}
+  window.__csOpen=()=>!cs.hidden;
+  document.getElementById('csX').onclick=close;
+  cs.addEventListener('click',e=>{if(e.target===cs)close();if(e.target.closest('[data-close]'))close();});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&!cs.hidden&&document.getElementById('lb').hidden)close();});
+  const track_=document.getElementById('clTrack');
+  track_.addEventListener('click',e=>{const f=e.target.closest('[data-client]');if(f)open(f.dataset.client,f);});
+  track_.addEventListener('keydown',e=>{if(e.key!=='Enter'&&e.key!==' ')return;const f=e.target.closest('[data-client]');if(f){e.preventDefault();open(f.dataset.client,f);}});
+})();
 /* ---------- language ---------- */
 function applyLang(){
   const root=document.documentElement;
@@ -1444,8 +1532,40 @@ if (!reduce && window.gsap && window.ScrollTrigger) {
   const ticker = document.getElementById('ticker');
   if (ticker) ScrollTrigger.create({onUpdate:self => gsap.to(ticker, {skewX:gsap.utils.clamp(-12, 12, self.getVelocity() / -250), duration:.4, ease:'power3', overwrite:true})});
 
+
+  // headings: word-by-word unfold when they come into view (like the hero)
+  const splitWords = node => {
+    [...node.childNodes].forEach(n => {
+      if (n.nodeType === 3) {
+        const frag = document.createDocumentFragment();
+        n.textContent.split(/(\s+)/).forEach(part => {
+          if (!part) return;
+          if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
+          const sp = document.createElement('span'); sp.className = 'sw'; sp.textContent = part; frag.appendChild(sp);
+        });
+        n.replaceWith(frag);
+      } else if (n.nodeType === 1 && n.tagName === 'EM') { n.style.display = 'inline-block'; n.classList.add('sw'); }
+    });
+  };
+  if (MO.reveal!==false) {
+    document.querySelectorAll('.sec-head h2, #digital h3, .cl-head h2').forEach(h => {
+      if (h.dataset.ar === undefined && h.dataset.en !== undefined) h.dataset.ar = h.innerHTML;
+      splitWords(h);
+      gsap.from(h.querySelectorAll('.sw'), {y:60, rotateX:-75, transformPerspective:600, transformOrigin:'50% 100%', filter:'blur(10px)', opacity:0, duration:1.25, ease:'expo.out', stagger:.08, clearProps:'all',
+        scrollTrigger:{trigger:h, start:'top 86%', once:true}});
+    });
+    // digital projects: device glides in, copy follows
+    gsap.utils.toArray('#digital .dp').forEach((dp, k) => {
+      const dev = dp.querySelector('.phone, .laptop'), side = dp.classList.contains('rev') ? 1 : -1;
+      const rtl = document.documentElement.dir === 'rtl' ? -1 : 1;
+      if (dev) gsap.from(dev, {x:120*side*rtl, rotateY:-28*side*rtl, rotateX:8, transformPerspective:1400, opacity:0, duration:1.6, ease:'expo.out', scrollTrigger:{trigger:dp, start:'top 80%', once:true}});
+      gsap.from(dp.querySelectorAll('.num, .client, .lead, .feats li, .acts .btn'), {y:34, opacity:0, filter:'blur(6px)', duration:1.1, ease:'expo.out', stagger:.06, delay:.25, clearProps:'filter', scrollTrigger:{trigger:dp, start:'top 78%', once:true}});
+    });
+    // section paragraphs: soft focus-in
+    gsap.utils.toArray('.sec-head p, .cl-head .label, .sec-head .label').forEach(p => gsap.from(p, {opacity:0, y:20, filter:'blur(8px)', duration:1.2, ease:'expo.out', clearProps:'filter', scrollTrigger:{trigger:p, start:'top 90%', once:true}}));
+  }
   // section headings: slide + unfold
-  if (MO.reveal!==false) gsap.utils.toArray('.sec-head, .lab-copy, .contact .side').forEach(el => {
+  if (MO.reveal!==false) gsap.utils.toArray('.lab-copy, .contact .side').forEach(el => {
     gsap.from(el.children, {y:60, rotateX:-25, transformPerspective:800, duration:1.2, ease:'expo.out', stagger:.08, scrollTrigger:{trigger:el, start:'top 88%'}});
   });
 
