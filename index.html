@@ -30,6 +30,20 @@ html[dir="ltr"] #digital h3{line-height:1.2}
 #digital ul.feats li::before{content:"";flex:none;width:8px;height:8px;margin-top:.6em;border-radius:50%;background:linear-gradient(135deg,var(--g1),var(--g4))}
 #digital .acts{display:flex;flex-wrap:wrap;gap:12px}
 @media(max-width:860px){#digital .dp{grid-template-columns:1fr}#digital ul.feats{grid-template-columns:1fr}}
+/* ===== Digital projects: Huda Arabi official website (laptop) ===== */
+#digital .dp + .dp{margin-top:clamp(70px,10vw,130px)}
+#digital .dp.rev > :first-child{order:2}
+#digital .laptop{position:relative;justify-self:center;width:min(100%,560px)}
+#digital .lid{position:relative;padding:14px 14px 18px;border-radius:22px 22px 6px 6px;background:linear-gradient(160deg,#2a2f3a,#0b0e14);box-shadow:0 40px 90px rgba(0,0,0,.45),inset 0 0 0 1.5px rgba(255,255,255,.12)}
+#digital .lid::before{content:"";position:absolute;top:6px;left:50%;width:6px;height:6px;margin-left:-3px;border-radius:50%;background:#3a4150}
+#digital .lscreen{position:relative;width:100%;aspect-ratio:16/10;border-radius:8px;overflow:hidden;background:#140a1e}
+#digital .lscreen iframe{position:absolute;top:0;left:0;width:1280px;height:800px;border:0;transform-origin:0 0}
+html[dir="rtl"] #digital .lscreen iframe{left:auto;right:0;transform-origin:100% 0}
+#digital .base{position:relative;height:16px;margin:0 -7%;border-radius:0 0 18px 18px;background:linear-gradient(180deg,#3a404c,#151922)}
+#digital .base::before{content:"";position:absolute;top:0;left:50%;width:18%;height:6px;margin-left:-9%;border-radius:0 0 10px 10px;background:#0b0e14}
+#digital .laptop .glow{background:radial-gradient(closest-side,rgba(200,90,190,.33),transparent)}
+#digital .client i.huda{background:#c86bd4}
+@media(max-width:860px){#digital .dp.rev > :first-child{order:0}}
 </style>
 </head>
 <body>
@@ -657,9 +671,9 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
     <div class="sec-head">
       <div>
         <div class="label" data-en="Digital projects" data-k="dp1">مشاريع رقمية</div>
-        <h2 data-en="Menus that <em>open the appetite.</em>" data-k="dp2">منيو إلكتروني <em>يفتح الشهية.</em></h2>
+        <h2 data-en="Websites and menus that <em>live online.</em>" data-k="dp2">مواقع ومنيو <em>تعيش أونلاين.</em></h2>
       </div>
-      <p data-en="We design interactive digital menus for restaurants and cafés: animated, bilingual, linked to location and reviews, and reachable with one QR scan from the table." data-k="dp3">نصمم منيو إلكتروني تفاعلي للمطاعم والمقاهي: متحرك، بالعربي والإنجليزي، مربوط بالموقع والتقييمات، ويوصل له الزبون بمسح باركود واحد من الطاولة.</p>
+      <p data-en="We build official websites for artists and brands, and interactive digital menus for restaurants and cafés: fast, bilingual, and live on your own domain." data-k="dp3">نبني مواقع رسمية للفنانين والعلامات التجارية، ومنيو إلكتروني تفاعلي للمطاعم والمقاهي: سريعة، بالعربي والإنجليزي، وعلى دومين خاص فيك.</p>
     </div>
     <div class="dp">
       <div class="phone" aria-label="Forno Nero digital menu preview">
@@ -681,6 +695,30 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
         <div class="acts">
           <a class="btn btn-blue" href="https://fornonero-menu.ab-creativesa.com/" target="_blank" rel="noopener"><span data-en="View the live menu" data-k="dp12">شاهد المنيو مباشرة</span> <span class="arrow">↗</span></a>
           <a class="btn btn-line" href="#contact" data-en="Get a menu for your restaurant" data-k="dp13">اطلب منيو لمطعمك</a>
+        </div>
+      </div>
+    </div>
+    <div class="dp rev">
+      <div class="laptop" aria-label="Huda Arabi official website preview">
+        <span class="glow" aria-hidden="true"></span>
+        <div class="lid"><div class="lscreen"><iframe src="https://hudaarabi.ab-creativesa.com/" title="الموقع الرسمي للسلطانة هدى عربي" loading="lazy"></iframe></div></div>
+        <div class="base" aria-hidden="true"></div>
+      </div>
+      <div>
+        <span class="client"><i class="huda" aria-hidden="true"></i><span data-en="Huda Arabi · The Sultana" data-k="dp15">السلطانة هدى عربي</span></span>
+        <h3 data-en="The official website of Sudanese star Huda Arabi" data-k="dp16">الموقع الرسمي للفنانة السودانية هدى عربي</h3>
+        <p class="lead" data-en="One home for the Sultana: her story, live performances, upcoming concerts, songs and booking, in a page that carries her stage presence." data-k="dp17">بيت واحد للسلطانة: قصتها، حفلاتها المباشرة، مواعيد الحفلات القادمة، أغانيها، والحجوزات، في صفحة تحمل حضورها على المسرح.</p>
+        <ul class="feats">
+          <li data-en="Cinematic video hero" data-k="dp18">واجهة فيديو سينمائية</li>
+          <li data-en="Biography and live stage moments" data-k="dp19">السيرة ولحظات من المسارح</li>
+          <li data-en="Upcoming concerts with posters" data-k="dp20">الحفلات القادمة مع البوسترات</li>
+          <li data-en="Built-in player for her songs" data-k="dp21">مشغل مدمج لأغانيها</li>
+          <li data-en="Photo gallery and press coverage" data-k="dp22">معرض صور وتغطيات إعلامية</li>
+          <li data-en="Booking and social links in one tap" data-k="dp23">الحجوزات وحساباتها بضغطة</li>
+        </ul>
+        <div class="acts">
+          <a class="btn btn-blue" href="https://hudaarabi.ab-creativesa.com/" target="_blank" rel="noopener"><span data-en="Visit the website" data-k="dp24">زر الموقع</span> <span class="arrow">↗</span></a>
+          <a class="btn btn-line" href="#contact" data-en="Get a website for your brand" data-k="dp25">اطلب موقعك</a>
         </div>
       </div>
     </div>
@@ -852,7 +890,7 @@ html[dir="ltr"] .cl-head h2,html[dir="ltr"] .cl figcaption b{font-family:'Alexan
           <a href="https://wa.me/966592451829" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2s-1 .3-3.3-.7a11.6 11.6 0 0 1-4.6-4c-.4-.5-1.1-1.6-1.1-3s.7-2 1-2.3a1 1 0 0 1 .7-.3h.5c.2 0 .4 0 .6.5l.8 2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6a8.6 8.6 0 0 0 1.6 2 7.7 7.7 0 0 0 2.3 1.4c.3.1.5.1.6 0l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3a2.4 2.4 0 0 1-.2 1.3z"/></svg></a>
         </div>
       </div>
-      <div class="foot-col"><h5 data-en="Explore" data-k="t96">استكشف</h5><a href="#work" data-en="Work" data-k="t97">الأعمال</a><a href="#digital" data-en="Digital menus" data-k="dp14">المنيو الإلكتروني</a><a href="#services" data-en="Services" data-k="t98">الخدمات</a><a href="#results" data-en="Results" data-k="t99">النتائج</a><a href="#ai" data-en="AI Studio" data-k="t100">استوديو الذكاء الاصطناعي</a><a href="#process" data-en="Process" data-k="t101">طريقتنا</a></div>
+      <div class="foot-col"><h5 data-en="Explore" data-k="t96">استكشف</h5><a href="#work" data-en="Work" data-k="t97">الأعمال</a><a href="#digital" data-en="Digital projects" data-k="dp14">المشاريع الرقمية</a><a href="#services" data-en="Services" data-k="t98">الخدمات</a><a href="#results" data-en="Results" data-k="t99">النتائج</a><a href="#ai" data-en="AI Studio" data-k="t100">استوديو الذكاء الاصطناعي</a><a href="#process" data-en="Process" data-k="t101">طريقتنا</a></div>
       <div class="foot-col"><h5 data-en="Services" data-k="t102">الخدمات</h5><a href="#services" data-en="Digital marketing" data-k="t103">التسويق الرقمي</a><a href="#services" data-en="Motion graphics" data-k="t104">موشن جرافيك</a><a href="#services" data-en="Logos & identity" data-k="t105">الشعارات والهوية</a><a href="#services" data-en="Websites" data-k="t106">المواقع الإلكترونية</a><a href="#services" data-en="AI content" data-k="t107">محتوى الذكاء الاصطناعي</a></div>
       <div class="foot-col"><h5 data-en="Contact" data-k="t108">تواصل</h5><span class="ltr" data-phone>+966 59 245 1829</span><a href="#contact" data-en="Send a project brief" data-k="t109">أرسل طلب مشروع</a><span data-en="Saudi Arabia · UAE · Sudan" data-k="t110">السعودية · الإمارات · السودان</span></div>
     </div>
@@ -1492,5 +1530,9 @@ if (!reduce && finePointer && window.gsap) {
 
 </script>
 
+<script>
+(function(){function fit(){document.querySelectorAll('#digital .lscreen').forEach(function(b){var f=b.querySelector('iframe');if(f)f.style.transform='scale('+(b.clientWidth/1280)+')';});}
+addEventListener('resize',fit);addEventListener('load',fit);fit();})();
+</script>
 </body>
 </html>
