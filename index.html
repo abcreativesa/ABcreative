@@ -10,6 +10,8 @@
 <meta property="og:image" content="m/lockup.png">
 <meta name="theme-color" content="#070c18">
 <link rel="icon" type="image/png" href="m/mark.png">
+<script>(function(){try{if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;}catch(e){}var r=document.documentElement;r.classList.add('hx');setTimeout(function(){if(!window.gsap||!window.ScrollTrigger)r.classList.remove('hx')},4500);})();</script>
+<style>html.hx .hero h1,html.hx .hero-eyebrow,html.hx .hero .lead,html.hx .svc-pills,html.hx .hero .actions,html.hx .hero .fact,html.hx .fact{opacity:0}</style>
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}[hidden]{display:none!important}</style>
 <style>
 /* ===== Digital projects: Forno Nero e-menu ===== */
@@ -178,9 +180,12 @@ html[dir="rtl"] .arrow{transform:scaleX(-1)}
 :root[data-theme="light"] .aurora i{opacity:.22}
 .hero-mark{position:absolute;width:min(760px,90vw);opacity:.035;bottom:-14%;inset-inline-start:-8%;pointer-events:none}
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,72px);align-items:center;padding-block:clamp(48px,7vw,96px)}
-.hero h1{font-size:clamp(1.9rem,4.6vw,4.1rem);line-height:1.45;font-weight:800;margin-top:18px;letter-spacing:0;text-wrap:balance;color:#f4f8ff;text-shadow:0 10px 40px rgba(0,0,0,.35)}
-@media(max-width:620px){.hero h1{font-size:clamp(1.75rem,8.4vw,2.3rem);line-height:1.5}}
-html[dir="ltr"] .hero h1{font-size:clamp(2.4rem,5.6vw,4.9rem);line-height:1.02}
+.hero h1{font-size:clamp(1.6rem,3.3vw,2.95rem);line-height:1.55;font-weight:800;margin-top:18px;letter-spacing:0;text-wrap:balance;color:#f4f8ff;text-shadow:0 10px 40px rgba(0,0,0,.35)}
+@media(max-width:620px){.hero h1{font-size:clamp(1.45rem,6.6vw,1.85rem);line-height:1.6}}
+.hero h1 .ln{display:block;overflow:hidden;padding:.06em 0 .16em;margin:-.06em 0 -.16em}
+.hero h1 .li{display:inline-block;will-change:transform}
+.hero h1 .ln em{display:inline-block}
+html[dir="ltr"] .hero h1{font-size:clamp(2rem,4.2vw,3.7rem);line-height:1.08}
 .hero h1 em{font-style:normal;text-shadow:none;background:linear-gradient(100deg,#ffffff 0%,#bfe4ff 22%,#3b9bff 55%,#8b7bff 80%,#bfe4ff 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sheen 8s ease-in-out infinite alternate;padding-bottom:.08em}
 @keyframes sheen{from{background-position:0% 50%}to{background-position:100% 50%}}
 .hero-eyebrow{display:inline-flex;align-items:center;gap:10px;height:36px;padding:0 16px 0 14px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--panel) 70%,transparent);backdrop-filter:blur(8px);font-size:.86rem;color:var(--muted)}
@@ -1060,7 +1065,7 @@ const vsrc=m=>m.src+(m.poster?'':'#t=0.6');
       const g=document.createElement('div'); g.className='gate'; g.setAttribute('role','dialog'); g.setAttribute('aria-label','AB Creative');
       g.innerHTML=`<div class="gate-in"><img class="logo-img" src="m/mark.png" alt="AB Creative" width="120" height="84"><button type="button" class="gate-btn"><span class="eq"><i></i><i></i><i></i></span>${T('ادخل الموقع','Enter site')}</button><button type="button" class="gate-skip">${T('دخول بدون صوت','Enter without sound')}</button></div>`;
       document.body.appendChild(g); document.documentElement.classList.add('gated');
-      const close=()=>{g.classList.add('out');document.documentElement.classList.remove('gated');setTimeout(()=>g.remove(),700);};
+      const close=()=>{g.classList.add('out');document.documentElement.classList.remove('gated');setTimeout(()=>g.remove(),700);setTimeout(()=>dispatchEvent(new Event('abc:enter')),250);};
       g.querySelector('.gate-btn').addEventListener('click',e=>{e.stopPropagation();start();close();});
       g.querySelector('.gate-skip').addEventListener('click',e=>{e.stopPropagation();close();});
       const first=e=>{ if(e.target.closest&&e.target.closest('#musicBtn')) return; ['pointerdown','keydown','touchend'].forEach(t=>removeEventListener(t,first,true)); if(want&&!playing) start(); };
@@ -1498,30 +1503,33 @@ if (!reduce && window.gsap && window.ScrollTrigger) {
   // progress bar
   gsap.to('#progress', {scaleX:1, ease:'none', scrollTrigger:{trigger:document.documentElement, start:0, end:'max', scrub:.3}});
 
-  // hero intro: words rise into place (transform only, text never hidden)
+  // hero intro: text is hidden until the visitor enters, then each line is unmasked
   const h1 = document.querySelector('.hero h1');
   if (h1) {
-    const wrapWords = node => {
-      [...node.childNodes].forEach(n => {
-        if (n.nodeType === 3) {
-          const frag = document.createDocumentFragment();
-          n.textContent.split(/(\s+)/).forEach(part => {
-            if (!part) return;
-            if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(part)); return; }
-            const sp = document.createElement('span'); sp.className = 'w'; sp.textContent = part; frag.appendChild(sp);
-          });
-          n.replaceWith(frag);
-        } else if (n.nodeType === 1 && n.tagName === 'EM') {
-          n.style.display = 'inline-block';
-          n.classList.add('w');
-        }
-      });
-    };
-    wrapWords(h1);
-    gsap.from(h1.querySelectorAll('.w'), {y:70, rotateX:-70, transformPerspective:600, transformOrigin:'50% 100%', filter:'blur(8px)', duration:1.3, ease:'expo.out', stagger:.09, delay:.15, clearProps:'filter'});
-    gsap.from('.hero-eyebrow, .hero .lead, .svc-pills span, .hero .actions .btn, .fact', {y:30, duration:1.1, ease:'expo.out', stagger:.05, delay:.45});
+    if (h1.dataset.en !== undefined && h1.dataset.ar === undefined) h1.dataset.ar = h1.innerHTML;
+    const lines = [[]];
+    [...h1.childNodes].forEach(n => { if (n.nodeName === 'BR') lines.push([]); else lines[lines.length-1].push(n); });
+    h1.textContent = '';
+    lines.filter(l => l.some(n => n.textContent.trim())).forEach(l => {
+      const ln = document.createElement('span'); ln.className = 'ln';
+      const li = document.createElement('span'); li.className = 'li';
+      l.forEach(n => li.appendChild(n)); ln.appendChild(li); h1.appendChild(ln);
+    });
+    const tl = gsap.timeline({paused:true, defaults:{ease:'expo.out'}, onStart:() => document.documentElement.classList.remove('hx')});
+    tl.set('.hero h1, .hero-eyebrow, .hero .lead, .svc-pills, .hero .actions, .fact', {opacity:1})
+      .from('.hero-eyebrow', {y:-14, opacity:0, duration:.9}, 0)
+      .from(h1.querySelectorAll('.li'), {yPercent:118, skewY:5, duration:1.25, stagger:.13}, .12)
+      .from('.hero .lead', {y:18, opacity:0, filter:'blur(8px)', duration:1.1, clearProps:'filter'}, .62)
+      .from('.svc-pills span', {y:14, opacity:0, scale:.92, duration:.8, stagger:.045}, .78)
+      .from('.hero .actions .btn', {y:16, opacity:0, duration:.9, stagger:.08}, .92)
+      .from('.fact', {y:18, opacity:0, duration:.9, stagger:.07}, 1.02);
     gsap.from('#reels .reel-col', {y:220, duration:1.9, ease:'expo.out', stagger:.14, delay:.2});
-  }
+    let played = false;
+    const go = () => { if (played) return; played = true; tl.play(0); };
+    addEventListener('abc:enter', go, {once:true});
+    const check = () => { if (!document.querySelector('.gate')) go(); };
+    setTimeout(check, 650); setTimeout(check, 1600);
+  } else document.documentElement.classList.remove('hx');
 
   // hero scroll-out: depth parallax
   gsap.to('.hero-grid > div:first-child', {yPercent:-18, ease:'none', scrollTrigger:{trigger:'.hero', start:'top top', end:'bottom top', scrub:true}});
