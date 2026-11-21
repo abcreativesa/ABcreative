@@ -1,6 +1,6 @@
 import { json, isAdmin, sameOrigin } from '../_lib/auth.js';
 // GET: live site content (falls back to the bundled default file). PUT: admin saves new content.
-// Works added to the bundled defaults after the admin's last save (marked with addedAt) are shown on top,
+// Works added to the bundled defaults after the admin's last save (marked with addedAt) are merged in at their default position,
 // so new work pushed to the repo appears even when the admin has saved content before.
 async function withNewDefaults(saved, env, request) {
   try {
@@ -12,7 +12,17 @@ async function withNewDefaults(saved, env, request) {
     const removed = new Set(data.removed || []);
     const fresh = (def.works || []).filter(w => w.addedAt && Date.parse(w.addedAt) > savedAt && !have.has(w.id) && !removed.has(w.id));
     if (!fresh.length) return saved;
-    data.works = fresh.concat(data.works || []);
+    // Keep each new work at its place in the defaults: after the nearest earlier default work the admin
+    // content already has; works at the very top of the defaults (or with no such neighbour) go on top.
+    const works = (data.works || []).slice(), top = [];
+    const freshIds = new Set(fresh.map(w => w.id));
+    fresh.forEach(w => {
+      const di = def.works.findIndex(x => x.id === w.id);
+      let anchor = null;
+      for (let k = di - 1; k >= 0; k--) { const id = def.works[k].id; if (freshIds.has(id)) break; if (works.some(x => x.id === id)) { anchor = id; break; } }
+      if (anchor) { const at = works.findIndex(x => x.id === anchor); works.splice(at + 1, 0, w); } else top.push(w);
+    });
+    data.works = top.concat(works);
     const heroNew = (def.hero || []).filter(id => fresh.some(w => w.id === id));
     if (heroNew.length && Array.isArray(data.hero)) data.hero = heroNew.concat(data.hero.filter(id => !heroNew.includes(id)));
     return JSON.stringify(data);
