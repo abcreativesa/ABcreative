@@ -12,6 +12,15 @@
  "works": [
   {
    "type": "video",
+   "cat": "fashion",
+   "src": "v/n13.mp4",
+   "poster": "v/n13.jpg",
+   "isNew": true,
+   "id": "w80",
+   "addedAt": "2026-11-21T14:38:09Z"
+  },
+  {
+   "type": "video",
    "cat": "packaging",
    "src": "v/n12.mp4",
    "poster": "v/n12.jpg",
@@ -590,6 +599,7 @@
   }
  ],
  "hero": [
+  "w80",
   "w75",
   "w1",
   "w56",
